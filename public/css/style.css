@@ -1,0 +1,293 @@
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.modal_inner_form {
+  width: 100%;
+  padding: 15px 0;
+}
+
+.modal_form {
+  width: 100%;
+  margin-bottom: 12px;
+  margin: 10px;
+}
+
+.modal_form label {
+  width: 100%;
+  font: 600 14px/18px "Open Sans", sans-serif;
+  color: #171f2d;
+}
+
+
+.modal_form button {
+  width: 110px;
+  background: #17ba77;
+  color: #fff;
+  font: 700 12px/16px "Open Sans", sans-serif;
+  padding: 7px 0;
+}
+
+.modal_form button:hover {
+  background: #14af01;
+  color: #fff;
+}
+
+.modal_form .atten_sec1 {
+  text-align: end;
+  padding-top: 10px;
+}
+
+.modal_form .cancel {
+  background: #e6302f;
+}
+
+.modal_form .cancel:hover {
+  background: #ad2524;
+  color: #fff !important;
+}
+
+.modal_form .plain {
+  background: #a1ada8;
+}
+
+.modal_form .plain:hover {
+  background: #6d7270;
+  color: #fff !important;
+}
+
+.modal_form .button_align {
+  text-align: end;
+  padding-top: 10px;
+}
+
+.modal_form_main {
+  width: 100%;
+  background: #fff;
+  padding: 15px;
+  border-radius: 6px;
+  position: relative;
+}
+
+.modal_form_main .hed_txt {
+  color: #5473ff;
+  font: 700 16px/18px "Open Sans", sans-serif;
+  border-bottom: 1px solid rgb(127 159 182 / 40%);
+  padding-bottom: 15px;
+  width: 100%;
+}
+
+.modal_form_main .modal-header {
+  border: 0px;
+  padding: 0px;
+  position: relative;
+}
+
+.project_upper_box2 {
+  width: 100%;
+  border: 1px solid #7f9fb666;
+  padding: 8px;
+}
+
+.project_upper_box2 .deal_inner {
+  padding: 0px;
+}
+
+.deal_inner {
+  width: 100%;
+  display: inline-block;
+}
+
+.p-treetable .p-treetable-thead>tr>th {
+  background-color: rgb(221.6, 221.2, 246.8);
+  color: #000;
+  padding: 0.8rem 0.5rem;
+  ;
+}
+
+
+.p-treetable .p-treetable-tbody>tr>td {
+  background-color: var(--cui-card-bg);
+  color: var(--cui-body-color);
+  border-bottom-width: var(--cui-border-width);
+  padding-left: 0px;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+/* .breadcrumb-item a{color:#252b36; text-decoration: none; font-size: 15px;}
+.breadcrumb-item a:hover{color:#3e97ff;}
+.breadcrumb-item.active{color:#3e97ff !important;} 
+.breadcrumb-item{font-size: 15px;} */
+
+
+.breadcrumb-item {
+  font-size: 15px;
+  color: black !important;
+}
+
+.breadcrumb-item a {
+  color: black !important;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.breadcrumb-item a:hover {
+  color: #3e97ff !important;
+}
+
+.darkmodeon .breadcrumb-item a {
+  color: #fff !important;
+}
+
+.darkmodeon .breadcrumb-item.active {
+  color: #fff !important;
+}
+
+.darkmodeon .breadcrumb-item a:hover {
+  color: #3e97ff !important;
+}
+
+.breadcrumb-item.inactive {
+  color: black !important;
+  pointer-events: none;
+  text-decoration: none;
+}
+
+.error_sec {
+  position: absolute;
+  bottom: -21px;
+  font-size: 13px;
+  left: 13px;
+}
+
+.sidebar-narrow-unfoldable img {
+  width: 100%;
+  height: 50px;
+}
+
+.field_inn {
+  height: 85px;
+}
+
+.field_inn_sel {
+  position: relative;
+}
+
+/* .field_inn label{font-size: 15px;}
+.field_inn input{font-size: 14px;} */
+.password-rules ul li {
+  font-size: 13px;
+}
+
+.stat .bg-primary {
+  background: #56b1f3 !important;
+}
+
+.stat .bg-info {
+  background: #26cf75 !important;
+}
+
+.darkmodeon .breadcrumb-item a {
+  color: #fff;
+}
+
+.tableFixHead {
+  overflow: auto;
+  max-height: 500px;
+}
+
+.tableFixHead thead th {
+  position: sticky;
+  top: 0;
+}
+
+.simplebar-content a {
+  font-size: 14px;
+}
+
+.hed_txt {
+  font-size: 20px;
+}
+
+.table-primary tr th {
+  font-size: 14px;
+}
+
+tr.table-data {
+  font-size: small;
+  line-height: 10px;
+}
+
+select.form-select.table-select {
+  font-size: small;
+  width: auto;
+  line-height: 1;
+  cursor: pointer;
+}
+
+thead.table-primary.table_header {
+  line-height: normal;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+  /* / Optional: ensures it doesn't extend beyond parent / */
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  background-color: #f8f9fa;
+  z-index: 1;
+}
+
+tbody td,
+thead th {
+  white-space: nowrap;
+}
+
+button.btn.btn-secondary.dropdown-toggle {
+  line-height: inherit;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: #bcc4cd;
+  padding: 7px;
+}
+
+.dropdown-item {
+  padding: 7px;
+}
+
+.card_title {
+  display: flex;
+  flex-direction: column;
+  background-color: #a1a7d3;
+  font-size: 15px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: #fff;
+}
+
+
+.card_title_name {
+  max-width: 160px;
+  padding-left: 5px;
+  font-size: 14px;
+  line-height: 20px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}

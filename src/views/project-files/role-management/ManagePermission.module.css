@@ -1,0 +1,60 @@
+.container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+}
+
+th {
+  background-color: #f7f7f7;
+  padding: 12px;
+  text-align: left;
+  font-weight: bold;
+  border: 1px solid #ddd;
+}
+
+td {
+  padding: 10px;
+  border: 1px solid #eee;
+  font-size: 14px;
+}
+
+.navCell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.childRow {
+  background-color: #f9f9f9;
+}
+
+.childCell {
+  padding-left: 40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-style: italic;
+}
+
+.checkbox {
+  accent-color: #007bff;
+  transform: scale(1.2);
+  margin-right: 6px;
+}
+
+.toggleBtn {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #333;
+  margin-right: 5px;
+}
