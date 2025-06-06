@@ -92,6 +92,7 @@ const SuperAdminDetailStateSlice = createSlice({
         LoginDetails: (state, action) => {
             state.login_details = action.payload;
         },
+        
 
         technicalDetails: (state, action) => {
             state.technical_details = action.payload;

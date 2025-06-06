@@ -210,7 +210,7 @@ const UserRoleManagement = () => {
   
               });
   }
-  //console.log(roleList, "roleList")
+
   useEffect(() => {
     document.documentElement.setAttribute('data-coreui-theme', 'light');
     FetchRoleListDetails()
