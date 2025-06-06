@@ -15,9 +15,23 @@ import {
 	CTableBody,
 	CTableDataCell,
 	CTableHead,
+	 CBadge,
 	CTableHeaderCell,
+	 CModal,
+  CModalHeader,
+  CModalTitle,
+  CModalBody,
+  CModalFooter,
+
+  CForm,
+
+  CFormSelect,
+  CFormLabel,
+  CFormTextarea,
 	CTableRow,
 } from "@coreui/react";
+
+import { cilMoney, cilXCircle, cilCheckCircle } from '@coreui/icons';
 import { cilSearch } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
@@ -27,8 +41,10 @@ import Service from "../../../apis/Service";
 import RouteURL from "../../../apis/ApiURL";
 import { Constants } from "../../../apis/Constant";
 import { ToastContainer, toast } from "react-toastify";
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable'; // this registers the plugin
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable"; // this registers the plugin
+import styles from './PlayerDetails.module.css'
+import AllInOneExportButton from "../../../components/AllInOneExportButton";
 const mockProfile = {
 	name: "John Doe",
 	email: "john@example.com",
@@ -42,73 +58,66 @@ const mockProfile = {
 };
 
 const formatHeader = (key) =>
-  key
-    .replace(/_/g, ' ')
-    .replace(/\b\w/g, (c) => c.toUpperCase());
+	key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 
 export const downloadTransactionsPDF = (transactions) => {
-  if (!transactions || transactions.length === 0) {
-    alert('No transactions to download.');
-    return;
-  }
+	if (!transactions || transactions.length === 0) {
+		alert("No transactions to download.");
+		return;
+	}
 
-  const doc = new jsPDF();
+	const doc = new jsPDF();
 
-  doc.setFontSize(16);
-  doc.text('Transaction Report', 14, 20);
+	doc.setFontSize(16);
+	doc.text("Transaction Report", 14, 20);
 
-  // Dynamically build headers
-  const headers = Object.keys(transactions[0]).map((key) => formatHeader(key));
+	// Dynamically build headers
+	const headers = Object.keys(transactions[0]).map((key) => formatHeader(key));
 
-  // Build rows
-  const rows = transactions.map((tx) =>
-    Object.keys(tx).map((key) => {
-      let val = tx[key];
+	// Build rows
+	const rows = transactions.map((tx) =>
+		Object.keys(tx).map((key) => {
+			let val = tx[key];
 
-      // Convert amount (if large) from paise to ₹
-      if (typeof val === 'number' && /amount/.test(key.toLowerCase())) {
-        return (val / 100).toFixed(2);
-      }
+			// Convert amount (if large) from paise to ₹
+			if (typeof val === "number" && /amount/.test(key.toLowerCase())) {
+				return (val / 100).toFixed(2);
+			}
 
-      // Format ISO dates
-      if (typeof val === 'string' && val.includes('T')) {
-        return new Date(val).toLocaleString();
-      }
+			// Format ISO dates
+			if (typeof val === "string" && val.includes("T")) {
+				return new Date(val).toLocaleString();
+			}
 
-      return val;
-    })
-  );
+			return val;
+		})
+	);
 
-  // Add table
-  autoTable(doc, {
-    head: [headers],
-    body: rows,
-    startY: 30,
-    styles: {
-      fontSize: 9,
-      cellPadding: 0,
-    },
-    headStyles: {
-      fillColor: [22, 160, 133],
-      textColor: 255,
-      halign: 'center',
-    },
-    bodyStyles: {
-      halign: 'left',
-    },
-    alternateRowStyles: {
-      fillColor: [240, 240, 240],
-    },
-    theme: 'grid',
-  });
+	// Add table
+	autoTable(doc, {
+		head: [headers],
+		body: rows,
+		startY: 30,
+		styles: {
+			fontSize: 9,
+			cellPadding: 0,
+		},
+		headStyles: {
+			fillColor: [22, 160, 133],
+			textColor: 255,
+			halign: "center",
+		},
+		bodyStyles: {
+			halign: "left",
+		},
+		alternateRowStyles: {
+			fillColor: [240, 240, 240],
+		},
+		theme: "grid",
+	});
 
-  doc.save('transactions.pdf');
+	doc.save("transactions.pdf");
 };
-
-
-
-
-
 
 const mockStatements = Array.from({ length: 5 }, (_, i) => ({
 	id: i + 1,
@@ -116,6 +125,201 @@ const mockStatements = Array.from({ length: 5 }, (_, i) => ({
 	amount: 100 * (i + 1),
 	type: "Credit",
 }));
+
+
+const AddMoneyModal = ({ visible, onClose, onSubmit }) => {
+  const [amount, setAmount] = useState('');
+  const [txnMode, setTxnMode] = useState('Refund');
+  const [remark, setRemark] = useState('');
+  const [walletType, setWalletType] = useState('main');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit({
+      amount,
+      txnMode,
+      remark,
+      walletType
+    });
+    // Reset the form
+    setAmount('');
+    setTxnMode('Refund');
+    setRemark('');
+    setWalletType('main');
+  };
+
+  return (
+    <CModal visible={visible} onClose={onClose}>
+      <CModalHeader closeButton>
+        <CModalTitle>Add Money</CModalTitle>
+      </CModalHeader>
+      <CModalBody>
+        <CForm onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <CFormLabel htmlFor="amount">Amount</CFormLabel>
+            <CFormInput
+              type="number"
+              id="amount"
+              placeholder="Enter amount"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              required
+            />
+          </div>
+          
+          <div className="mb-3">
+            <CFormLabel htmlFor="remark">Remark</CFormLabel>
+            <CFormTextarea
+              id="remark"
+              placeholder="Enter remark"
+              value={remark}
+              onChange={(e) => setRemark(e.target.value)}
+            />
+          </div>
+          <div className="mb-3">
+            <CFormLabel>Add to</CFormLabel>
+            <div>
+              <div className="form-check form-check-inline">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  id="mainWallet"
+                  name="walletType"
+                  value="main"
+                  checked={walletType === 'main'}
+                  onChange={(e) => setWalletType(e.target.value)}
+                />
+                <label className="form-check-label" htmlFor="mainWallet">
+                  Main wallet
+                </label>
+              </div>
+              
+              <div className="form-check form-check-inline">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  id="bonusWallet"
+                  name="walletType"
+                  value="bonus"
+                  checked={walletType === 'bonus'}
+                  onChange={(e) => setWalletType(e.target.value)}
+                />
+                <label className="form-check-label" htmlFor="bonusWallet">
+                  Bonus wallet
+                </label>
+              </div>
+            </div>
+          </div>
+          <CButton type="submit" color="success">
+            Add
+          </CButton>
+        </CForm>
+      </CModalBody>
+      <CModalFooter>
+        <CButton color="secondary" onClick={onClose}>
+          Close
+        </CButton>
+      </CModalFooter>
+    </CModal>
+  );
+};
+const DeDuctMoneyModal = ({ visible, onClose, onSubmit }) => {
+  const [amount, setAmount] = useState('');
+  const [txnMode, setTxnMode] = useState('Refund');
+  const [remark, setRemark] = useState('');
+  const [walletType, setWalletType] = useState('main');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit({
+      amount,
+      txnMode,
+      remark,
+      walletType
+    });
+    // Reset the form
+    setAmount('');
+    setTxnMode('Refund');
+    setRemark('');
+    setWalletType('main');
+  };
+
+  return (
+    <CModal visible={visible} onClose={onClose}>
+      <CModalHeader closeButton>
+        <CModalTitle>DeDuct Money</CModalTitle>
+      </CModalHeader>
+      <CModalBody>
+        <CForm onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <CFormLabel htmlFor="amount">Amount</CFormLabel>
+            <CFormInput
+              type="number"
+              id="amount"
+              placeholder="Enter amount"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              required
+            />
+          </div>
+          
+          <div className="mb-3">
+            <CFormLabel htmlFor="remark">Remark</CFormLabel>
+            <CFormTextarea
+              id="remark"
+              placeholder="Enter remark"
+              value={remark}
+              onChange={(e) => setRemark(e.target.value)}
+            />
+          </div>
+          <div className="mb-3">
+            <CFormLabel>Deduct From</CFormLabel>
+            <div>
+              <div className="form-check form-check-inline">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  id="mainWallet"
+                  name="walletType"
+                  value="main"
+                  checked={walletType === 'main'}
+                  onChange={(e) => setWalletType(e.target.value)}
+                />
+                <label className="form-check-label" htmlFor="mainWallet">
+                  Main wallet
+                </label>
+              </div>
+              
+              <div className="form-check form-check-inline">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  id="bonusWallet"
+                  name="walletType"
+                  value="bonus"
+                  checked={walletType === 'bonus'}
+                  onChange={(e) => setWalletType(e.target.value)}
+                />
+                <label className="form-check-label" htmlFor="bonusWallet">
+                  Bonus wallet
+                </label>
+              </div>
+            </div>
+          </div>
+          <CButton type="submit" color="danger">
+            Deduct
+          </CButton>
+        </CForm>
+      </CModalBody>
+      <CModalFooter>
+        <CButton color="secondary" onClick={onClose}>
+          Close
+        </CButton>
+      </CModalFooter>
+    </CModal>
+  );
+};
+
 
 const Profile = () => {
 	const dispatch = useDispatch();
@@ -125,16 +329,17 @@ const Profile = () => {
 	const [activeTab, setActiveTab] = useState("1");
 	const [fromDate, setFromDate] = useState("");
 	const [toDate, setToDate] = useState("");
-
+	const [addMoneyModal, setAddMoneyModal] = useState(false)
+	const [dedubtMoneyModal, setDedubtMoneyModal]=useState(false)
 	const [profile, setProfile] = useState({});
 	const [accountTransaction, setAccountTransaction] = useState([]);
 	const [addCashTransaction, setAddcashTransaction] = useState([]);
 	const [bonusTransaction, setBonusTransaction] = useState([]);
-  const [limit, setLimit] = useState(10);
-  
-  function balanceRefactor(b) {
-    return b / 100
-  }
+	const [limit, setLimit] = useState(10);
+	const [isLoadMoreInActive, setIsLoadMoreInActive] = useState(false);
+	function balanceRefactor(b) {
+		return b / 100;
+	}
 	const PlayerDetails = () => {
 		console.log(location.state, "SATTE");
 
@@ -169,15 +374,14 @@ const Profile = () => {
 			page: 1,
 			limit: limit,
 		};
-		Service.apiPostCallRequest(
-			RouteURL.get_account_statement,
-			params,
-			token
-		)
+		Service.apiPostCallRequest(RouteURL.get_account_statement, params, token)
 			.then((res) => {
 				console.log(res, "transaction Player List");
 				if (res.err === Constants.API_RESPONSE_STATUS_SUCCESS) {
 					setAccountTransaction(res.data.statements);
+					if (res.data.total === res.data.statements.length) {
+						setIsLoadMoreInActive(true);
+					}
 				} else {
 					toast.error(res.data.message, {
 						position: "bottom-right",
@@ -199,14 +403,13 @@ const Profile = () => {
 			page: 1,
 			limit: limit,
 		};
-		Service.apiPostCallRequest(
-			RouteURL.add_cash_account_statement,
-			params,
-			token
-		)
+		Service.apiPostCallRequest(RouteURL.add_cash_account_statement, params, token)
 			.then((res) => {
 				console.log(res, "transaction get_account_statement_add_cash Player List");
 				if (res.err === Constants.API_RESPONSE_STATUS_SUCCESS) {
+					if (res.data.total == res.data.transactions.length) {
+						setIsLoadMoreInActive(true);
+					}
 					setAddcashTransaction(res.data.transactions);
 				} else {
 					toast.error(res.data.message, {
@@ -230,14 +433,13 @@ const Profile = () => {
 			page: 1,
 			limit: limit,
 		};
-		Service.apiPostCallRequest(
-			RouteURL.bonus_account_statement,
-			params,
-			token
-		)
+		Service.apiPostCallRequest(RouteURL.bonus_account_statement, params, token)
 			.then((res) => {
 				console.log(res, "traget_account_statement_bonus_historynsaction Player List");
 				if (res.err === Constants.API_RESPONSE_STATUS_SUCCESS) {
+					if (res.data.total === res.data.bonusTransactions) {
+							setIsLoadMoreInActive(true);
+					}
 					setBonusTransaction(res.data.bonusTransactions);
 				} else {
 					toast.error(res.data.message, {
@@ -261,7 +463,7 @@ const Profile = () => {
 		} else if (activeTab == 3) {
 			fetchBonusransaction();
 		}
-	}, [activeTab, fromDate, toDate]);
+	}, [activeTab, fromDate, toDate, limit]);
 
 	useEffect(() => {
 		PlayerDetails();
@@ -271,43 +473,146 @@ const Profile = () => {
 		<CRow>
 			{/* Left Side */}
 			<CCol md={4}>
-				<CCard className='mb-4'>
+				<AddMoneyModal visible={addMoneyModal} onClose={() => setAddMoneyModal(false)} onSubmit={() => { }} />
+				<DeDuctMoneyModal visible={dedubtMoneyModal} onClose={() => setDedubtMoneyModal(false)} onSubmit={() => { }}/>
+    <CCard className={styles.card}>
 					<CCardBody>
-						<div className='text-center mb-3'>
-							<img
-								src={mockProfile.profilePic}
-								alt='Profile'
-								style={{ width: "120px", borderRadius: "50%" }}
-							/>
+						 <div className={styles.header}>
+          <img
+            src={profile?.profile || 'https://cdn-icons-png.flaticon.com/512/1144/1144760.png'}
+            alt="Profile"
+            className={styles.profilePicture}
+          />
+          <div className={styles.displayName}>{profile.display_name}</div>
+        </div>
+        {/* Status Indicators */}
+        <div className={styles.statusRow}>
+          <span>KYC Status:</span>
+          <CBadge color={profile.kyc_status ? 'success' : 'danger'}>
+            {profile.kyc_status ? 'Done' : 'Not Done'}
+          </CBadge>
+        </div>
+      
+        <div className={styles.statusRow}>
+          <span>Status:</span>
+          <CBadge color={profile.status === 'active' ? 'success' : 'danger'}>
+            {profile.status?.charAt(0).toUpperCase() + profile.status?.slice(1)}
+          </CBadge>
+        </div>
+        <div className={styles.statusRow}>
+          <span>Pan Verification:</span>
+          <CBadge color={profile?.pan_verified ? 'success' : 'danger'}>
+            {profile.email_verified ? 'Verified' : 'Unverified'}
+          </CBadge>
+        </div>
+ <div className={styles.statusRow}>
+          <span>Aadhaar Verification:</span>
+          <CBadge color={profile?.pan_verified ? 'success' : 'danger'}>
+            {profile.email_verified ? 'Verified' : 'Unverified'}
+          </CBadge>
 						</div>
+						<div className={styles.statusRow}>
+          <span>Bank Verification:</span>
+          <CBadge color={profile?.pan_verified ? 'success' : 'danger'}>
+            {profile.email_verified ? 'Verified' : 'Unverified'}
+          </CBadge>
+        </div>
+        {/* Profile Info Rows */}
+        <div className={styles.row}>
+          <span>Name</span>
+          <span className={styles.value}>{profile?.name}</span>
+        </div>
+        <div className={styles.row}>
+          <span>Display Name</span>
+          <span className={styles.value}>{profile?.display_name}</span>
+        </div>
+        <div className={styles.row}>
+          <span>Mobile No</span>
+          <span className={styles.value}>{profile?.mobile_no}</span>
+        </div>
+        <div className={styles.row}>
+          <span>Player ID</span>
+          <span className={styles.value}>{profile?.player_id}</span>
+        </div>
+        <div className={styles.row}>
+          <span>Bank Verified</span>
+          <span className={styles.value}>{profile?.bank_verified ? 'Yes' : 'No'}</span>
+        </div>
+        <div className={styles.row}>
+          <span>PAN Verified</span>
+          <span className={styles.value}>{profile?.pan_verified ? 'Yes' : 'No'}</span>
+        </div>
+        <div className={styles.row}>
+          <span>KYC Aadhar Verified</span>
+          <span className={styles.value}>{profile?.kyc_aadhar_verified ?? 'Not available'}</span>
+        </div>
+        <div className={styles.row}>
+          <span>KYC PAN Verified</span>
+          <span className={styles.value}>{profile?.kyc_pan_verified ?? 'Not available'}</span>
+        </div>
+        <div className={styles.row}>
+          <span>Last Login</span>
+          <span className={styles.value}>{new Date(profile?.last_login_timestamp).toLocaleString()}</span>
+        </div>
 
-						<h6 className='text-muted'>Player Details</h6>
-            <ul style={{
-              listStyleType: 'none'
-            }}>
-							<li>Name: {profile?.name}</li>
-							<li>Display Name: {profile?.display_name}</li>
-							<li>Mobile No: {profile?.mobile_no}</li>
-							<li>Player ID: {profile?.player_id}</li>
-							<li>Status: {profile?.status}</li>
-							<li>Bank Verified: {profile?.bank_verified ? "Yes" : "No"}</li>
-							<li>PAN Verified: {profile?.pan_verified ? "Yes" : "No"}</li>
-							<li>KYC Aadhar Verified: {profile?.kyc_aadhar_verified ?? "Not available"}</li>
-							<li>KYC PAN Verified: {profile?.kyc_pan_verified ?? "Not available"}</li>
-							<li>Last Login: {new Date(profile?.last_login_timestamp).toLocaleString()}</li>
-						</ul>
+        {/* Wallet Info Rows */}
+        <div className={styles.row}>
+          <span>Total Balance</span>
+          <span className={styles.value}>₹{profile?.wallets?.total ? profile?.wallets?.total / 100 : 0}</span>
+        </div>
+        {/* <div className={styles.row}>
+          <span>Bonus</span>
+          <span className={styles.value}>₹{profile?.wallets?.bonus / 100}</span>
+        </div>
+        <div className={styles.row}>
+          <span>Withdrawable</span>
+          <span className={styles.value}>₹{profile?.wallets?.withdrawable / 100}</span>
+        </div> */}
 
-						<hr />
-						<h6 className='text-muted'>Wallet Details</h6>
-						<ul style={{
-              listStyleType: 'none'
-            }}>
-							<li>Deposit: ₹{balanceRefactor(mockProfile.wallets.deposit)}</li>
-							<li>Bonus: ₹{balanceRefactor(mockProfile.wallets.bonus)}</li>
-							<li>Withdrawable: ₹{balanceRefactor(mockProfile.wallets.withdrawable)}</li>
-						</ul>
-					</CCardBody>
-				</CCard>
+        {/* Action Buttons */}
+        <div className={styles.buttons}>
+          <CButton
+            color={profile.status === 'active' ? 'danger' : 'success'}
+            className={styles.button}
+              style={{ color: 'white' }}
+          >
+            {profile.status === 'active' ? (
+              <>
+                {/* <CIcon icon={cilXCircle} className="me-2" /> */}
+                Deactivate
+              </>
+            ) : (
+              <>
+                {/* <CIcon icon={cilCheckCircle} className="me-2" /> */}
+                Activate
+              </>
+            )}
+          </CButton>
+
+          <CButton
+								color="info"
+								  style={{ color: 'white' }}
+            className={styles.button}
+            onClick={()=>{setAddMoneyModal(true)}}
+          >
+            {/* <CIcon icon={cilMoney} className="me-2" /> */}
+            Add Money
+          </CButton>
+
+          <CButton
+								color="danger"
+								  style={{ color: 'white' }}
+            className={styles.button}
+            onClick={()=> setDedubtMoneyModal(true)}
+          >
+            {/* <CIcon icon={cilMoney} className="me-2" /> */}
+            Deduct Money
+          </CButton>
+        </div>
+      </CCardBody>
+    </CCard>
+
+
 			</CCol>
 
 			{/* Right Side */}
@@ -317,13 +622,13 @@ const Profile = () => {
 						<CNavItem>
 							<CNavLink
 								active={activeTab === "1"}
-                onClick={() => {
-                  setActiveTab("1")
-                  setFromDate('')
-                    setToDate('')
-                  
-                }
-                }
+								onClick={() => {
+									setActiveTab("1");
+									setFromDate("");
+									setToDate("");
+									setIsLoadMoreInActive(false);
+									setLimit(10)
+								}}
 								role='button'>
 								Account Statement
 							</CNavLink>
@@ -331,12 +636,13 @@ const Profile = () => {
 						<CNavItem>
 							<CNavLink
 								active={activeTab === "2"}
-                onClick={() => {
-                  setActiveTab("2")
-                   setFromDate('')
-                    setToDate('')
-                }
-                }
+								onClick={() => {
+									setActiveTab("2");
+									setFromDate("");
+									setToDate("");
+											setLimit(10)
+									setIsLoadMoreInActive(false);
+								}}
 								role='button'>
 								Add Cash Transaction
 							</CNavLink>
@@ -344,12 +650,13 @@ const Profile = () => {
 						<CNavItem>
 							<CNavLink
 								active={activeTab === "3"}
-                onClick={() => {
-                   setFromDate('')
-                    setToDate('')
-                  setActiveTab("3")
-                }
-                }
+								onClick={() => {
+									setFromDate("");
+									setToDate("");
+									setActiveTab("3");
+											setLimit(10)
+									setIsLoadMoreInActive(false);
+								}}
 								role='button'>
 								Bonus History
 							</CNavLink>
@@ -369,15 +676,41 @@ const Profile = () => {
 								onChange={(e) => setToDate(e.target.value)}
 								placeholder='To'
 							/>
-              <CButton color='primary' onClick={() => {
-                if (activeTab == 1) {
-                  downloadTransactionsPDF(accountTransaction)
-                } else if (activeTab == 2) {
-                  downloadTransactionsPDF(addCashTransaction)
-                } else if (activeTab == 3) {
-                   downloadTransactionsPDF(bonusTransaction)
-                }
-              }}>Download</CButton>
+
+							
+
+							<AllInOneExportButton 
+  data={
+    activeTab == 1 
+      ? accountTransaction 
+      : activeTab == 2 
+        ? addCashTransaction 
+        : bonusTransaction
+  }
+  filename={
+    activeTab == 1 
+      ? 'accountTransaction' 
+      : activeTab === 2 
+        ? 'addCashTransaction' 
+        : 'bonusTransaction'
+  }
+/>
+
+							
+
+							{/* <CButton
+								color='primary'
+								onClick={() => {
+									if (activeTab == 1) {
+										downloadTransactionsPDF(accountTransaction);
+									} else if (activeTab == 2) {
+										downloadTransactionsPDF(addCashTransaction);
+									} else if (activeTab == 3) {
+										downloadTransactionsPDF(bonusTransaction);
+									}
+								}}>
+								Download
+							</CButton> */}
 						</div>
 
 						<CTabContent>
@@ -387,6 +720,7 @@ const Profile = () => {
 									title='Account Statement'
 									tab={activeTab}
 									setLimit={setLimit}
+									isLoadMoreInActive={isLoadMoreInActive}
 								/>
 							</CTabPane>
 							<CTabPane role='tabpanel' visible={activeTab === "2"}>
@@ -395,6 +729,7 @@ const Profile = () => {
 									title='Add Cash Transaction'
 									tab={activeTab}
 									setLimit={setLimit}
+									isLoadMoreInActive={isLoadMoreInActive}
 								/>
 							</CTabPane>
 							<CTabPane role='tabpanel' visible={activeTab === "3"}>
@@ -403,6 +738,7 @@ const Profile = () => {
 									title='Bonus History'
 									tab={activeTab}
 									setLimit={setLimit}
+									isLoadMoreInActive={isLoadMoreInActive}
 								/>
 							</CTabPane>
 						</CTabContent>
@@ -413,17 +749,23 @@ const Profile = () => {
 	);
 };
 
-const TransactionList = ({ data, title, tab, setLimit }) => {
-  function balanceRefactor(b) {
-    return b / 100
-  }
+const TransactionList = ({
+	data,
+	title,
+	tab,
+	setLimit,
+	isLoadMoreInActive,
+}) => {
+	function balanceRefactor(b) {
+		return b / 100;
+	}
 	if (tab == 1) {
 		return (
 			<div>
 				{/* <h6 className="mb-3">{title}</h6> */}
 
 				<CTable striped hover responsive>
-					<CTableHead>
+					<CTableHead className="table-primary text-center align-middle">
 						<CTableRow>
 							<CTableHeaderCell scope='col'>Transaction ID</CTableHeaderCell>
 							<CTableHeaderCell scope='col'>Reference ID</CTableHeaderCell>
@@ -431,6 +773,10 @@ const TransactionList = ({ data, title, tab, setLimit }) => {
 							<CTableHeaderCell scope='col'>Bonus Amount</CTableHeaderCell>
 							<CTableHeaderCell scope='col'>Withdrawable Amount</CTableHeaderCell>
 							<CTableHeaderCell scope='col'>Total Amount</CTableHeaderCell>
+
+							<CTableHeaderCell scope='col'>Available Bonus Balance</CTableHeaderCell>
+							<CTableHeaderCell scope='col'>Available Deposit Balance</CTableHeaderCell>
+							<CTableHeaderCell scope='col'>Available Withdrawable Balance</CTableHeaderCell>
 							<CTableHeaderCell scope='col'>Action</CTableHeaderCell>
 							<CTableHeaderCell scope='col'>Status</CTableHeaderCell>
 							<CTableHeaderCell scope='col'>Date</CTableHeaderCell>
@@ -446,6 +792,13 @@ const TransactionList = ({ data, title, tab, setLimit }) => {
 								<CTableDataCell>₹{balanceRefactor(txn.bonus_amount)}</CTableDataCell>
 								<CTableDataCell>₹{balanceRefactor(txn.withdrawable_amount)}</CTableDataCell>
 								<CTableDataCell>₹{balanceRefactor(txn.total_amount)}</CTableDataCell>
+								<CTableDataCell>₹{balanceRefactor(txn.available_bonus_balance)}</CTableDataCell>
+								<CTableDataCell>
+									₹{balanceRefactor(txn.available_deposit_balance)}
+								</CTableDataCell>
+								<CTableDataCell>
+									₹{balanceRefactor(txn.available_withdrawable_balance)}
+								</CTableDataCell>
 								<CTableDataCell>{txn.transaction_action}</CTableDataCell>
 								<CTableDataCell>{txn.transaction_status}</CTableDataCell>
 								<CTableDataCell>
@@ -453,23 +806,23 @@ const TransactionList = ({ data, title, tab, setLimit }) => {
 								</CTableDataCell>
 								<CTableDataCell>{txn.description}</CTableDataCell>
 							</CTableRow>
-            ))}
-            <CTableRow>
-  <CTableDataCell colSpan="100%" className="text-center">
-    <CButton
-      color="secondary"
-      variant="outline"
-      onClick={() => setLimit((prev) => prev + 1)}
-    >
-      Load More
-    </CButton>
-  </CTableDataCell>
-</CTableRow>
-
+						))}
+						<CTableRow>
+							{isLoadMoreInActive ? (
+								<></>
+							) : (
+								<CTableDataCell colSpan='100%' className='text-center'>
+									<CButton
+										color='secondary'
+										variant='outline'
+										onClick={() => setLimit((prev) => prev + 20)}>
+										Load More
+									</CButton>
+								</CTableDataCell>
+							)}
+						</CTableRow>
 					</CTableBody>
 				</CTable>
-
-				
 			</div>
 		);
 	}
@@ -487,8 +840,12 @@ const TransactionList = ({ data, title, tab, setLimit }) => {
 							<CTableHeaderCell>Bonus</CTableHeaderCell>
 							<CTableHeaderCell>Withdrawable</CTableHeaderCell>
 							<CTableHeaderCell>Total</CTableHeaderCell>
+							<CTableHeaderCell scope='col'>Available Bonus Balance</CTableHeaderCell>
+							<CTableHeaderCell scope='col'>Available Deposit Balance</CTableHeaderCell>
+							<CTableHeaderCell scope='col'>Available Withdrawable Balance</CTableHeaderCell>
+
 							<CTableHeaderCell>Action</CTableHeaderCell>
-							<CTableHeaderCell>Type</CTableHeaderCell>
+							{/* <CTableHeaderCell>Type</CTableHeaderCell> */}
 							<CTableHeaderCell>Status</CTableHeaderCell>
 							<CTableHeaderCell>Date</CTableHeaderCell>
 							<CTableHeaderCell>Description</CTableHeaderCell>
@@ -499,35 +856,42 @@ const TransactionList = ({ data, title, tab, setLimit }) => {
 							<CTableRow key={txn.wallet_transaction_id}>
 								<CTableDataCell>{txn.wallet_transaction_id}</CTableDataCell>
 								<CTableDataCell>{txn.reference_id}</CTableDataCell>
-								<CTableDataCell>₹{txn.deposit_amount}</CTableDataCell>
-								<CTableDataCell>₹{txn.bonus_amount}</CTableDataCell>
-								<CTableDataCell>₹{txn.withdrawable_amount}</CTableDataCell>
-								<CTableDataCell>₹{txn.total_amount}</CTableDataCell>
-								<CTableDataCell>{txn.transaction_action}</CTableDataCell>
-								<CTableDataCell>{txn.transaction_type}</CTableDataCell>
+								<CTableDataCell>₹{balanceRefactor(txn.deposit_amount)}</CTableDataCell>
+								<CTableDataCell>₹{balanceRefactor(txn.bonus_amount)}</CTableDataCell>
+								<CTableDataCell>₹{balanceRefactor(txn.withdrawable_amount)}</CTableDataCell>
+								<CTableDataCell>₹{balanceRefactor(txn.total_amount)}</CTableDataCell>
+								<CTableDataCell>₹{balanceRefactor(txn.available_bonus_balance)}</CTableDataCell>
+								<CTableDataCell>
+									₹{balanceRefactor(txn.available_deposit_balance)}
+								</CTableDataCell>
+								<CTableDataCell>
+									₹{balanceRefactor(txn.available_withdrawable_balance)}
+								</CTableDataCell>
+								<CTableDataCell>{txn?.transaction_action || "TFB"}</CTableDataCell>
+								{/* <CTableDataCell>{txn.transaction_type}</CTableDataCell> */}
 								<CTableDataCell>{txn.transaction_status}</CTableDataCell>
 								<CTableDataCell>
 									{new Date(txn.transaction_date).toLocaleString()}
 								</CTableDataCell>
 								<CTableDataCell>{txn.description}</CTableDataCell>
 							</CTableRow>
-            ))}
-            <CTableRow>
-  <CTableDataCell colSpan="100%" className="text-center">
-    <CButton
-      color="secondary"
-      variant="outline"
-      onClick={() => setLimit((prev) => prev + 1)}
-    >
-      Load More
-    </CButton>
-  </CTableDataCell>
-</CTableRow>
-
+						))}
+						<CTableRow>
+							{isLoadMoreInActive ? (
+								<></>
+							) : (
+								<CTableDataCell colSpan='100%' className='text-center'>
+									<CButton
+										color='secondary'
+										variant='outline'
+										onClick={() => setLimit((prev) => prev + 20)}>
+										Load More
+									</CButton>
+								</CTableDataCell>
+							)}
+						</CTableRow>
 					</CTableBody>
 				</CTable>
-
-			
 			</div>
 		);
 	}
@@ -543,6 +907,7 @@ const TransactionList = ({ data, title, tab, setLimit }) => {
 							<CTableHeaderCell>Reference ID</CTableHeaderCell>
 							<CTableHeaderCell>Bonus Amount</CTableHeaderCell>
 							<CTableHeaderCell>Total Amount</CTableHeaderCell>
+							<CTableHeaderCell scope='col'>Available Bonus Balance</CTableHeaderCell>
 							<CTableHeaderCell>Action</CTableHeaderCell>
 							<CTableHeaderCell>Status</CTableHeaderCell>
 							<CTableHeaderCell>Type</CTableHeaderCell>
@@ -555,8 +920,9 @@ const TransactionList = ({ data, title, tab, setLimit }) => {
 							<CTableRow key={txn.wallet_transaction_id}>
 								<CTableDataCell>{txn.wallet_transaction_id}</CTableDataCell>
 								<CTableDataCell>{txn.reference_id}</CTableDataCell>
-								<CTableDataCell>₹{txn.bonus_amount}</CTableDataCell>
-								<CTableDataCell>₹{txn.total_amount}</CTableDataCell>
+								<CTableDataCell>₹{balanceRefactor(txn.bonus_amount)}</CTableDataCell>
+								<CTableDataCell>₹{balanceRefactor(txn.total_amount)}</CTableDataCell>
+								<CTableDataCell>₹{balanceRefactor(txn.available_bonus_balance)}</CTableDataCell>
 								<CTableDataCell>{txn.transaction_action}</CTableDataCell>
 								<CTableDataCell>{txn.transaction_status}</CTableDataCell>
 								<CTableDataCell>{txn.transaction_type}</CTableDataCell>
@@ -565,23 +931,23 @@ const TransactionList = ({ data, title, tab, setLimit }) => {
 								</CTableDataCell>
 								<CTableDataCell>{txn.description}</CTableDataCell>
 							</CTableRow>
-            ))}
-           <CTableRow>
-  <CTableDataCell colSpan="100%" className="text-center">
-    <CButton
-      color="secondary"
-      variant="outline"
-      onClick={() => setLimit((prev) => prev + 1)}
-    >
-      Load More
-    </CButton>
-  </CTableDataCell>
-</CTableRow>
-
+						))}
+						<CTableRow>
+							{isLoadMoreInActive ? (
+								<></>
+							) : (
+								<CTableDataCell colSpan='100%' className='text-center'>
+									<CButton
+										color='secondary'
+										variant='outline'
+										onClick={() => setLimit((prev) => prev + 20)}>
+										Load More
+									</CButton>
+								</CTableDataCell>
+							)}
+						</CTableRow>
 					</CTableBody>
 				</CTable>
-
-				
 			</div>
 		);
 	}

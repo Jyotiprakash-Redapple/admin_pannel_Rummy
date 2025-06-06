@@ -31,11 +31,11 @@ const AppBreadcrumb = () => {
   
   return (
     <CBreadcrumb className="my-0">
-      <CBreadcrumbItem href={import.meta.env.VITE_APP_PLATFORM_ENVIROMENT == 'development' ? '/dashboard' : '/cl/dashboard'}>Home</CBreadcrumbItem>
-      {breadcrumbs.map((breadcrumb, index) => {
+      <CBreadcrumbItem href={import.meta.env.VITE_APP_PLATFORM_ENVIROMENT == 'development' ? '/dashboard' : '/dashboard'}>Home</CBreadcrumbItem>
+        {breadcrumbs.map((breadcrumb, index) => {
         return (
           <React.Fragment key={index}>
-            <span className="mx-2"> - </span> {/* Separator */}
+            <span className="mx-2"> - </span> 
             <CBreadcrumbItem
               {...(breadcrumb.active ? { active: true } : { href: import.meta.env.VITE_APP_PLATFORM_ENVIROMENT == 'development' ? breadcrumb.pathname : '/cl' + breadcrumb.pathname })}
               key={index}

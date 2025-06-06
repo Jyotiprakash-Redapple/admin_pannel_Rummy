@@ -1,19 +1,18 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
 import {
-  cilBell,
-  cilCalculator,
-  cilChartPie,
-  cilCursor,
-  cilDescription,
-  cilDrop,
-  cilNotes,
-  cilPencil,
-  cilPuzzle,
   cilSpeedometer,
-  cilStar, cilWallet, cilShieldAlt, cilPeople, cilGamepad
+  cilPeople,
+  cilUserPlus,
+  cilGroup,
+  cilCash,
+  cilBank,
+  cilGamepad,
+  cilDollar,
+  cilWallet,
+  cilChartPie
 } from '@coreui/icons'
-import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
+import { CNavGroup, CNavItem } from '@coreui/react'
 
 const _nav = [
   {
@@ -23,20 +22,17 @@ const _nav = [
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
   },
 
-
-   {
+  {
     component: CNavGroup,
     name: 'Role Management',
     to: '/role-management',
-    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilGroup} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
         name: 'Role List',
         to: '/role-management',
       },
-   
-
       {
         component: CNavItem,
         name: 'User Role Management',
@@ -45,45 +41,6 @@ const _nav = [
     ],
   },
 
-  // {
-  //   component: CNavGroup,
-  //   name: 'Client Management',
-  //   to: '/client-management',
-  //   icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
-  //   items: [
-  //     {
-  //       component: CNavItem,
-  //       name: 'Client List',
-  //       to: '/client-list',
-  //     },
-
-  //     // {
-  //     //   component: CNavItem,
-  //     //   name: 'User Transaction History',
-  //     //   to: '/client-transaction-history',
-  //     // },
-  //   ],
-  // },
-  // {
-  //   component: CNavGroup,
-  //   name: 'Provider Management',
-  //   to: '/provider-list',
-  //   icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
-  //   items: [
-  //     {
-  //       component: CNavItem,
-  //       name: 'Provider List',
-  //       to: '/provider-list',
-  //     },
-  //   ],
-  // },
- 
-  // {
-  //   component: CNavItem,
-  //   name: 'Games',
-  //   to: '/game-list',
-  //   icon: <CIcon icon={cilGamepad} customClassName="nav-icon" />,
-  // },
   {
     component: CNavGroup,
     name: 'Player Management',
@@ -98,45 +55,46 @@ const _nav = [
     ],
   },
 
-  // {
-  //   component: CNavItem,
-  //   name: 'Assign Providers',
-  //   to: '/assign-provider',
-  //   icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
-  // },
-  // {
-  //   component: CNavItem,
-  //   name: 'Assign Games',
-  //   to: '/assign-games',
-  //   icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
-  // },
-  // {
-  //   component: CNavGroup,
-  //   name: 'Report Management',
-  //   icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
-  //   items: [
-  //     {
-  //       component: CNavItem,
-  //       name: 'Provider Wise Report',
-  //       to: '/provider-wise-report',
-  //     },
-  //     // {
-  //     //   component: CNavItem,
-  //     //   name: 'Category Wise Report',
-  //     //   to: '/category-wise-report',
-  //     // },
-  //     // {
-  //     //   component: CNavItem,
-  //     //   name: 'Game Wise Report',
-  //     //   to: '/game-wise-report',
-  //     // },
-  //     {
-  //       component: CNavItem,
-  //       name: 'Wallet Transaction Report',
-  //       to: '/wallet-transaction-report',
-  //     },
-  //   ]
-  // },
+  {
+    component: CNavGroup,
+    name: 'Referral Management',
+    to: '/referral-list',
+    icon: <CIcon icon={cilUserPlus} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Referral List',
+        to: '/referral-list',
+      },
+    ],
+  },
+
+  {
+    component: CNavGroup,
+    name: 'Transaction Management',
+    to: '/game-play-transaction-list',
+    icon: <CIcon icon={cilWallet} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Game Play Transaction',
+        to: '/game-play-transaction-list',
+        // icon: <CIcon icon={cilGamepad} customClassName="nav-icon" />,
+      },
+      {
+        component: CNavItem,
+        name: 'Admin Transaction',
+        to: '/admin-transaction-list',
+        // icon: <CIcon icon={cilCash} customClassName="nav-icon" />,
+      },
+      {
+        component: CNavItem,
+        name: 'Add Cash Transaction',
+        to: '/add-cash-transaction-list',
+        // icon: <CIcon icon={cilWallet} customClassName="nav-icon" />,
+      },
+    ],
+  },
 ]
 
 export default _nav

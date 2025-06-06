@@ -11,10 +11,19 @@ import {
   CForm,
   CFormLabel,
   CFormSelect,
-
+CBadge,
   CCard,
   CCardBody,
   CCardHeader,
+} from "@coreui/react";
+import {
+  CTable,
+  CTableHead,
+  CTableRow,
+  CTableHeaderCell,
+  CTableBody,
+  CTableDataCell,
+
 } from "@coreui/react";
 import { useSelector } from "react-redux";
 import RouteURL from "../../../apis/ApiURL";
@@ -227,8 +236,9 @@ const UserRoleManagement = () => {
        <ToastContainer />
       <div className={styles.filter}>
         <div>
-           <label>Status</label>
-        <select className={styles.select}  value={statusFilter}
+           <label htmlFor="status_id" className="form-label" >Status</label>
+        <select className="form-select"
+        id="status_id"  value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}>
           <option>All</option>
           <option>Active</option>
@@ -242,54 +252,101 @@ const UserRoleManagement = () => {
        
       </div>
 
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>ACTION</th>
-            <th>ADMIN NAME</th>
-            <th>USERNAME</th>
-            <th>ROLE NAME</th>
-            <th>CONTACT</th>
-            <th>EMAIL</th>
-            <th>STATUS</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredUsers.map((u) => (
-            <tr key={u.admin_id}>
-              <td>
-                {/* <button className={styles.iconBtn}>🔑</button> */}
-                <button className={styles.deleteBtn} onClick={()=>{}}><i className="fa fa-trash-o"></i></button>
-                <button className={styles.editBtn} onClick={() => {
-                  
-                  setUpdateVisible(true)
-                  setVisible(false)
-                  setUpdateAdmin({...u})
-                }}><i className="fa fa-edit"></i></button>
-              </td>
-              <td>{u.admin_name}</td>
-              <td>{u.username}</td>
-              <td>{u.role_name}</td>
-              <td>{u.contact}</td>
-              <td>{u.email}</td>
-              <td>
-                <span className={u.admin_status === 'active'? styles.statusLabelSuccess : styles.statusLabelDanger }>{u.admin_status }</span>
-                <label className={styles.switch}>
-                  <input type="checkbox" defaultChecked={u.admin_status ? true : false} onChange={(e) => {
-                    let admin_status = e.target.checked ? 'active' : 'inactive';
-                    console.log(admin_status, "value")
-                    
-                    UpdateAdminToServerByStatus( {...u, admin_status})
-                    
+    
+<div className="table-responsive">
+  <CTable hover bordered responsive>
+    <CTableHead className="table-primary text-center align-middle">
+      <CTableRow>
+        <CTableHeaderCell scope="col">ACTION</CTableHeaderCell>
+        <CTableHeaderCell scope="col">ADMIN NAME</CTableHeaderCell>
+        <CTableHeaderCell scope="col">USERNAME</CTableHeaderCell>
+        <CTableHeaderCell scope="col">ROLE NAME</CTableHeaderCell>
+        <CTableHeaderCell scope="col">CONTACT</CTableHeaderCell>
+        <CTableHeaderCell scope="col">EMAIL</CTableHeaderCell>
+        <CTableHeaderCell scope="col">STATUS</CTableHeaderCell>
+      </CTableRow>
+    </CTableHead>
+
+    <CTableBody>
+      {filteredUsers.length > 0 ? (
+        filteredUsers.map((u, index) => (
+          <CTableRow key={u.admin_id || index}>
+            {/* ACTION buttons */}
+            <CTableDataCell className="text-center">
+              <button className={styles.deleteBtn} onClick={() => {}}>
+                <i className="fa fa-trash-o"></i>
+              </button>
+              <button
+                className={styles.editBtn}
+                onClick={() => {
+                  setUpdateVisible(true);
+                  setVisible(false);
                  
-                  }}/>
-                  <span className={styles.slider}></span>
-                </label>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+
+                  setUpdateAdmin({ ...u, password: '' });
+                }}>
+                <i className="fa fa-edit"></i>
+              </button>
+            </CTableDataCell>
+
+            {/* ADMIN NAME */}
+            <CTableDataCell className="text-center">{u.admin_name}</CTableDataCell>
+
+            {/* USERNAME */}
+            <CTableDataCell className="text-center">{u.username}</CTableDataCell>
+
+            {/* ROLE NAME */}
+            <CTableDataCell className="text-center">{u.role_name}</CTableDataCell>
+
+            {/* CONTACT */}
+            <CTableDataCell className="text-center">{u.contact}</CTableDataCell>
+
+            {/* EMAIL */}
+            <CTableDataCell className="text-center">{u.email}</CTableDataCell>
+
+            {/* STATUS */}
+            <CTableDataCell className="text-center">
+              <CBadge color={u.admin_status === 'active' ? 'success' : 'danger'} onClick={() => {
+                const admin_status = u.admin_status === 'active' ? 'inactive' : 'active';
+                console.log(admin_status, 'value');
+                UpdateAdminToServerByStatus({ ...u, admin_status })
+              }} style={{cursor: 'pointer'}}>
+                          { u.admin_status === 'active' ? 'Active': 'InActive'}
+                        </CBadge>
+              {/* <span
+                className={
+                  u.admin_status === 'active'
+                    ? styles.statusLabelSuccess
+                    : styles.statusLabelDanger
+                }>
+                {u.admin_status}
+
+              </span> */}
+              {/* <label className={styles.switch} style={{ marginLeft: '10px' }}>
+                <input
+                  type="checkbox"
+                  defaultChecked={u.admin_status === 'active'}
+                  onChange={(e) => {
+                    const admin_status = e.target.checked ? 'active' : 'inactive';
+                    console.log(admin_status, 'value');
+                    UpdateAdminToServerByStatus({ ...u, admin_status });
+                  }}
+                />
+                <span className={styles.slider}></span>
+              </label> */}
+            </CTableDataCell>
+          </CTableRow>
+        ))
+      ) : (
+        <CTableRow>
+          <CTableDataCell colSpan={7} className="text-center">
+            No admins found
+          </CTableDataCell>
+        </CTableRow>
+      )}
+    </CTableBody>
+  </CTable>
+</div>
 
 
       
@@ -471,7 +528,7 @@ const UserRoleManagement = () => {
           </div>
 
           <div className="mb-3">
-            <CFormLabel htmlFor="password">Password *</CFormLabel>
+            <CFormLabel htmlFor="password">Password</CFormLabel>
             <CFormInput type="password" id="password" placeholder="Enter password" value={updateAdmin.password} onChange={(e) => {
                   setUpdateAdmin((prev) => {
                     return {

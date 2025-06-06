@@ -19,7 +19,7 @@ import Service from "../../apis/Service";
 import RouteURL from "../../apis/ApiURL";
 import { Constants, ERROR_MESSAGE } from "../../apis/Constant";
 import { ToastContainer, toast } from "react-toastify";
-import casino from "src/assets/images/casino.webp";
+import casino from "src/assets/images/rummy_fair.png";
 import Overlay from "src/assets/images/blue_overlay.png";
 import { leftTrim } from "../../Utility/helper";
 import "react-toastify/dist/ReactToastify.css";
@@ -214,7 +214,7 @@ export default function Login() {
           <CRow className="justify-content-center">
             <CCol md={6}>
               <h3>Welcome to Rummy Panel</h3>
-              <img className="w-75 rotate" src={casino} alt="Casino Logo" />
+              <img className="w-75 " src={casino} alt="Rummy Fair Logo" />
             </CCol>
             <CCol md={6} className="mt-5">
               <CCardGroup>

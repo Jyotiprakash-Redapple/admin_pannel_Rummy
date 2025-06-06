@@ -1,0 +1,38 @@
+.card {
+  width: 300px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+.value {
+  font-weight: bold;
+  color: #1d8cf8;
+}
+
+.link {
+  color: #1d8cf8;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.button {
+  font-size: 14px;
+  font-weight: 600;
+}

@@ -55,7 +55,14 @@ const UserManagement = React.lazy(() => import('./views/project-files/user-manag
 
 const Permission = React.lazy(() => import('./views/project-files/role-management/ManagePermission'))
 
-const PlayerDetailsTransaction =  React.lazy(() => import('./views/project-files/player-management/PlayerDetails'))
+const PlayerDetailsTransaction = React.lazy(() => import('./views/project-files/player-management/PlayerDetails'))
+
+const ReferralManagement = React.lazy(() => import('./views/project-files/referal-management/ReferalList'))
+
+const GamePlayTransaction = React.lazy(() => import('./views/project-files/Transaction-management/GamePlayTransaction'))
+
+const AdminTransaction = React.lazy(() => import('./views/project-files/Transaction-management/AdminTransaction'))
+const AddCashTransaction = React.lazy(() => import('./views/project-files/Transaction-management/AddcashTransaction'))
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
@@ -67,8 +74,11 @@ const routes = [
 
   { path: '/test', name: 'My Profile', element: Test },
 
+{ path: '/referral-list', name: 'Referral List', element: ReferralManagement },
+{ path: '/game-play-transaction-list', name: 'Game Play Transaction List', element: GamePlayTransaction },
 
-
+  { path: '/add-cash-transaction-list', name: 'Add Cash Transaction List', element: AddCashTransaction },
+{ path: '/admin-transaction-list', name: 'Admin Transaction List', element: AdminTransaction },
   { path: '/wallet-history', name: 'Wallet History', element: WalletHistory },
   { path: '/transaction-log', name: 'Transaction Log', element: WalletTransactionLog },
   { path: '/update-wallet-balance', name: 'Update Wallet Balance', element: UpdateWalletBalance },

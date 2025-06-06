@@ -7,7 +7,17 @@ import {
   CModalBody,
   CModalFooter,
   CButton,
+  CBadge ,
   CFormInput
+} from "@coreui/react";
+import {
+  CTable,
+  CTableHead,
+  CTableRow,
+  CTableHeaderCell,
+  CTableBody,
+  CTableDataCell,
+
 } from "@coreui/react";
 import { useSelector } from "react-redux";
 import RouteURL from "../../../apis/ApiURL";
@@ -133,16 +143,16 @@ const UserRoleManagement = () => {
 
         Service.apiPostCallRequest(RouteURL.edit_role, params, token)
           .then((res) => {
-             console.log(res, 'res')
+            console.log(res, 'res')
             FetchRoleListDetails()
             setUpdateVisible(false)
-              toast.success(res.message, {
+            toast.success(res.message, {
                     position: 'bottom-right',
                     autoClose: false,
                 });
             })
             .catch((error) => {
-                toast.error(error?.response?.message || 'unable to update role', {
+              toast.error(error?.response?.message || 'unable to update role', {
                     position: 'bottom-right',
                     autoClose: false,
                 });
@@ -211,8 +221,9 @@ const UserRoleManagement = () => {
        <ToastContainer />
       <div className={styles.filter}>
         <div>
-           <label>Status</label>
-        <select className={styles.select}  value={statusFilter}
+           <label htmlFor="status_id" className="form-label">Status</label>
+        <select  className="form-select"
+        id="status_id" value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}>
           <option>All</option>
           <option>Active</option>
@@ -226,53 +237,89 @@ const UserRoleManagement = () => {
        
       </div>
 
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>ACTION</th>
-            {/* <th>ADMIN NAME</th>
-            <th>USERNAME</th> */}
-            <th>ROLE</th>
-            {/* <th>CONTACT</th>
-            <th>EMAIL</th> */}
-            <th>STATUS</th>
-            <th></th>
-                   <th>MANAGE PERMISSION</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredUsers.map((u) => (
-            <tr key={u.role_id}>
-              <td>
-                {/* <button className={styles.iconBtn}>🔑</button> */}
-                <button className={styles.deleteBtn} onClick={()=>DeleteRoleToServer(u.role_id)}><i className="fa fa-trash-o"></i></button>
-                <button className={styles.editBtn} onClick={() => {
-                  setUpdateRole({ ...u })
-                  setUpdateVisible(true)
-                  setVisible(false)
-                }}><i className="fa fa-edit"></i></button>
-              </td>
-              {/* <td>{u.admin_name}</td>
-              <td>{u.username}</td> */}
-              <td>{u.role_name}</td>
-              {/* <td>{u.contact}</td>
-              <td>{u.email}</td> */}
-              <td>
-                <span className={u.role_status === 'active'? styles.statusLabelSuccess : styles.statusLabelDanger }>{u.role_status }</span>
+     <div className='table-responsive'>
+  <CTable hover bordered responsive>
+    <CTableHead className='table-primary text-center align-middle'>
+      <CTableRow>
+        <CTableHeaderCell scope='col'>Actions</CTableHeaderCell>
+        <CTableHeaderCell scope='col'>Role Name</CTableHeaderCell>
+        <CTableHeaderCell scope='col'>Status</CTableHeaderCell>
+        {/* <CTableHeaderCell scope='col'>Toggle Status</CTableHeaderCell> */}
+        <CTableHeaderCell scope='col'>Permissions</CTableHeaderCell>
+      </CTableRow>
+    </CTableHead>
+
+    <CTableBody>
+      {filteredUsers.length > 0 ? (
+        filteredUsers.map((u, index) => (
+          <CTableRow key={u.role_id || index}>
+            {/* Actions: Delete / Edit */}
+            <CTableDataCell className='text-center'>
+              <button className={styles.deleteBtn}
+                onClick={() => DeleteRoleToServer(u?.role_id)}
+              >
+                <i className="fa fa-trash-o"></i>
+              </button>
+              <button
+                className={styles.editBtn}
+                onClick={() => {
+                  
+                  setUpdateRole({ ...u });
+                  setUpdateVisible(true);
+                  setVisible(false);
+                }}>
+                <i className="fa fa-edit"></i>
+              </button>
+            </CTableDataCell>
+
+            {/* Role Name */}
+            <CTableDataCell className='text-center'>{u.role_name}</CTableDataCell>
+
+            {/* Status Label */}
+            <CTableDataCell className='text-center'>
               
-              </td>
-              <td>  <label className={styles.switch}>
-                  <input type="checkbox" defaultChecked={u.role_status == 'active' ? true : false} onChange={(e) => {
-                   // |=|=|=|=|=| console.log(e.target.checked, "value")
-                    UpdateRoleToServer(u.role_id, u.role_name,e.target.checked ? 'active': 'inactive' )
-                  }}/>
-                  <span className={styles.slider}></span>
-                </label></td>
-              <td><button className={styles.select} onClick={()=>navigate('/manage-permission')}>Manage Permission</button></td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+
+              <CBadge color={u.role_status === 'active' ? 'success' : 'danger'} onClick={() => {
+
+                 UpdateRoleToServer(u.role_id, u.role_name, u.role_status === 'active' ? 'inactive' : 'active');
+                }} style={{cursor: 'pointer'}}>
+                {u.role_status === 'active' ? 'Active' : 'InActive'}
+             
+                        </CBadge>
+            </CTableDataCell>
+
+            {/* Toggle */}
+            {/* <CTableDataCell className='text-center'>
+              <label className={styles.switch}>
+                <input
+                  type="checkbox"
+                  defaultChecked={u.role_status === 'active'}
+                  onChange={(e) => {
+                    UpdateRoleToServer(u.role_id, u.role_name, e.target.checked ? 'active' : 'inactive');
+                  }}
+                />
+                <span className={styles.slider}></span>
+              </label>
+            </CTableDataCell> */}
+
+            {/* Permissions Button */}
+            <CTableDataCell className='text-center'>
+              <button className={styles.select} onClick={() => navigate('/manage-permission')}>
+                Manage Permission
+              </button>
+            </CTableDataCell>
+          </CTableRow>
+        ))
+      ) : (
+        <CTableRow>
+          <CTableDataCell colSpan={5} className='text-center'>
+            No roles found
+          </CTableDataCell>
+        </CTableRow>
+      )}
+    </CTableBody>
+  </CTable>
+</div>
 
 
       

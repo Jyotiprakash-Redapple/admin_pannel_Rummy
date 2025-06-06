@@ -11,7 +11,7 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { AppSidebarNav } from './AppSidebarNav'
-import logo from 'src/assets/images/casino.webp';
+import logo from 'src/assets/images/rummy_fair.png';
 import { sideBarOpen, sideBarClose } from "../redux/slices/superAdminStateSlice";
 // sidebar nav config
 import navigation from './_nav'
@@ -34,7 +34,7 @@ const AppSidebar = () => {
       }}
     >
       <CSidebarHeader className="border-bottom" style={{ justifyContent: 'center', alignItems: 'center' }}>
-        <CSidebarBrand to={import.meta.env.VITE_APP_PLATFORM_ENVIROMENT == 'development' ? '/dashboard' : '/cl/dashboard'} >
+        <CSidebarBrand to={import.meta.env.VITE_APP_PLATFORM_ENVIROMENT == 'development' ? '/dashboard' : '/dashboard'} >
           <img src={logo} height={100} />
         </CSidebarBrand>
         <CCloseButton
