@@ -548,7 +548,7 @@ export default function PlayerList() {
 	console.log(playerFilter, "FILTER PLAYER");
 	const PlayerListDetails = () => {
 		let params = JSON.stringify({
-			kyc_status: playerFilter.kyc_status,
+		
 			search: playerFilter.search,
 
 			status: playerFilter.status,
@@ -588,7 +588,7 @@ export default function PlayerList() {
 		PlayerListDetails();
 	}, [
 		playerFilter.search,
-		playerFilter.kyc_status,
+	
 		playerFilter.page,
 		playerFilter.limit,
 		playerFilter.status,

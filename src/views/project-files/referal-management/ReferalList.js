@@ -164,7 +164,8 @@ const ReferralManagement = () => {
 									<CTableHeaderCell scope='col'>Player ID</CTableHeaderCell>
 									<CTableHeaderCell scope='col'>Username</CTableHeaderCell>
 									<CTableHeaderCell scope='col'>Total Referral</CTableHeaderCell>
-									<CTableHeaderCell scope='col'>Bonus Earn (Rs)</CTableHeaderCell>
+                  <CTableHeaderCell scope='col'>Bonus Earn (Rs)</CTableHeaderCell>
+                  <CTableHeaderCell scope='col'>Status</CTableHeaderCell>
 								</CTableRow>
 							</CTableHead>
 

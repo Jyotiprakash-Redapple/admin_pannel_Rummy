@@ -56,7 +56,7 @@ const _nav = [
   },
 
   {
-    component: CNavGroup,
+    component: CNavItem,
     name: 'Referral List',
     to: '/referral-list',
 
