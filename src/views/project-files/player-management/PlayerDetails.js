@@ -638,8 +638,11 @@ const Profile = () => {
 								{profile.player_kyc_bank_verified ? "Verified" : "Unverified"}
 							</CBadge>
 						</div>
-						{/* Profile Info Rows */}
-						<div className={styles.row}>
+							<div className={styles.row}>
+							<span>Player ID</span>
+							<span className={styles.value}>{profile?.player_id}</span>
+						</div>
+							<div className={styles.row}>
 							<span>Name</span>
 							<span className={styles.value}>{profile?.player_name}</span>
 						</div>
@@ -651,10 +654,56 @@ const Profile = () => {
 							<span>Mobile No</span>
 							<span className={styles.value}>{profile?.player_mobile}</span>
 						</div>
-						<div className={styles.row}>
-							<span>Player ID</span>
-							<span className={styles.value}>{profile?.player_id}</span>
+					
+<div className={styles.row}>
+							<span>Deposit Wallet</span>
+							<span className={styles.value}>{profile?.player_deposit_wallet || 0}</span>
 						</div>
+<div className={styles.row}>
+							<span>Win Wallet</span>
+							<span className={styles.value}>{profile?.player_win_wallet || 0}</span>
+						</div>
+						<div className={styles.row}>
+							<span>Bonus Wallet</span>
+							<span className={styles.value}>{profile?.player_bonus_wallet || 0}</span>
+						</div>
+						<div className={styles.row}>
+							<span>Total Wallet</span>
+							<span className={styles.value}>{profile?.player_total_wallet || 0}</span>
+						</div>
+
+						<div className={styles.row}>
+							<span>Referred Users</span>
+							<span className={styles.value}>{profile?.referred_users || 0}</span>
+						</div>
+
+						<div className={styles.row}>
+							<span>Total Deposit </span>
+							<span className={styles.value}>{profile?.total_deposit || 0}</span>
+						</div>
+	<div className={styles.row}>
+							<span>Total Withdrawal </span>
+							<span className={styles.value}>{profile?.total_withdraw || 0}</span>
+						</div>
+						<div className={styles.row}>
+							<span>Total Match </span>
+							<span className={styles.value}>{profile?.total_match || 0}</span>
+						</div>
+						
+						<div className={styles.row}>
+							<span>Total Win </span>
+							<span className={styles.value}>{profile?.total_win || 0}</span>
+						</div>
+						<div className={styles.row}>
+							<span>Total Loss</span>
+							<span className={styles.value}>{profile?.total_loss || 0}</span>
+						</div>
+						<div className={styles.row}>
+							<span>Win Count</span>
+							<span className={styles.value}>{profile?.win_count || 0}</span>
+						</div>
+						{/* Profile Info Rows */}
+					
 						{/* <div className={styles.row}>
           <span>Bank Verified</span>
           <span className={styles.value}>{profile?.bank_verified ? 'Yes' : 'No'}</span>
@@ -993,25 +1042,69 @@ total_available_balance
 				</div>
 				 <CModal visible={modalVisible} onClose={() => setModalVisible(false)} >
         <CModalHeader closeButton>Transaction Details</CModalHeader>
-        <CModalBody>
-          {selectedTxn && (
-            <>
-              <p><strong>Transaction ID:</strong> {selectedTxn.wallet_trnx_id}</p>
-              {/* <p><strong>Reference ID:</strong> {selectedTxn.reference_id}</p> */}
-              <p><strong>Deposit Amount:</strong> ₹{balanceRefactor(selectedTxn.wallet_trnx_deposit_amount)}</p>
-              <p><strong>Bonus Amount:</strong> ₹{balanceRefactor(selectedTxn.wallet_trnx_bonus_amount)}</p>
-              <p><strong>Withdrawable Amount:</strong> ₹{balanceRefactor(selectedTxn.wallet_trnx_withdrawable_amount)}</p>
-              <p><strong>Total Amount:</strong> ₹{balanceRefactor(selectedTxn.total_amount)}</p>
-              <p><strong>Available Bonus Balance:</strong> ₹{balanceRefactor(selectedTxn.wallet_trnx_available_bonus_balance)}</p>
-              <p><strong>Available Deposit Balance:</strong> ₹{balanceRefactor(selectedTxn.wallet_trnx_available_deposit_balance)}</p>
-								<p><strong>Available Withdrawable Balance:</strong> ₹{balanceRefactor(selectedTxn.wallet_trnx_available_withdrawable_balance)}</p>
-								  <p><strong>Type :</strong> {selectedTxn.wallet_trnx_type}</p>
-              <p><strong>Status:</strong> {selectedTxn.wallet_trnx_status}</p>
-              <p><strong>Date:</strong> {new Date(selectedTxn.wallet_trnx_date).toLocaleString()}</p>
-              <p><strong>Description:</strong> {selectedTxn.wallet_trnx_description}</p>
-            </>
-          )}
-        </CModalBody>
+      <CModalBody>
+  {selectedTxn && (
+    <div className="table-responsive">
+      <table className="table table-bordered table-striped">
+        <tbody>
+          <tr>
+            <th scope="row">Transaction ID</th>
+            <td>{selectedTxn.wallet_trnx_id}</td>
+          </tr>
+          {/* <tr>
+            <th scope="row">Reference ID</th>
+            <td>{selectedTxn.reference_id}</td>
+          </tr> */}
+          <tr>
+            <th scope="row">Deposit Amount</th>
+            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_deposit_amount)}</td>
+          </tr>
+          <tr>
+            <th scope="row">Bonus Amount</th>
+            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_bonus_amount)}</td>
+          </tr>
+          <tr>
+            <th scope="row">Withdrawable Amount</th>
+            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_withdrawable_amount)}</td>
+          </tr>
+          <tr>
+            <th scope="row">Total Amount</th>
+            <td>₹{balanceRefactor(selectedTxn.total_amount)}</td>
+          </tr>
+          <tr>
+            <th scope="row">Available Bonus Balance</th>
+            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_available_bonus_balance)}</td>
+          </tr>
+          <tr>
+            <th scope="row">Available Deposit Balance</th>
+            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_available_deposit_balance)}</td>
+          </tr>
+          <tr>
+            <th scope="row">Available Withdrawable Balance</th>
+            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_available_withdrawable_balance)}</td>
+          </tr>
+          <tr>
+            <th scope="row">Type</th>
+            <td>{selectedTxn.wallet_trnx_type}</td>
+          </tr>
+          <tr>
+            <th scope="row">Status</th>
+            <td>{selectedTxn.wallet_trnx_status}</td>
+          </tr>
+          <tr>
+            <th scope="row">Date</th>
+            <td>{new Date(selectedTxn.wallet_trnx_date).toLocaleString()}</td>
+          </tr>
+          <tr>
+            <th scope="row">Description</th>
+            <td>{selectedTxn.wallet_trnx_description}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  )}
+</CModalBody>
+
         <CModalFooter>
           <CButton color='secondary' onClick={() => setModalVisible(false)}>
             Close
@@ -1117,21 +1210,64 @@ total_available_balance
         <CModalHeader closeButton>Transaction Details</CModalHeader>
         <CModalBody>
           {selectedTxn && (
-            <>
-              <p><strong>Transaction ID:</strong> {selectedTxn.wallet_trnx_id}</p>
-              {/* <p><strong>Reference ID:</strong> {selectedTxn.reference_id}</p> */}
-              <p><strong>Deposit Amount:</strong> ₹{balanceRefactor(selectedTxn.wallet_trnx_deposit_amount)}</p>
-              <p><strong>Bonus Amount:</strong> ₹{balanceRefactor(selectedTxn.wallet_trnx_bonus_amount)}</p>
-              <p><strong>Withdrawable Amount:</strong> ₹{balanceRefactor(selectedTxn.wallet_trnx_withdrawable_amount)}</p>
-              <p><strong>Total Amount:</strong> ₹{balanceRefactor(selectedTxn.total_amount)}</p>
-              <p><strong>Available Bonus Balance:</strong> ₹{balanceRefactor(selectedTxn.wallet_trnx_available_bonus_balance)}</p>
-              <p><strong>Available Deposit Balance:</strong> ₹{balanceRefactor(selectedTxn.wallet_trnx_available_deposit_balance)}</p>
-								<p><strong>Available Withdrawable Balance:</strong> ₹{balanceRefactor(selectedTxn.wallet_trnx_available_withdrawable_balance)}</p>
-								 <p><strong>Type :</strong> {selectedTxn.wallet_trnx_type}</p>
-              <p><strong>Status:</strong> {selectedTxn.wallet_trnx_status}</p>
-              <p><strong>Date:</strong> {new Date(selectedTxn.wallet_trnx_date).toLocaleString()}</p>
-              <p><strong>Description:</strong> {selectedTxn.wallet_trnx_description}</p>
-            </>
+             <div className="table-responsive">
+      <table className="table table-bordered table-striped">
+        <tbody>
+          <tr>
+            <th scope="row">Transaction ID</th>
+            <td>{selectedTxn.wallet_trnx_id}</td>
+          </tr>
+          {/* <tr>
+            <th scope="row">Reference ID</th>
+            <td>{selectedTxn.reference_id}</td>
+          </tr> */}
+          <tr>
+            <th scope="row">Deposit Amount</th>
+            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_deposit_amount)}</td>
+          </tr>
+          <tr>
+            <th scope="row">Bonus Amount</th>
+            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_bonus_amount)}</td>
+          </tr>
+          <tr>
+            <th scope="row">Withdrawable Amount</th>
+            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_withdrawable_amount)}</td>
+          </tr>
+          <tr>
+            <th scope="row">Total Amount</th>
+            <td>₹{balanceRefactor(selectedTxn.total_amount)}</td>
+          </tr>
+          <tr>
+            <th scope="row">Available Bonus Balance</th>
+            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_available_bonus_balance)}</td>
+          </tr>
+          <tr>
+            <th scope="row">Available Deposit Balance</th>
+            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_available_deposit_balance)}</td>
+          </tr>
+          <tr>
+            <th scope="row">Available Withdrawable Balance</th>
+            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_available_withdrawable_balance)}</td>
+          </tr>
+          <tr>
+            <th scope="row">Type</th>
+            <td>{selectedTxn.wallet_trnx_type}</td>
+          </tr>
+          <tr>
+            <th scope="row">Status</th>
+            <td>{selectedTxn.wallet_trnx_status}</td>
+          </tr>
+          <tr>
+            <th scope="row">Date</th>
+            <td>{new Date(selectedTxn.wallet_trnx_date).toLocaleString()}</td>
+          </tr>
+          <tr>
+            <th scope="row">Description</th>
+            <td>{selectedTxn.wallet_trnx_description}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
           )}
         </CModalBody>
         <CModalFooter>
@@ -1218,21 +1354,64 @@ total_available_balance
         <CModalHeader closeButton>Transaction Details</CModalHeader>
         <CModalBody>
           {selectedTxn && (
-            <>
-              <p><strong>Transaction ID:</strong> {selectedTxn.wallet_trnx_id}</p>
-              {/* <p><strong>Reference ID:</strong> {selectedTxn.reference_id}</p> */}
-              <p><strong>Deposit Amount:</strong> ₹{balanceRefactor(selectedTxn.wallet_trnx_deposit_amount)}</p>
-              <p><strong>Bonus Amount:</strong> ₹{balanceRefactor(selectedTxn.wallet_trnx_bonus_amount)}</p>
-              <p><strong>Withdrawable Amount:</strong> ₹{balanceRefactor(selectedTxn.wallet_trnx_withdrawable_amount)}</p>
-              <p><strong>Total Amount:</strong> ₹{balanceRefactor(selectedTxn.total_amount)}</p>
-              <p><strong>Available Bonus Balance:</strong> ₹{balanceRefactor(selectedTxn.wallet_trnx_available_bonus_balance)}</p>
-              <p><strong>Available Deposit Balance:</strong> ₹{balanceRefactor(selectedTxn.wallet_trnx_available_deposit_balance)}</p>
-								<p><strong>Available Withdrawable Balance:</strong> ₹{balanceRefactor(selectedTxn.wallet_trnx_available_withdrawable_balance)}</p>
-								 <p><strong>Type :</strong> {selectedTxn.wallet_trnx_type}</p>
-              <p><strong>Status:</strong> {selectedTxn.wallet_trnx_status}</p>
-              <p><strong>Date:</strong> {new Date(selectedTxn.wallet_trnx_date).toLocaleString()}</p>
-              <p><strong>Description:</strong> {selectedTxn.wallet_trnx_description}</p>
-            </>
+           <div className="table-responsive">
+      <table className="table table-bordered table-striped">
+        <tbody>
+          <tr>
+            <th scope="row">Transaction ID</th>
+            <td>{selectedTxn.wallet_trnx_id}</td>
+          </tr>
+          {/* <tr>
+            <th scope="row">Reference ID</th>
+            <td>{selectedTxn.reference_id}</td>
+          </tr> */}
+          <tr>
+            <th scope="row">Deposit Amount</th>
+            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_deposit_amount)}</td>
+          </tr>
+          <tr>
+            <th scope="row">Bonus Amount</th>
+            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_bonus_amount)}</td>
+          </tr>
+          <tr>
+            <th scope="row">Withdrawable Amount</th>
+            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_withdrawable_amount)}</td>
+          </tr>
+          <tr>
+            <th scope="row">Total Amount</th>
+            <td>₹{balanceRefactor(selectedTxn.total_amount)}</td>
+          </tr>
+          <tr>
+            <th scope="row">Available Bonus Balance</th>
+            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_available_bonus_balance)}</td>
+          </tr>
+          <tr>
+            <th scope="row">Available Deposit Balance</th>
+            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_available_deposit_balance)}</td>
+          </tr>
+          <tr>
+            <th scope="row">Available Withdrawable Balance</th>
+            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_available_withdrawable_balance)}</td>
+          </tr>
+          <tr>
+            <th scope="row">Type</th>
+            <td>{selectedTxn.wallet_trnx_type}</td>
+          </tr>
+          <tr>
+            <th scope="row">Status</th>
+            <td>{selectedTxn.wallet_trnx_status}</td>
+          </tr>
+          <tr>
+            <th scope="row">Date</th>
+            <td>{new Date(selectedTxn.wallet_trnx_date).toLocaleString()}</td>
+          </tr>
+          <tr>
+            <th scope="row">Description</th>
+            <td>{selectedTxn.wallet_trnx_description}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
           )}
         </CModalBody>
         <CModalFooter>

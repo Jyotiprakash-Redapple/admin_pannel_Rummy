@@ -136,7 +136,7 @@ const [fromDate, setFromDate] = useState("");
       <div className="card shadow-lg rounded">
         <div className="card-body">
           <CCardHeader className="d-flex justify-content-between align-items-center">
-            <h5>GST Reports</h5>
+            <h5>TDS Reports</h5>
           </CCardHeader>
 
           {/* Search and Export */}
