@@ -57,16 +57,11 @@ const _nav = [
 
   {
     component: CNavGroup,
-    name: 'Referral Management',
+    name: 'Referral List',
     to: '/referral-list',
+
     icon: <CIcon icon={cilUserPlus} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'Referral List',
-        to: '/referral-list',
-      },
-    ],
+  
   },
 
   {
