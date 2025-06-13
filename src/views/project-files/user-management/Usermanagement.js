@@ -33,6 +33,8 @@ import { Constants, REGEX, ERROR_MESSAGE } from "../../../apis/Constant";
 import { setTimeout } from "core-js";
 
 
+
+
 const UserRoleManagement = () => {
   const [visible, setVisible] = useState(false);
   const token = useSelector((state) => state.user.token);
@@ -71,15 +73,15 @@ const UserRoleManagement = () => {
                   } else {
                       toast.error(res.message, {
                           position: 'bottom-right',
-                          autoClose: false,
+                        
                       });
                      
                   }
               })
               .catch((error) => {
-                  toast.error(error?.response?.message || 'unable to fetch role list', {
+                  toast.error(error?.response?.data?.message || 'unable to fetch role list', {
                       position: 'bottom-right',
-                      autoClose: false,
+             
                   });
   
               });
@@ -90,25 +92,25 @@ const UserRoleManagement = () => {
   
           Service.apiGetCallRequest(RouteURL.get_all_role_by_admin,token)
               .then((res) => {
-  
+        console.log(res.data.roles, "res.data.roles")
   
                   if (res.err === Constants.API_RESPONSE_STATUS_SUCCESS) {
   
-                      setAdminRole(res.data.roles)
+                      setAdminRole(res.data.roles.filter((r)=>r.role_id !== 1))
                      
   
                   } else {
                       toast.error(res.message, {
                           position: 'bottom-right',
-                          autoClose: false,
+               
                       });
                      
                   }
               })
               .catch((error) => {
-                  toast.error(error?.response?.message || 'unable to fetch role list', {
+                  toast.error(error?.response?.data?.message || 'unable to fetch role list', {
                       position: 'bottom-right',
-                      autoClose: false,
+         
                   });
   
               });
@@ -119,18 +121,21 @@ const UserRoleManagement = () => {
 
     
 
-   console.log(updateAdmin, "update admin")
+  
      let params = JSON.stringify({
        admin_id: updateAdmin.admin_id,
        role_id: updateAdmin.role_id,
-       contact: updateAdmin.contact,
-       email: updateAdmin.email,
-       username: updateAdmin.username,
-       password: updateAdmin.password,
+       contact: updateAdmin.admin_contact,
+       email: updateAdmin.
+admin_email
+,
+       username: updateAdmin.admin_username
+,
+       password: updateAdmin.admin_password,
        status: updateAdmin.admin_status,
        admin_name: updateAdmin.admin_name
       })
-
+ console.log(updateAdmin, "update admin", params)
         Service.apiPostCallRequest(RouteURL.update_admin, params, token)
           .then((res) => {
             setUpdateVisible(false)
@@ -139,14 +144,15 @@ const UserRoleManagement = () => {
             FetchRoleByAdmin()
               toast.success(res.message, {
                     position: 'bottom-right',
-                    autoClose: false,
+
               });
              //setUpdateAdmin({})
             })
-            .catch((error) => {
-                toast.error(error?.response?.message || 'unable to update role', {
+          .catch((error) => {
+              console.log(error, "error")
+                toast.error(error?.response?.data?.message || 'unable to update role', {
                     position: 'bottom-right',
-                    autoClose: false,
+              
                 });
 
             });
@@ -154,7 +160,6 @@ const UserRoleManagement = () => {
   const addAdminToServer = (e) => {
      e.preventDefault()
      let params = JSON.stringify({
-          admin_id: newAdmin.admin_id,
        role_id: newAdmin.role_id,
        contact: newAdmin.contact,
        email: newAdmin.email,
@@ -162,7 +167,9 @@ const UserRoleManagement = () => {
        password: newAdmin.password,
        status: "active",
        admin_name: newAdmin.admin_name
-        })
+     })
+    console.log(newAdmin)
+    
 
     
         Service.apiPostCallRequest(RouteURL.create_admin, params, token)
@@ -174,13 +181,14 @@ const UserRoleManagement = () => {
             setNewAdmin({})
               toast.success(res.message, {
                     position: 'bottom-right',
-                    autoClose: false,
+
                 });
             })
-            .catch((error) => {
-                toast.error(error?.response?.message || 'unable to add role', {
+          .catch((error) => {
+              console.log(error, "error====>")
+                toast.error(error?.response?.data?.message || 'unable to add role', {
                     position: 'bottom-right',
-                    autoClose: false,
+               
                 });
 
             });
@@ -194,10 +202,10 @@ const UserRoleManagement = () => {
      let params = JSON.stringify({
        admin_id: param.admin_id,
        role_id: param.role_id,
-       contact: param.contact,
-       email: param.email,
-       username: param.username,
-       password: param.password,
+       contact: param.admin_contact,
+       email: param.admin_email,
+       username: param.admin_username,
+       password: param.admin_password,
        status: param.admin_status,
        admin_name: param.admin_name
       })
@@ -210,19 +218,49 @@ const UserRoleManagement = () => {
             FetchRoleByAdmin()
               toast.success(res.message, {
                     position: 'bottom-right',
-                    autoClose: false,
+    
               });
             
             })
             .catch((error) => {
-                toast.error(error?.response?.message || 'unable to update role', {
+                toast.error(error?.response?.data?.message || 'unable to update role', {
                     position: 'bottom-right',
-                    autoClose: false,
+                   
                 });
 
             });
   }
+const DeleteAdminToServer = (param) => {
 
+
+    
+
+   console.log(param, "update admin status")
+     let params = JSON.stringify({
+       admin_id: param,
+       
+      })
+
+        Service.apiPostCallRequest(RouteURL.delete_admin, params, token)
+          .then((res) => {
+           
+            
+            FetchRoleListDetails()
+            FetchRoleByAdmin()
+              toast.success(res.message, {
+                    position: 'bottom-right',
+    
+              });
+            
+            })
+            .catch((error) => {
+                toast.error(error?.response?.data?.message || 'unable to update role', {
+                    position: 'bottom-right',
+                   
+                });
+
+            });
+  }
   
 
   //console.log(roleList, "roleList")
@@ -230,7 +268,7 @@ const UserRoleManagement = () => {
     FetchRoleListDetails();
     FetchRoleByAdmin()
   }, [])
-  console.log(updateAdmin, "update", AdminRole)
+  console.log(updateAdmin, "update", newAdmin)
   return (
     <div className={styles.container}>
        <ToastContainer />
@@ -257,13 +295,13 @@ const UserRoleManagement = () => {
   <CTable hover bordered responsive>
     <CTableHead className="table-primary text-center align-middle">
       <CTableRow>
-        <CTableHeaderCell scope="col">ACTION</CTableHeaderCell>
-        <CTableHeaderCell scope="col">ADMIN NAME</CTableHeaderCell>
-        <CTableHeaderCell scope="col">USERNAME</CTableHeaderCell>
-        <CTableHeaderCell scope="col">ROLE NAME</CTableHeaderCell>
-        <CTableHeaderCell scope="col">CONTACT</CTableHeaderCell>
-        <CTableHeaderCell scope="col">EMAIL</CTableHeaderCell>
-        <CTableHeaderCell scope="col">STATUS</CTableHeaderCell>
+        <CTableHeaderCell scope="col">Action</CTableHeaderCell>
+        <CTableHeaderCell scope="col">Admin Name</CTableHeaderCell>
+        <CTableHeaderCell scope="col">Username</CTableHeaderCell>
+        <CTableHeaderCell scope="col">Role Name</CTableHeaderCell>
+        <CTableHeaderCell scope="col">Contact</CTableHeaderCell>
+        <CTableHeaderCell scope="col">Email</CTableHeaderCell>
+        <CTableHeaderCell scope="col">Status</CTableHeaderCell>
       </CTableRow>
     </CTableHead>
 
@@ -273,17 +311,28 @@ const UserRoleManagement = () => {
           <CTableRow key={u.admin_id || index}>
             {/* ACTION buttons */}
             <CTableDataCell className="text-center">
-              <button className={styles.deleteBtn} onClick={() => {}}>
+              <button className={styles.deleteBtn} onClick={() => {
+                 DeleteAdminToServer(u.admin_id)  
+              }}>
                 <i className="fa fa-trash-o"></i>
               </button>
               <button
                 className={styles.editBtn}
                 onClick={() => {
+                  
+                
+                  setUpdateAdmin(() => {
+                    return {
+                      ...u, admin_password
+: ''
+                    }
+                    });
                   setUpdateVisible(true);
                   setVisible(false);
-                 
+                  
 
-                  setUpdateAdmin({ ...u, password: '' });
+
+             
                 }}>
                 <i className="fa fa-edit"></i>
               </button>
@@ -293,16 +342,18 @@ const UserRoleManagement = () => {
             <CTableDataCell className="text-center">{u.admin_name}</CTableDataCell>
 
             {/* USERNAME */}
-            <CTableDataCell className="text-center">{u.username}</CTableDataCell>
+            <CTableDataCell className="text-center">{u.
+admin_username
+}</CTableDataCell>
 
             {/* ROLE NAME */}
             <CTableDataCell className="text-center">{u.role_name}</CTableDataCell>
 
             {/* CONTACT */}
-            <CTableDataCell className="text-center">{u.contact}</CTableDataCell>
+            <CTableDataCell className="text-center">{u.admin_contact}</CTableDataCell>
 
             {/* EMAIL */}
-            <CTableDataCell className="text-center">{u.email}</CTableDataCell>
+            <CTableDataCell className="text-center">{u.admin_email}</CTableDataCell>
 
             {/* STATUS */}
             <CTableDataCell className="text-center">
@@ -311,7 +362,7 @@ const UserRoleManagement = () => {
                 console.log(admin_status, 'value');
                 UpdateAdminToServerByStatus({ ...u, admin_status })
               }} style={{cursor: 'pointer'}}>
-                          { u.admin_status === 'active' ? 'Active': 'InActive'}
+                          { u.admin_status === 'active' ? 'Active': 'Inactive'}
                         </CBadge>
               {/* <span
                 className={
@@ -340,7 +391,7 @@ const UserRoleManagement = () => {
       ) : (
         <CTableRow>
           <CTableDataCell colSpan={7} className="text-center">
-            No admins found
+            No data found
           </CTableDataCell>
         </CTableRow>
       )}
@@ -359,7 +410,7 @@ const UserRoleManagement = () => {
         <CForm>
           <div className="mb-3">
             <CFormLabel htmlFor="adminame">Admin Name *</CFormLabel>
-                <CFormInput type="text" id="admin_name" placeholder="Enter admin name" onChange={(e) => {
+                <CFormInput type="text" id="admin_name" placeholder="Enter admin name" value={newAdmin.admin_name} onChange={(e) => {
                   
                   setNewAdmin((prev) => {
                     return {
@@ -373,7 +424,7 @@ const UserRoleManagement = () => {
 
           <div className="mb-3">
             <CFormLabel htmlFor="role_name">Role *</CFormLabel>
-            <CFormSelect id="role" onChange={(e) => {
+                <CFormSelect value={newAdmin.role_id} id="role" onChange={(e) => {
                   
                   setNewAdmin((prev) => {
                     return {
@@ -393,7 +444,7 @@ const UserRoleManagement = () => {
 
           <div className="mb-3">
             <CFormLabel htmlFor="contact">Contact *</CFormLabel>
-            <CFormInput type="text" id="contact" placeholder="Enter contact number" onChange={(e) => {
+            <CFormInput value={newAdmin.contact} type="text" id="contact" placeholder="Enter contact number" onChange={(e) => {
                   
                   setNewAdmin((prev) => {
                     return {
@@ -416,12 +467,12 @@ const UserRoleManagement = () => {
                     }
                   })
                  
-                }}/>
+                }} value={newAdmin.email}/>
           </div>
 
           <div className="mb-3">
             <CFormLabel htmlFor="username">Username *</CFormLabel>
-            <CFormInput type="text" id="username" placeholder="Choose a username" nChange={(e) => {
+                <CFormInput value={ newAdmin.username}type="text" id="username" placeholder="Choose a username" onChange={(e) => {
                   
                   setNewAdmin((prev) => {
                     return {
@@ -435,7 +486,7 @@ const UserRoleManagement = () => {
 
           <div className="mb-3">
             <CFormLabel htmlFor="password">Password *</CFormLabel>
-            <CFormInput type="password" id="password" placeholder="Enter password" nChange={(e) => {
+            <CFormInput type="password" id="password" placeholder="Enter password" value={ newAdmin.password}onChange={(e) => {
                   
                   setNewAdmin((prev) => {
                     return {
@@ -447,7 +498,10 @@ const UserRoleManagement = () => {
                 }} />
           </div>
 
-          <CButton color="primary" type="submit" onClick={addAdminToServer }>Create Admin</CButton>
+              <CButton color="primary" type="submit" onClick={addAdminToServer}>Create Admin</CButton>
+              <CButton color='secondary' onClick={() => setVisible(false)} style={{marginInline: '7px'}}>
+                          Cancel
+                        </CButton>
         </CForm>
       </CCardBody>
     </CCard>
@@ -463,7 +517,8 @@ const UserRoleManagement = () => {
         <CForm>
           <div className="mb-3">
             <CFormLabel htmlFor="adminName">Admin Name *</CFormLabel>
-                <CFormInput type="text" id="admin_name" placeholder="Enter admin name" value={updateAdmin.admin_name} onChange={(e) => {
+                <CFormInput type="text" id="admin_name" placeholder="Enter admin name" value={updateAdmin.admin_name
+} onChange={(e) => {
                   setUpdateAdmin((prev) => {
                     return {
                       ...prev,
@@ -475,7 +530,9 @@ const UserRoleManagement = () => {
 
           <div className="mb-3">
             <CFormLabel htmlFor="role">Role *</CFormLabel>
-                <CFormSelect id="role_name" defaultValue={updateAdmin.role_id} onChange={(e) => {
+                <CFormSelect id="role_name" defaultValue={updateAdmin.role_id}
+                  value={updateAdmin.role_id}
+                  onChange={(e) => {
                   console.log(e.target.value, "TARGET")
                   setUpdateAdmin((prev) => {
                     return {
@@ -493,11 +550,15 @@ const UserRoleManagement = () => {
 
           <div className="mb-3">
             <CFormLabel htmlFor="contact">Contact *</CFormLabel>
-                <CFormInput type="text" id="contact" placeholder="Enter contact number" value={updateAdmin.contact} onChange={(e) => {
+                <CFormInput type="text" id="contact" placeholder="Enter contact number" value={updateAdmin.
+admin_contact
+} onChange={(e) => {
                   setUpdateAdmin((prev) => {
                     return {
                       ...prev,
-                      contact: e.target.value
+                      
+admin_contact
+: e.target.value
                     }
                   })
             }}/>
@@ -505,11 +566,12 @@ const UserRoleManagement = () => {
 
           <div className="mb-3">
             <CFormLabel htmlFor="email">Email *</CFormLabel>
-            <CFormInput type="email" id="email" placeholder="Enter email" value={updateAdmin.email} onChange={(e) => {
+            <CFormInput type="email" id="email" placeholder="Enter email" value={updateAdmin.admin_email} onChange={(e) => {
                   setUpdateAdmin((prev) => {
                     return {
                       ...prev,
-                      email: e.target.value
+                      admin_email
+: e.target.value
                     }
                   })
             }} />
@@ -517,11 +579,13 @@ const UserRoleManagement = () => {
 
           <div className="mb-3">
             <CFormLabel htmlFor="username">Username *</CFormLabel>
-            <CFormInput type="text" id="username" placeholder="Choose a username" value={updateAdmin.username} onChange={(e) => {
+            <CFormInput type="text" id="username" placeholder="Choose a username" value={updateAdmin.admin_username
+} onChange={(e) => {
                   setUpdateAdmin((prev) => {
                     return {
                       ...prev,
-                      username: e.target.value
+                      admin_username
+: e.target.value
                     }
                   })
             }}/>
@@ -529,17 +593,22 @@ const UserRoleManagement = () => {
 
           <div className="mb-3">
             <CFormLabel htmlFor="password">Password</CFormLabel>
-            <CFormInput type="password" id="password" placeholder="Enter password" value={updateAdmin.password} onChange={(e) => {
+            <CFormInput type="password" id="password" placeholder="Enter password" value={updateAdmin.admin_password
+} onChange={(e) => {
                   setUpdateAdmin((prev) => {
                     return {
                       ...prev,
-                      password: e.target.value
+                      admin_password
+: e.target.value
                     }
                   })
             }}/>
           </div>
 
-          <CButton color="primary" type="submit" onClick={UpdateAdminToServer}>Update Admin</CButton>
+              <CButton color="primary" type="submit" onClick={UpdateAdminToServer}>Update Admin</CButton>
+               <CButton color='secondary' onClick={() => setUpdateVisible(false)} style={{marginInline: '7px'}}>
+                          Cancel
+                        </CButton>
         </CForm>
       </CCardBody>
     </CCard>

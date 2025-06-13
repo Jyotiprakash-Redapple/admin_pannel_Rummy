@@ -14,7 +14,8 @@ import {
 	CDropdownMenu,
 	CDropdownItem,
 	CFormTextarea,
-	CCardHeader
+	CCardHeader,
+	CBadge 
 } from "@coreui/react";
 import {
 	CTable,
@@ -25,8 +26,8 @@ import {
 	CTableDataCell,
 	CTooltip,
 } from "@coreui/react";
-import { CButton } from '@coreui/react';
-import { cilSpreadsheet } from '@coreui/icons';
+import { CButton } from "@coreui/react";
+import { cilSpreadsheet } from "@coreui/icons";
 import { cilSearch } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import { useNavigate, Link } from "react-router-dom";
@@ -185,19 +186,17 @@ export default function PlayerList() {
 				} else {
 					toast.error(res.message, {
 						position: "bottom-right",
-						autoClose: false,
+
 					});
 				}
 			})
 			.catch((error) => {
 				toast.error(error.response.data.message, {
 					position: "bottom-right",
-					autoClose: false,
+					
 				});
 			});
 	};
-	
-
 
 	// const PlayerListDetails = () => {
 	//     let params = JSON.stringify({
@@ -288,7 +287,7 @@ export default function PlayerList() {
 			.catch((error) => {
 				toast.error(error.response.data.message, {
 					position: "bottom-right",
-					autoClose: false,
+				
 				});
 			});
 	};
@@ -345,7 +344,7 @@ export default function PlayerList() {
 			.catch((error) => {
 				toast.error(error.response.data.message, {
 					position: "bottom-right",
-					autoClose: false,
+	
 				});
 			});
 	};
@@ -451,14 +450,14 @@ export default function PlayerList() {
 				} else {
 					toast.error(res.message, {
 						position: "bottom-right",
-						autoClose: false,
+						
 					});
 				}
 			})
 			.catch((error) => {
 				toast.error(error.response.data.message, {
 					position: "bottom-right",
-					autoClose: false,
+	
 				});
 			});
 	};
@@ -474,7 +473,7 @@ export default function PlayerList() {
 				if (res.err === Constants.API_RESPONSE_STATUS_SUCCESS) {
 					toast.success(res.message, {
 						position: "bottom-right",
-						closeOnClick: true,
+						
 					});
 					AccountWiseCurrencyList();
 					setTransferBalanceData((prevState) => ({
@@ -488,14 +487,14 @@ export default function PlayerList() {
 				} else {
 					toast.error(res.message, {
 						position: "bottom-right",
-						closeOnClick: true,
+						
 					});
 				}
 			})
 			.catch((error) => {
 				toast.error(error.response.data.message, {
 					position: "bottom-right",
-					autoClose: false,
+				
 				});
 			});
 	};
@@ -587,7 +586,6 @@ export default function PlayerList() {
 
 	useEffect(() => {
 		PlayerListDetails();
-		
 	}, [
 		playerFilter.search,
 		playerFilter.kyc_status,
@@ -611,15 +609,13 @@ export default function PlayerList() {
 		<div>
 			<ToastContainer />
 			<div className='card shadow-lg rounded'>
-			
-				<div className="card-body">
-						<CCardHeader className="d-flex justify-content-between align-items-center">
-									<h5>Player List</h5>
-								
-								</CCardHeader>
-  {/* Header Row */}
-  {/* <div className="d-flex justify-content-between align-items-center mb-3"> */}
-    {/* <h3 className="hed_txt"></h3>
+				<div className='card-body'>
+					<CCardHeader className='d-flex justify-content-between align-items-center'>
+						<h5>Player List</h5>
+					</CCardHeader>
+					{/* Header Row */}
+					{/* <div className="d-flex justify-content-between align-items-center mb-3"> */}
+					{/* <h3 className="hed_txt"></h3>
     <div className="d-flex gap-2">
      
       {filterPLayerList.length > 0 && (
@@ -631,164 +627,193 @@ export default function PlayerList() {
     </div>
   </div> */}
 
-  {/* Filter Inputs */}
-  <div className="row mb-4">
-    <div className="col-md-3">
-      <label htmlFor="status_id" className="form-label">Status</label>
-      <select
-        className="form-select"
-        id="status_id"
-        value={playerFilter.status}
-        onChange={(e) => {
-          setPlayerFilter((prev) => ({
-            ...prev,
-            status: e.target.value,
-          }));
-        }}>
-        <option value="">Select Status</option>
-        {MasterData.Status.map((item, key) => (
-          <option
-            key={key}
-            value={item.value}
-            style={{ color: item.value === "active" ? "green" : "red" }}>
-            {item.label}
-          </option>
-        ))}
-      </select>
-    </div>
-
-    <div className="col-md-4">
-      <label htmlFor="search" className="form-label">Search</label>
-      <CInputGroup>
-        <CInputGroupText><CIcon icon={cilSearch} /></CInputGroupText>
-        <CFormInput
-          type="text"
-          placeholder="Search by Player"
-          id="search"
-          autoComplete="off"
-          value={playerFilter.search}
-          onChange={(e) => {
-            setPlayerFilter((prev) => ({
-              ...prev,
-              search: e.target.value,
-            }));
-          }}
-        />
-      </CInputGroup>
+					{/* Filter Inputs */}
+					<div className='row mb-4'>
+						<div className='col-md-3'>
+							<label htmlFor='status_id' className='form-label'>
+								Status
+							</label>
+							<select
+								className='form-select'
+								id='status_id'
+								value={playerFilter.status}
+								onChange={(e) => {
+									setPlayerFilter((prev) => ({
+										...prev,
+										status: e.target.value,
+									}));
+								}}>
+								<option value=''>Select Status</option>
+								{MasterData.Status.map((item, key) => (
+									<option
+										key={key}
+										value={item.value}
+										// style={{ color: item.value === "active" ? "green" : "red" }}
+									>
+										{item.label}
+									</option>
+								))}
+							</select>
 						</div>
-						<div className="col-md-5">
-							<label htmlFor="status_id" className="form-label" style={{
-								visibility: 'hidden'
-							}}>.</label>
-							<div className="input-group" style={{
-								justifyContent: 'flex-end'
-							}}> {filterPLayerList.length > 0 && (
+
+						<div className='col-md-4'>
+							<label htmlFor='search' className='form-label'>
+								Search
+							</label>
+							<CInputGroup>
+								<CInputGroupText>
+									<CIcon icon={cilSearch} />
+								</CInputGroupText>
+								<CFormInput
+									type='text'
+									placeholder='Search by Player'
+									id='search'
+									autoComplete='off'
+									value={playerFilter.search}
+									onChange={(e) => {
+										setPlayerFilter((prev) => ({
+											...prev,
+											search: e.target.value,
+										}));
+									}}
+								/>
+							</CInputGroup>
+						</div>
+						<div className='col-md-5'>
+							<label
+								htmlFor='status_id'
+								className='form-label'
+								style={{
+									visibility: "hidden",
+								}}>
+								.
+							</label>
+							<div
+								className='input-group'
+								style={{
+									justifyContent: "flex-end",
+								}}>
+								{" "}
+								{filterPLayerList.length > 0 && (
 									<>
-									{/* <CButton color="primary" size="sm">
+										{/* <CButton color="primary" size="sm">
   <CIcon icon={cilSpreadsheet} className="me-2" />
   Export
 										</CButton> */}
-										
-										<AllInOneExportButton data={filterPLayerList} filename={'player-list'}/>
+
+										<AllInOneExportButton data={filterPLayerList} filename={"player-list"} />
 									</>
-      )}</div>
-							
+								)}
+							</div>
 						</div>
-						
-  </div>
+					</div>
 
-  {/* Player Table */}
-  <div className="table-responsive">
-    <CTable hover bordered responsive>
-      <CTableHead className="table-primary text-center align-middle">
-        <CTableRow>
-          <CTableHeaderCell scope="col">Player ID</CTableHeaderCell>
-          <CTableHeaderCell scope="col">Display Name</CTableHeaderCell>
-          <CTableHeaderCell scope="col">Name</CTableHeaderCell>
-          <CTableHeaderCell scope="col">Profile Picture</CTableHeaderCell>
-          <CTableHeaderCell scope="col">Mobile No</CTableHeaderCell>
-          <CTableHeaderCell scope="col">Status</CTableHeaderCell>
-          <CTableHeaderCell scope="col">Last Login</CTableHeaderCell>
-        </CTableRow>
-      </CTableHead>
+					{/* Player Table */}
+					<div className='table-responsive'>
+						<CTable hover bordered responsive>
+							<CTableHead className='table-primary text-center align-middle'>
+								<CTableRow>
+									<CTableHeaderCell scope='col'>Player ID</CTableHeaderCell>
+									<CTableHeaderCell scope='col'>Display Name</CTableHeaderCell>
+									<CTableHeaderCell scope='col'>Name</CTableHeaderCell>
+									<CTableHeaderCell scope='col'>Profile Picture</CTableHeaderCell>
+									<CTableHeaderCell scope='col'>Mobile No</CTableHeaderCell>
+									<CTableHeaderCell scope='col'>Status</CTableHeaderCell>
+									<CTableHeaderCell scope='col'>Last Login</CTableHeaderCell>
+								</CTableRow>
+							</CTableHead>
 
-      <CTableBody>
-        {filterPLayerList.length > 0 ? (
-          filterPLayerList.map((data, key) => (
-            <CTableRow key={key}>
-              <CTableDataCell className="text-center">
-                <span
-                  className="me-2"
-                  style={{ color: state.copyText !== data.player_id ? "" : "#1b9e3e" }}>
-                  {data.player_id}
-                </span>
-                <CopyToClipboard text={data.player_id} onCopy={() => onCopy(data.player_id)}>
-                  <a href="#" style={{ color: state.copyText !== data.player_id ? "" : "#1b9e3e" }}>
-                    <CTooltip content="Copy ID">
-                      {state.copyText !== data.player_id ? (
-                        <i className="bi bi-copy" />
-                      ) : (
-                        <i className="bi bi-check-lg" style={{ color: "#1b9e3e" }} />
-                      )}
-                    </CTooltip>
-                  </a>
-                </CopyToClipboard>
-              </CTableDataCell>
+							<CTableBody>
+								{filterPLayerList.length > 0 ? (
+									filterPLayerList.map((data, key) => (
+										<CTableRow key={key}>
+											<CTableDataCell className='text-center'>
+												<span
+													className='me-2'
+													style={{ color: state.copyText !== data.player_id ? "" : "#1b9e3e" }}>
+													{data.player_id}
+												</span>
+												<CopyToClipboard text={data.player_id} onCopy={() => onCopy(data.player_id)}>
+													<a
+														href='#'
+														style={{ color: state.copyText !== data.player_id ? "" : "#1b9e3e" }}>
+														<CTooltip content='Copy ID'>
+															{state.copyText !== data.player_id ? (
+																<i className='bi bi-copy' />
+															) : (
+																<i className='bi bi-check-lg' style={{ color: "#1b9e3e" }} />
+															)}
+														</CTooltip>
+													</a>
+												</CopyToClipboard>
+											</CTableDataCell>
 
-              <CTableDataCell
-                style={{ color: "#5473ff", cursor: "pointer" }}
-                onClick={() =>
-                  navigate("/player-list/player-details", {
-                    state: { playerId: data.player_id },
-                  })
-                }>
-                {data.display_name}
-              </CTableDataCell>
+											<CTableDataCell
+												style={{ color: "#5473ff", cursor: "pointer" }}
+												onClick={() =>
+													navigate("/player-list/player-details", {
+														state: { playerId: data.player_id },
+													})
+												}>
+												{data.player_display_name
+}
+											</CTableDataCell>
 
-              <CTableDataCell>{data.name}</CTableDataCell>
-              <CTableDataCell style={{ textAlign: 'center' }}> <img
-													src={data?.profile  || 'https://cdn-icons-png.flaticon.com/512/1144/1144760.png'}
-								alt="Profile"
-								style={{
-									width: '25px',
-									height: '25px'
-								}}
+											<CTableDataCell>{data.player_name
+}</CTableDataCell>
+											<CTableDataCell style={{ textAlign: "center" }}>
+												{" "}
+												<img
+													src={data?.player_profile_picture_url || "https://cdn-icons-png.flaticon.com/512/1144/1144760.png"}
+													alt='Profile'
+													style={{
+														width: "25px",
+														height: "25px",
+													}}
 													// className={styles.profilePicture}
-												/> </CTableDataCell>
-              <CTableDataCell>{data.mobile_no}</CTableDataCell>
-              <CTableDataCell>{data.status
-  ? data.status.charAt(0).toUpperCase() + data.status.slice(1)
-  : ''}</CTableDataCell>
-              <CTableDataCell>{timeFormatter(data.last_login_timestamp)}</CTableDataCell>
-            </CTableRow>
-          ))
-        ) : (
-          <CTableRow>
-            <CTableDataCell colSpan={7} className="text-center">
-              No data found
-            </CTableDataCell>
-          </CTableRow>
-        )}
-      </CTableBody>
-    </CTable>
-  </div>
+												/>{" "}
+											</CTableDataCell>
+											<CTableDataCell>{data.player_mobile
+}</CTableDataCell>
+											<CTableDataCell>
 
-  {/* Pagination */}
-  {filterPLayerList.length > 0 && (
-    <div className="d-flex justify-content-center mt-4">
-      <Pagination
-        page={playerFilter.page}
-        totalPages={playerFilter.total}
-        onPageChange={(newPage) =>
-          setPlayerFilter((prev) => ({ ...prev, page: newPage }))
-        }
-      />
-    </div>
-  )}
-</div>
+												<CBadge color={data.player_status === 'active' ? 'success' : 'danger'}>
+																	{data.player_status
+ ? data.player_status
+.charAt(0).toUpperCase() + data.player_status
+.slice(1) : ""}
+												</CBadge>
+												
+												
+											</CTableDataCell>
+											<CTableDataCell>{data.lastlogin_ist
+}</CTableDataCell>
+										</CTableRow>
+									))
+								) : (
+									<CTableRow>
+										<CTableDataCell colSpan={7} className='text-center'>
+											No data found
+										</CTableDataCell>
+									</CTableRow>
+								)}
+							</CTableBody>
+						</CTable>
+					</div>
 
-
-
+					{/* Pagination */}
+					{filterPLayerList.length > 0 && (
+						<div className='d-flex justify-content-center mt-4'>
+							<Pagination
+								page={playerFilter.page}
+								totalPages={playerFilter.total}
+								onPageChange={(newPage) =>
+									setPlayerFilter((prev) => ({ ...prev, page: newPage }))
+								}
+							/>
+						</div>
+					)}
+				</div>
 			</div>
 
 			<Modal

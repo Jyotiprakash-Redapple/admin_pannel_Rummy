@@ -291,3 +291,6 @@ button.btn.btn-secondary.dropdown-toggle {
   white-space: nowrap;
   overflow: hidden;
 }
+.date_rng_piker{
+  position: absolute;
+}

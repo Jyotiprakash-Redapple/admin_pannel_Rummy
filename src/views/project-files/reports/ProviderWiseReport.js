@@ -257,7 +257,7 @@ export default function ProviderWiseReport() {
 
     return (<div >
         <ToastContainer />
-        <div className='card shadow-lg rounded' >
+        <div className='card shadow-lg rounded'>
             <div className='card-body'>
                 <h3 className="hed_txt pt-2">Provider Wise Report</h3>
 

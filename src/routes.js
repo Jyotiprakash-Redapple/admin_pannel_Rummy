@@ -1,3 +1,4 @@
+import { element } from 'prop-types'
 import React from 'react'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
@@ -63,8 +64,15 @@ const GamePlayTransaction = React.lazy(() => import('./views/project-files/Trans
 
 const AdminTransaction = React.lazy(() => import('./views/project-files/Transaction-management/AdminTransaction'))
 const AddCashTransaction = React.lazy(() => import('./views/project-files/Transaction-management/AddcashTransaction'))
+
+const TDSReport = React.lazy(() => import('./views/project-files/reports/TdsReport'))
+const GSTReport = React.lazy(() => import('./views/project-files/reports/GstReport'))
+const Revenue = React.lazy(() => import('./views/project-files/Revenue/RevenueSection'))
 const routes = [
   { path: '/', exact: true, name: 'Home' },
+  {path: '/revenue', name: 'Revenue', element: Revenue},
+  { path: '/tds-report', name: 'TDS Reports', element: TDSReport },
+  { path: '/gst-report', name: 'GST Reports', element: GSTReport },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/manage-permission', name: 'Manage Permission', element: Permission },
   { path: '/role-management', name: 'Dashboard', element: Rolelist },

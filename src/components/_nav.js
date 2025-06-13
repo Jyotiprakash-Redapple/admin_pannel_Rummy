@@ -72,15 +72,15 @@ const _nav = [
   {
     component: CNavGroup,
     name: 'Transaction Management',
-    to: '/game-play-transaction-list',
+    to: '/admin-transaction-list',
     icon: <CIcon icon={cilWallet} customClassName="nav-icon" />,
     items: [
-      {
-        component: CNavItem,
-        name: 'Game Play Transaction',
-        to: '/game-play-transaction-list',
-        // icon: <CIcon icon={cilGamepad} customClassName="nav-icon" />,
-      },
+      // {
+      //   component: CNavItem,
+      //   name: 'Game Play Transaction',
+      //   to: '/game-play-transaction-list',
+      //   // icon: <CIcon icon={cilGamepad} customClassName="nav-icon" />,
+      // },
       {
         component: CNavItem,
         name: 'Admin Transaction',
@@ -94,6 +94,32 @@ const _nav = [
         // icon: <CIcon icon={cilWallet} customClassName="nav-icon" />,
       },
     ],
+  },
+   {
+    component: CNavGroup,
+    name: 'Report Management',
+    to: '/tds-report',
+    icon: <CIcon icon={ cilBank} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'TDS',
+        to: '/tds-report',
+       
+      },
+     {
+        component: CNavItem,
+        name: 'GST',
+        to: '/gst-report',
+       
+      }
+    ],
+  }, {
+    component: CNavItem,
+    name: 'Revenue',
+    to: '/revenue',
+    icon: <CIcon icon={cilDollar} customClassName="nav-icon" />
+   
   },
 ]
 

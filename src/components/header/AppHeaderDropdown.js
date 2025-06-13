@@ -43,13 +43,15 @@ import Service from '../../apis/Service';
 import { Constants } from '../../apis/Constant';
 
 const defaultData = {
-  gst_percentage: 0,
-  bonus_percentage: 0,
-  min_threshold_for_gst: 0,
-  if_gst_bonus: false,
-  tds_percentage: 0,
-  min_withdraw_amount: 0,
-  platform_fees: 0,
+cfg_bonus_percentage: 50,
+cfg_gst_percentage: 28,
+cfg_gst_transfer_to_bonus: true,
+cfg_id: 1,
+cfg_min_withdraw_amount: 0,
+cfg_platform_fees_percentage: 0,
+cfg_tds_percentage: 0,
+cfg_tds_threshold_amount: 0,
+cfg_tds_transfer_to_bonus: true
 };
 
 const TaxConfigModal = ({ visible, onClose }) => {
@@ -70,7 +72,7 @@ const TaxConfigModal = ({ visible, onClose }) => {
           console.log(res, "tax-confif");
           if (res.err === Constants.API_RESPONSE_STATUS_SUCCESS) {
             if (res.data) {
-              setFormData(res.data)
+              setFormData(res.data.data)
             }
            //setFormData()
           } else {
@@ -95,14 +97,23 @@ const TaxConfigModal = ({ visible, onClose }) => {
 
   const handleChange = (e) => {
     const { name, value, type: inputType, checked } = e.target;
-    setFormData((prev) => ({
+    if (name == 'cfg_gst_transfer_to_bonus' || name == 'cfg_tds_transfer_to_bonus') {
+      setFormData((prev) => ({
       ...prev,
-      [name]: inputType === 'checkbox' ? (checked ? 1 : 0) : parseInt(value)
+      [name]:  checked ? true : false
+    }))
+    } else {
+      setFormData((prev) => ({
+      ...prev,
+      [name]: parseInt(value)
     }));
+    }
+    
   };
 
   const handleSubmit = () => {
-   
+
+
       Service.apiPostCallRequest(
         RouteURL.tax_config,
         { type: 'set', ...formData},
@@ -130,7 +141,7 @@ const TaxConfigModal = ({ visible, onClose }) => {
           });
         });
   };
-
+console.log(formData, "hello=============>")
   return (
     <CModal visible={visible} onClose={onClose}>
       <ToastContainer/>
@@ -141,61 +152,61 @@ const TaxConfigModal = ({ visible, onClose }) => {
         <CForm>
           <CRow className="g-3">
             <CCol md={6}>
-              <CFormLabel htmlFor="gst_percentage">GST %</CFormLabel>
+              <CFormLabel htmlFor="cfg_gst_percentage">GST %</CFormLabel>
               <CFormInput
                 type="number"
-                name="gst_percentage"
-                value={formData.gst_percentage}
+                name="cfg_gst_percentage"
+                value={formData.cfg_gst_percentage}
                 onChange={handleChange}
                 // disabled={type === 'get'}
               />
             </CCol>
             <CCol md={6}>
-              <CFormLabel htmlFor="bonus_percentage">Bonus %</CFormLabel>
+              <CFormLabel htmlFor="cfg_bonus_percentage">Bonus %</CFormLabel>
               <CFormInput
                 type="number"
-                name="bonus_percentage"
-                value={formData.bonus_percentage}
+                name="cfg_bonus_percentage"
+                value={formData.cfg_bonus_percentage}
                 onChange={handleChange}
                 // disabled={type === 'get'}
               />
             </CCol>
             <CCol md={6}>
-              <CFormLabel htmlFor="min_threshold_for_gst">Min Threshold for GST %</CFormLabel>
+              <CFormLabel htmlFor="cfg_tds_threshold_amount">Min Threshold for TDS %</CFormLabel>
               <CFormInput
                 type="number"
-                name="min_threshold_for_gst"
-                value={formData.min_threshold_for_gst}
+                name="cfg_tds_threshold_amount"
+                value={formData.cfg_tds_threshold_amount}
                 onChange={handleChange}
                 // disabled={type === 'get'}
               />
             </CCol>
             <CCol md={6}>
-              <CFormLabel htmlFor="tds_percentage">TDS %</CFormLabel>
+              <CFormLabel htmlFor="cfg_tds_percentage">TDS %</CFormLabel>
               <CFormInput
                 type="number"
-                name="tds_percentage"
-                value={formData.tds_percentage}
+                name="cfg_tds_percentage"
+                value={formData.cfg_tds_percentage}
                 onChange={handleChange}
                 // disabled={type === 'get'}
               />
             </CCol>
             <CCol md={6}>
-              <CFormLabel htmlFor="min_withdraw_amount">Min Withdraw Amount %</CFormLabel>
+              <CFormLabel htmlFor="cfg_min_withdraw_amount">Min Withdraw Amount %</CFormLabel>
               <CFormInput
                 type="number"
-                name="min_withdraw_amount"
-                value={formData.min_withdraw_amount}
+                name="cfg_min_withdraw_amount"
+                value={formData.cfg_min_withdraw_amount}
                 onChange={handleChange}
                 // disabled={type === 'get'}
               />
             </CCol>
             <CCol md={6}>
-              <CFormLabel htmlFor="platform_fees">Platform Fees %</CFormLabel>
+              <CFormLabel htmlFor="cfg_platform_fees_percentage">Platform Fees %</CFormLabel>
               <CFormInput
                 type="number"
-                name="platform_fees"
-                value={formData.platform_fees}
+                name="cfg_platform_fees_percentage"
+                value={formData.cfg_platform_fees_percentage}
                 onChange={handleChange}
                 // disabled={type === 'get'}
               />
@@ -203,8 +214,16 @@ const TaxConfigModal = ({ visible, onClose }) => {
             <CCol md={6}>
               <CFormCheck
                 label="Apply GST on Bonus"
-                name="if_gst_bonus"
-                checked={formData.if_gst_bonus}
+                name="cfg_gst_transfer_to_bonus"
+                checked={formData.cfg_gst_transfer_to_bonus}
+                onChange={handleChange}
+                // disabled={type === 'get'}
+              />
+
+               <CFormCheck
+                label="Apply TDS on Bonus"
+                name="cfg_tds_transfer_to_bonus"
+                checked={formData.cfg_tds_transfer_to_bonus}
                 onChange={handleChange}
                 // disabled={type === 'get'}
               />

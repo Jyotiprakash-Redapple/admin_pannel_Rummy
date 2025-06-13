@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   CCard,
   CCardHeader,
@@ -19,7 +19,10 @@ import CIcon from '@coreui/icons-react';
 import AllInOneExportButton from '../../../components/AllInOneExportButton';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { ToastContainer, toast } from 'react-toastify';
-
+import Service from "../../../apis/Service";
+import RouteURL from "../../../apis/ApiURL";
+import { useSelector } from 'react-redux';
+import { Constants, REGEX, ERROR_MESSAGE } from "../../../apis/Constant";
 // Demo Data
 export const transactionData = [
   {
@@ -46,21 +49,28 @@ export const transactionData = [
   }
   // Add more demo rows as needed...
 ];
+function balanceRefactor(b) {
+		return b / 100;
+	}
 
 const AddCashTransactionManagement = () => {
+    const token = useSelector((state) => state.user.token);
   const [search, setSearch] = useState('');
   const [copied, setCopied] = useState('');
-  const [transaction, setTransaction] = useState([...transactionData]);
+  const [transaction, setTransaction] = useState([]);
   const [limit, setLimit] = useState(10);
   const [isLoadMoreInActive, setIsLoadMoreInActive] = useState(true);
-
+const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
   const onCopy = (id) => {
     setCopied(id);
     toast.success('Order ID copied to clipboard!');
   };
 
   const filteredTransactionData = transaction.filter((item) =>
-    item.username.toLowerCase().includes(search.toLowerCase())
+     Object.values(item).some((value) =>
+    String(value).toLowerCase().includes(search.toLowerCase())
+  )
   );
 
   const handleLoadMore = () => {
@@ -69,6 +79,40 @@ const AddCashTransactionManagement = () => {
       setIsLoadMoreInActive(true);
     }
   };
+
+  const fetchAddCashTransaction = () => {
+    let params = {
+      player_id: "",
+			from_date: fromDate,
+			to_date: toDate,
+			page: 1,
+			limit: limit,
+		};
+		Service.apiPostCallRequest(RouteURL.add_cash_account_statement, params, token)
+			.then((res) => {
+				console.log(res, "transaction add cash transaction");
+				if (res.err === Constants.API_RESPONSE_STATUS_SUCCESS) {
+					if (res.data.total == res.data.transactions.length) {
+						setIsLoadMoreInActive(true);
+					}
+					setTransaction(res.data.transactions);
+				} else {
+					toast.error(res.data.message, {
+						position: "bottom-right",
+						closeOnClick: true,
+					});
+				}
+			})
+			.catch((error) => {
+				toast.error(error.response.data.message, {
+					position: "bottom-right",
+				});
+			});
+    };
+  
+  useEffect(() => {
+    fetchAddCashTransaction()
+  },[limit])
 
   return (
     <CCard className="mt-4">
@@ -81,7 +125,7 @@ const AddCashTransactionManagement = () => {
 
           {/* Search and Export */}
           <div className="row mb-4">
-            <div className="col-md-6">
+            <div className="col-md-3">
               <label htmlFor="search" className="form-label">Search</label>
               <CInputGroup>
                 <CInputGroupText>
@@ -89,13 +133,15 @@ const AddCashTransactionManagement = () => {
                 </CInputGroupText>
                 <CFormInput
                   type="text"
-                  placeholder="Search by username..."
+                  placeholder="Search..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
               </CInputGroup>
             </div>
-            <div className="col-md-6 d-flex justify-content-end align-items-end">
+            <div className='col-md-3'></div>
+            <div className='col-md-3'></div>
+            <div className="col-md-3 d-flex justify-content-end align-items-end">
               <AllInOneExportButton
                 data={filteredTransactionData}
                 filename="add-cash-transaction-list"
@@ -107,64 +153,68 @@ const AddCashTransactionManagement = () => {
           <div className="table-responsive">
             <CTable hover bordered responsive>
               <CTableHead className="table-primary text-center align-middle">
-                <CTableRow>
-                  <CTableHeaderCell>Order ID</CTableHeaderCell>
-                  <CTableHeaderCell>Username</CTableHeaderCell>
-                  <CTableHeaderCell>Txn Amount (Rs)</CTableHeaderCell>
-                  <CTableHeaderCell>GST (Rs)</CTableHeaderCell>
-                  <CTableHeaderCell>Main Wallet (Rs)</CTableHeaderCell>
-                  <CTableHeaderCell>Date</CTableHeaderCell>
-                  <CTableHeaderCell>Type</CTableHeaderCell>
-                  <CTableHeaderCell>Remark</CTableHeaderCell>
-                  <CTableHeaderCell>Status</CTableHeaderCell>
-                </CTableRow>
+                           <CTableRow>
+                            <CTableHeaderCell>Transaction ID</CTableHeaderCell>
+                            {/* <CTableHeaderCell>Reference ID</CTableHeaderCell> */}
+                            <CTableHeaderCell>Deposit</CTableHeaderCell>
+                            <CTableHeaderCell>Bonus</CTableHeaderCell>
+                            <CTableHeaderCell>Withdrawable</CTableHeaderCell>
+                            <CTableHeaderCell>Total</CTableHeaderCell>
+               
+                            <CTableHeaderCell scope='col'>Available Bonus Balance</CTableHeaderCell>
+                            <CTableHeaderCell scope='col'>Available Deposit Balance</CTableHeaderCell>
+                            <CTableHeaderCell scope='col'>Available Withdrawable Balance</CTableHeaderCell>
+               
+                            {/* <CTableHeaderCell>Action</CTableHeaderCell> */}
+                            {/* <CTableHeaderCell>Type</CTableHeaderCell> */}
+                            <CTableHeaderCell>Status</CTableHeaderCell>
+                            <CTableHeaderCell>Date</CTableHeaderCell>
+                            <CTableHeaderCell>Description</CTableHeaderCell>
+                          </CTableRow>
               </CTableHead>
               <CTableBody>
                 {filteredTransactionData.length > 0 ? (
-                  filteredTransactionData.slice(0, limit).map((item, index) => (
+                  filteredTransactionData.slice(0, limit).map((txn, index) => (
                     <>
-                      <CTableRow key={index}>
-                        <CTableDataCell>
-                          <span style={{ color: copied !== item.id ? "" : "#1b9e3e" }}>
-                            {item.id}
-                          </span>
-                          <CopyToClipboard text={item.id} onCopy={() => onCopy(item.id)}>
-                            <a href="#" style={{ marginLeft: '5px', color: copied !== item.id ? "" : "#1b9e3e" }}>
-                              <CTooltip content="Copy Order ID">
-                                {copied !== item.id ? (
-                                  <i className="bi bi-copy" />
-                                ) : (
-                                  <i className="bi bi-check-lg" />
-                                )}
-                              </CTooltip>
-                            </a>
-                          </CopyToClipboard>
+                      <CTableRow key={txn.wallet_trnx_id}>
+                          <CTableDataCell>
+                                                  <span style={{ color: copied !== txn.wallet_trnx_id ? "" : "#1b9e3e" }}>{txn.wallet_trnx_id}</span>
+                                                  <CopyToClipboard text={txn.wallet_trnx_id} onCopy={() => onCopy(txn.wallet_trnx_id)}>
+                                                    <a
+                                                      href='#'
+                                                      style={{ marginLeft: "5px", color: copied !== txn.wallet_trnx_id ? "" : "#1b9e3e" }}>
+                                                      <CTooltip content='Copy Order ID'>
+                                                        {copied !== txn.wallet_trnx_id ? (
+                                                          <i className='bi bi-copy' />
+                                                        ) : (
+                                                          <i className='bi bi-check-lg' />
+                                                        )}
+                                                      </CTooltip>
+                                                    </a>
+                                                  </CopyToClipboard>
                         </CTableDataCell>
-                        <CTableDataCell>{item.username}</CTableDataCell>
-                        <CTableDataCell>{item.txnAmount}</CTableDataCell>
-                        <CTableDataCell>{item.gst.toFixed(2)}</CTableDataCell>
-                        <CTableDataCell>
-                          <CButton
-                            size="sm"
-                            color="success"
-                            style={{ pointerEvents: 'none' }}
-                          >
-                            {item.mainWallet.toFixed(2)}
-                          </CButton>
-                        </CTableDataCell>
-                        <CTableDataCell>{item.date}</CTableDataCell>
-                        <CTableDataCell>{item.type}</CTableDataCell>
-                        <CTableDataCell>{item.remark}</CTableDataCell>
-                        <CTableDataCell>
-                          <CButton
-                            size="sm"
-                            color={item.status === 'Success' ? 'success' : 'danger'}
-                            style={{ pointerEvents: 'none' }}
-                          >
-                            {item.status}
-                          </CButton>
-                        </CTableDataCell>
-                      </CTableRow>
+                        
+                                
+                                    {/* <CTableDataCell>{txn.reference_id}</CTableDataCell> */}
+                                    <CTableDataCell>₹{balanceRefactor(txn.wallet_trnx_deposit_amount)}</CTableDataCell>
+                                    <CTableDataCell>₹{balanceRefactor(txn.wallet_trnx_bonus_amount)}</CTableDataCell>
+                                    <CTableDataCell>₹{balanceRefactor(txn.wallet_trnx_withdrawable_amount)}</CTableDataCell>
+                                    <CTableDataCell>₹{balanceRefactor(txn.total_amount)}</CTableDataCell>
+                                    <CTableDataCell>₹{balanceRefactor(txn.wallet_trnx_available_bonus_balance)}</CTableDataCell>
+                                    <CTableDataCell>
+                                      ₹{balanceRefactor(txn.wallet_trnx_available_deposit_balance)}
+                                    </CTableDataCell>
+                                    <CTableDataCell>
+                                      ₹{balanceRefactor(txn.wallet_trnx_available_withdrawable_balance)}
+                                    </CTableDataCell>
+                                    {/* <CTableDataCell>{txn?.wallet_trnx_action || "TFB"}</CTableDataCell> */}
+                                    {/* <CTableDataCell>{txn.transaction_type}</CTableDataCell> */}
+                                    <CTableDataCell>{txn.wallet_trnx_status}</CTableDataCell>
+                                    <CTableDataCell>
+                                      {new Date(txn.wallet_trnx_date).toLocaleString()}
+                                    </CTableDataCell>
+                                    <CTableDataCell>{txn.wallet_trnx_description}</CTableDataCell>
+                                  </CTableRow>
                       {index === limit - 1 && filteredTransactionData.length > limit && (
                         <CTableRow>
                           <CTableDataCell colSpan="100%" className="text-center">

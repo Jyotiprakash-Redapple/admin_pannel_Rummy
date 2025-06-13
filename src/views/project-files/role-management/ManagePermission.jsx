@@ -90,7 +90,7 @@ const ManagePermission = () => {
                     <td><input type="checkbox" className={styles.checkbox} checked={item.permissions.reset} onChange={() => handleCheckbox(item.nav, 'reset')} /> reset password</td>
                   </>
                 ) : (
-                  <td colSpan={4}></td>
+                  <td colSpan={4}>No data found</td>
                 )}
               </tr>
               {item.children && item.expanded && item.children.map((child, childIndex) => (

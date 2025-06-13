@@ -3,8 +3,6 @@ const RouteURL = {
     webMode: `local`,
     // webMode: `production`,
     version: "V 3.43",
-
-
     login_api: "/admin/login",
     get_all_role: "/admin/get-all-role",
     add_role: "/admin/add-role",
@@ -12,6 +10,7 @@ const RouteURL = {
     delete_role: "/admin/delete-role",
     update_admin: "/admin/update-admin",
     create_admin: "/admin/create-admin",
+    delete_admin: "/admin/delete-admin",
     get_all_role_by_admin: "/admin/get-all-role-by-admin",
     get_all_menu: "/admin/get-all-menu",
     get_filter_player_list: "/admin/get-filter-player-list",
@@ -19,6 +18,10 @@ const RouteURL = {
     get_account_statement: "/admin/get-account-statement",
     add_cash_account_statement: "/admin/add-cash-account-statement",
     bonus_account_statement: "/admin/bonus-account-statement",
+    update_player_money: "/admin/update-player-money",
+    get_admin_transaction: "/admin/get-admin-transaction",
+    update_player_status: "/admin/update-player-status",
+    admin_report_management: "/admin/report",
     tax_config: "/admin/tax-config",
     verifyLoginOtp: "/client/verify-otp",
     forgotPassword: "/client/forget-password-generate-otp",
@@ -41,8 +44,6 @@ const RouteURL = {
     updatePlayer: "client/update-player",
     deletePlayer: "client/delete-player",
     allPlayerList: "client/list-player",
-    updatePlayerStatus: "client/player-status-update",
-
     addClientAccount: "/client/add-account",
     UpdateClientAccount: "/client/update-account",
     clientDetails: "client/client-details",
