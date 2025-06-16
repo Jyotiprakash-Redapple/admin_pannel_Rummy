@@ -23,6 +23,7 @@ const RouteURL = {
     update_player_status: "/admin/update-player-status",
     admin_report_management: "/admin/report",
     player_filter_list: "/admin/player-referral-list",
+    admin_revenue: "admin/admin-revenue",
     tax_config: "/admin/tax-config",
     verifyLoginOtp: "/client/verify-otp",
     forgotPassword: "/client/forget-password-generate-otp",

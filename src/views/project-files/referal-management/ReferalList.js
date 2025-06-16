@@ -77,7 +77,7 @@ const ReferralManagement = () => {
 				if (res.err === Constants.API_RESPONSE_STATUS_SUCCESS) {
           setList(res.data?.referallist
 );
-          setTotal(res.data.total)
+          setTotal(res.data.totalPages)
 				} else {
 					toast.error(res.message, {
 						position: "bottom-right",
@@ -107,7 +107,7 @@ const ReferralManagement = () => {
 
 					{/* Filter Inputs */}
 					<div className='row mb-4'>
-						<div className='col-md-6'>
+						<div className='col-md-4'>
 							<label htmlFor='search' className='form-label'>
 								Search
 							</label>
@@ -127,7 +127,7 @@ const ReferralManagement = () => {
 								/>
 							</CInputGroup>
 						</div>
-						<div className='col-md-6'>
+						<div className='col-md-7'>
 							<label
 								htmlFor='status_id'
 								className='form-label'
@@ -159,13 +159,13 @@ const ReferralManagement = () => {
 					{/* Player Table */}
 					<div className='table-responsive'>
 						<CTable hover bordered responsive>
-							<CTableHead className='table-primary text-center align-middle'>
+							<CTableHead className='table-primary text-center '>
 								<CTableRow>
 									<CTableHeaderCell scope='col'>Player ID</CTableHeaderCell>
 									<CTableHeaderCell scope='col'>Username</CTableHeaderCell>
 									<CTableHeaderCell scope='col'>Total Referral</CTableHeaderCell>
                   <CTableHeaderCell scope='col'>Bonus Earn (Rs)</CTableHeaderCell>
-                  <CTableHeaderCell scope='col'>Status</CTableHeaderCell>
+                  {/* <CTableHeaderCell scope='col'>Status</CTableHeaderCell> */}
 								</CTableRow>
 							</CTableHead>
 
@@ -195,16 +195,16 @@ const ReferralManagement = () => {
 											</CTableDataCell>
 
 											<CTableDataCell>{data.player_display_name}</CTableDataCell>
-											<CTableDataCell>{data.reffercount}</CTableDataCell>
+											<CTableDataCell>{data?.reffercount || 0}</CTableDataCell>
 
-											<CTableDataCell>{data.referalbonus}</CTableDataCell>
-											<CTableDataCell>
+											<CTableDataCell>{data?.referalbonus || 0}</CTableDataCell>
+											{/* <CTableDataCell>
 												<CBadge color={data.player_status === "active" ? "success" : "danger"}>
 													{data.player_status
 														? data.player_status.charAt(0).toUpperCase() + data.player_status.slice(1)
 														: ""}
 												</CBadge>
-											</CTableDataCell>
+											</CTableDataCell> */}
 										</CTableRow>
 									))
 								) : (

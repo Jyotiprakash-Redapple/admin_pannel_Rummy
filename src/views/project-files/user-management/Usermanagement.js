@@ -605,7 +605,7 @@ admin_contact
             }}/>
           </div>
 
-              <CButton color="primary" type="submit" onClick={UpdateAdminToServer}>Update Admin</CButton>
+              <CButton color="primary" type="submit" onClick={UpdateAdminToServer}>Submit</CButton>
                <CButton color='secondary' onClick={() => setUpdateVisible(false)} style={{marginInline: '7px'}}>
                           Cancel
                         </CButton>

@@ -92,7 +92,9 @@ const TaxConfigModal = ({ visible, onClose }) => {
 
   
   useEffect(() => {
-   PlayerDetails()
+    if (token) {
+      PlayerDetails()
+    }
   }, [ ]);
 
   const handleChange = (e) => {
@@ -251,8 +253,12 @@ const AppHeaderDropdown = () => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = (e) => { e.preventDefault(); setShow(true); }
-const [taxConfigModal, setTaxConfigModal]=useState(false)
+  const handleShow = (e) => {
+    e.preventDefault();
+    setShow(true);
+  }
+  const [taxConfigModal, setTaxConfigModal]=useState(false)
+  
   // const IsLogoutConfirmed = (e) => {
   //   e.preventDefault();
   //   Swal.fire({

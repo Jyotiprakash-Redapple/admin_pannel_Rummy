@@ -16,13 +16,91 @@ import {  CCard,
   CTooltip, CCardBody, CCardTitle, CRow, CCol } from '@coreui/react';
 import { cilArrowTop, cilCalendar, cilCloudDownload } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
-import { ToastContainer, toast } from 'react-toastify';
 import { cilSearch } from '@coreui/icons';
 import { useSelector, useDispatch } from 'react-redux';
+import Service from "../../../apis/Service";
+import RouteURL from "../../../apis/ApiURL";
+import { Constants } from "../../../apis/Constant";
+import { ToastContainer, toast } from "react-toastify";
+const today = new Date()
+const toDateStr = today.toISOString().split('T')[0]
+
+// Create fromDate by subtracting 30 days
+const fromDateObj = new Date()
+fromDateObj.setDate(today.getDate() - 30)
+const fromDateStr = fromDateObj.toISOString().split('T')[0]
+
 const RevenueSection = () => {
   const token = useSelector((state) => state.user.token);
-  const [fromDate, setFromDate] = useState("");
-    const [toDate, setToDate] = useState("");
+  const [fromDate, setFromDate] = useState(fromDateStr);
+  const [toDate, setToDate] = useState(toDateStr);
+  const [revenueDeposit, setRevenueDeposit] = useState([]);
+  const [totalRevenueDeposit, setTotalRevenueDeposit] = useState(0);
+  const [revenueWithdraw, setRevenueWithDraw] = useState([]);
+  const [totalRevenueWithDraw, setTotalRevenueWithDraw] = useState(0);
+    const playerExportDeposit = () => {
+      let params = JSON.stringify({
+    from_date : fromDate,
+    to_date : toDate,
+    export_deposit: true,
+    export_withdrawn: false
+      });
+  
+      Service.apiPostCallRequest(RouteURL.admin_revenue, params, token)
+        .then((res) => {
+          console.log(res, "filter playerExportDeposit List");
+          if (res.err === Constants.API_RESPONSE_STATUS_SUCCESS) {
+       
+            setTotalRevenueDeposit(res.data.revenuedata.total_deposit);
+            setRevenueDeposit(res.data.revenuedatadeposit)
+            
+          } else {
+            toast.error(res.message, {
+              position: "bottom-right",
+              closeOnClick: true,
+            });
+          }
+        })
+        .catch((error) => {
+          toast.error(error.response.data.message, {
+            position: "bottom-right",
+          });
+        });
+    };
+    const playerExportWithDraw = () => {
+      let params = JSON.stringify({
+    from_date : fromDate,
+    to_date : toDate,
+    export_deposit:false,
+    export_withdrawn:true
+      });
+  
+      Service.apiPostCallRequest(RouteURL.admin_revenue, params, token)
+        .then((res) => {
+          console.log(res, "filter playerExportWithDraw List");
+          if (res.err === Constants.API_RESPONSE_STATUS_SUCCESS) {
+              setTotalRevenueWithDraw(res.data.revenuedata.total_withdrawn);
+            setRevenueWithDraw(res.data.revenuedatawidhdrwan
+)
+          } else {
+            toast.error(res.message, {
+              position: "bottom-right",
+              closeOnClick: true,
+            });
+          }
+        })
+        .catch((error) => {
+          toast.error(error.response.data.message, {
+            position: "bottom-right",
+          });
+        });
+    };
+    useEffect(() => {
+      playerExportDeposit();
+      playerExportWithDraw()
+    }, []);
+  
+  
   return (
 
      <CCard className="mt-4">

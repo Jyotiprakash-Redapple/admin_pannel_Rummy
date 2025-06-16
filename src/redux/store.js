@@ -20,7 +20,8 @@ import { combineReducers } from 'redux';
 
 const persistConfig = {
   key: "root",
-  storage: localStorage//storageSession, 
+  storage: localStorage
+  //storageSession,
 };
 // const rootReducer = combineReducers({
 //   userReducer: userReducer,

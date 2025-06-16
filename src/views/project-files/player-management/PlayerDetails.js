@@ -28,7 +28,7 @@ import {
 	CFormTextarea,
 	CTableRow,
 } from "@coreui/react";
-import { DateRangePicker } from "react-date-range";
+import { DateRangePicker, Calendar } from "react-date-range";
 import { cilMoney, cilXCircle, cilCheckCircle } from "@coreui/icons";
 import { cilSearch } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
@@ -638,11 +638,11 @@ const Profile = () => {
 								{profile.player_kyc_bank_verified ? "Verified" : "Unverified"}
 							</CBadge>
 						</div>
-							<div className={styles.row}>
+						<div className={styles.row}>
 							<span>Player ID</span>
 							<span className={styles.value}>{profile?.player_id}</span>
 						</div>
-							<div className={styles.row}>
+						<div className={styles.row}>
 							<span>Name</span>
 							<span className={styles.value}>{profile?.player_name}</span>
 						</div>
@@ -654,12 +654,12 @@ const Profile = () => {
 							<span>Mobile No</span>
 							<span className={styles.value}>{profile?.player_mobile}</span>
 						</div>
-					
-<div className={styles.row}>
+
+						<div className={styles.row}>
 							<span>Deposit Wallet</span>
 							<span className={styles.value}>{profile?.player_deposit_wallet || 0}</span>
 						</div>
-<div className={styles.row}>
+						<div className={styles.row}>
 							<span>Win Wallet</span>
 							<span className={styles.value}>{profile?.player_win_wallet || 0}</span>
 						</div>
@@ -681,7 +681,7 @@ const Profile = () => {
 							<span>Total Deposit </span>
 							<span className={styles.value}>{profile?.total_deposit || 0}</span>
 						</div>
-	<div className={styles.row}>
+						<div className={styles.row}>
 							<span>Total Withdrawal </span>
 							<span className={styles.value}>{profile?.total_withdraw || 0}</span>
 						</div>
@@ -689,7 +689,7 @@ const Profile = () => {
 							<span>Total Match </span>
 							<span className={styles.value}>{profile?.total_match || 0}</span>
 						</div>
-						
+
 						<div className={styles.row}>
 							<span>Total Win </span>
 							<span className={styles.value}>{profile?.total_win || 0}</span>
@@ -703,7 +703,7 @@ const Profile = () => {
 							<span className={styles.value}>{profile?.win_count || 0}</span>
 						</div>
 						{/* Profile Info Rows */}
-					
+
 						{/* <div className={styles.row}>
           <span>Bank Verified</span>
           <span className={styles.value}>{profile?.bank_verified ? 'Yes' : 'No'}</span>
@@ -839,7 +839,7 @@ const Profile = () => {
 					</CNav>
 					<CCardBody>
 						<div className='d-flex gap-2 mb-3'>
-							<CFormInput
+							 <CFormInput
 								type='date'
 								value={fromDate}
 								onChange={(e) => setFromDate(e.target.value)}
@@ -850,7 +850,23 @@ const Profile = () => {
 								value={toDate}
 								onChange={(e) => setToDate(e.target.value)}
 								placeholder='To'
-							/>
+							/> 
+
+							 {/* <DateRangePicker
+        ranges={[selectionRange]}
+								onChange={() => {
+					
+				}}
+							/> */}
+
+							{/* <Calendar
+        date={new Date()}
+	onChange={() => {
+					
+				}}
+      /> */}
+							
+
 							{/* <DateRangePicker
 								className='date_rng_piker'
         ranges={[selectionRange]}
@@ -935,14 +951,12 @@ const TransactionList = ({
 	isLoadMoreInActive,
 }) => {
 	const [modalVisible, setModalVisible] = useState(false);
-  const [selectedTxn, setSelectedTxn] = useState(null);
+	const [selectedTxn, setSelectedTxn] = useState(null);
 
-  
-  const openModal = (txn) => {
-    setSelectedTxn(txn);
-    setModalVisible(true);
-  };
-
+	const openModal = (txn) => {
+		setSelectedTxn(txn);
+		setModalVisible(true);
+	};
 
 	function balanceRefactor(b) {
 		return b / 100;
@@ -950,52 +964,51 @@ const TransactionList = ({
 	if (tab == 1) {
 		return (
 			<>
-			<div>
-				{/* <h6 className="mb-3">{title}</h6> */}
+				<div>
+					{/* <h6 className="mb-3">{title}</h6> */}
 
-				<CTable striped hover responsive>
-					<CTableHead className='table-primary text-center align-middle'>
+					<CTable striped hover responsive>
+						<CTableHead className='table-primary text-center align-middle'>
 							<CTableRow>
-							
-							<CTableHeaderCell scope='col'>Transaction ID</CTableHeaderCell>
-							{/* <CTableHeaderCell scope='col'>Reference ID</CTableHeaderCell> */}
-							<CTableHeaderCell scope='col'>Deposit Amount</CTableHeaderCell>
-							<CTableHeaderCell scope='col'>Bonus Amount</CTableHeaderCell>
-							{/* <CTableHeaderCell scope='col'>Withdrawable Amount</CTableHeaderCell> */}
-							<CTableHeaderCell scope='col'>Total</CTableHeaderCell>
-							{/* <CTableHeaderCell scope='col'>Total Available Amount</CTableHeaderCell> */}
+								<CTableHeaderCell scope='col'>Transaction ID</CTableHeaderCell>
+								{/* <CTableHeaderCell scope='col'>Reference ID</CTableHeaderCell> */}
+								<CTableHeaderCell scope='col'>Deposit Amount</CTableHeaderCell>
+								<CTableHeaderCell scope='col'>Bonus Amount</CTableHeaderCell>
+								{/* <CTableHeaderCell scope='col'>Withdrawable Amount</CTableHeaderCell> */}
+								<CTableHeaderCell scope='col'>Total</CTableHeaderCell>
+								{/* <CTableHeaderCell scope='col'>Total Available Amount</CTableHeaderCell> */}
 
-							{/* <CTableHeaderCell scope='col'>Available Bonus Balance</CTableHeaderCell>
+								{/* <CTableHeaderCell scope='col'>Available Bonus Balance</CTableHeaderCell>
 							<CTableHeaderCell scope='col'>Available Deposit Balance</CTableHeaderCell>
 							<CTableHeaderCell scope='col'>Available Withdrawable Balance</CTableHeaderCell> */}
-							{/* <CTableHeaderCell scope='col'>Action</CTableHeaderCell> */}
-							{/* <CTableHeaderCell scope='col'>Status</CTableHeaderCell> */}
-							<CTableHeaderCell scope='col'>Type</CTableHeaderCell>
+								{/* <CTableHeaderCell scope='col'>Action</CTableHeaderCell> */}
+								{/* <CTableHeaderCell scope='col'>Status</CTableHeaderCell> */}
+								<CTableHeaderCell scope='col'>Type</CTableHeaderCell>
 								<CTableHeaderCell scope='col'>Date</CTableHeaderCell>
-							{/* <CTableHeaderCell scope='col'>Description</CTableHeaderCell> */}
-						</CTableRow>
-					</CTableHead>
-					<CTableBody>
-						{data.length > 0 ? (
-							<>
-								{data.map((txn) => (
-									<CTableRow key={txn.wallet_trnx_id}  onClick={() => openModal(txn)}>
-										<CTableDataCell>{txn.wallet_trnx_id}</CTableDataCell>
-										{/* <CTableDataCell>{txn.reference_id}</CTableDataCell> */}
-										<CTableDataCell>
-											₹{balanceRefactor(txn.wallet_trnx_deposit_amount)}
-										</CTableDataCell>
-										<CTableDataCell>
-											₹{balanceRefactor(txn.wallet_trnx_bonus_amount)}
-										</CTableDataCell>
-										{/* <CTableDataCell>
+								{/* <CTableHeaderCell scope='col'>Description</CTableHeaderCell> */}
+							</CTableRow>
+						</CTableHead>
+						<CTableBody>
+							{data.length > 0 ? (
+								<>
+									{data.map((txn) => (
+										<CTableRow key={txn.wallet_trnx_id} onClick={() => openModal(txn)}>
+											<CTableDataCell>{txn.wallet_trnx_id}</CTableDataCell>
+											{/* <CTableDataCell>{txn.reference_id}</CTableDataCell> */}
+											<CTableDataCell>
+												₹{balanceRefactor(txn.wallet_trnx_deposit_amount)}
+											</CTableDataCell>
+											<CTableDataCell>
+												₹{balanceRefactor(txn.wallet_trnx_bonus_amount)}
+											</CTableDataCell>
+											{/* <CTableDataCell>
 											₹{balanceRefactor(txn.wallet_trnx_withdrawable_amount)}
 										</CTableDataCell> */}
-										<CTableDataCell>₹{balanceRefactor(txn.total_amount)}</CTableDataCell>
-										{/* <CTableDataCell>₹{balanceRefactor(txn.
+											<CTableDataCell>₹{balanceRefactor(txn.total_amount)}</CTableDataCell>
+											{/* <CTableDataCell>₹{balanceRefactor(txn.
 total_available_balance
 )}</CTableDataCell> */}
-										{/* <CTableDataCell>
+											{/* <CTableDataCell>
 											₹{balanceRefactor(txn.wallet_trnx_available_bonus_balance)}
 										</CTableDataCell>
 										<CTableDataCell>
@@ -1004,162 +1017,163 @@ total_available_balance
 										<CTableDataCell>
 											₹{balanceRefactor(txn.wallet_trnx_available_withdrawable_balance)}
 										</CTableDataCell> */}
-										<CTableDataCell>{txn.wallet_trnx_type
-}</CTableDataCell>
-										{/* <CTableDataCell>{txn.wallet_trnx_status}</CTableDataCell> */}
-										<CTableDataCell>
-											{new Date(txn.wallet_trnx_date).toLocaleString()}
-										</CTableDataCell>
-										{/* <CTableDataCell>{txn.wallet_trnx_description}</CTableDataCell> */}
+											<CTableDataCell>{txn.wallet_trnx_type}</CTableDataCell>
+											{/* <CTableDataCell>{txn.wallet_trnx_status}</CTableDataCell> */}
+											<CTableDataCell>
+												{new Date(txn.wallet_trnx_date).toLocaleString()}
+											</CTableDataCell>
+											{/* <CTableDataCell>{txn.wallet_trnx_description}</CTableDataCell> */}
+										</CTableRow>
+									))}
+									<CTableRow>
+										{isLoadMoreInActive ? (
+											<></>
+										) : (
+											<CTableDataCell colSpan='100%' className='text-center'>
+												<CButton
+													color='secondary'
+													variant='outline'
+													onClick={() => setLimit((prev) => prev + 20)}>
+													Load More
+												</CButton>
+											</CTableDataCell>
+										)}
 									</CTableRow>
-								))}
-								<CTableRow>
-									{isLoadMoreInActive ? (
-										<></>
-									) : (
-										<CTableDataCell colSpan='100%' className='text-center'>
-											<CButton
-												color='secondary'
-												variant='outline'
-												onClick={() => setLimit((prev) => prev + 20)}>
-												Load More
-											</CButton>
+								</>
+							) : (
+								<>
+									<CTableRow>
+										<CTableDataCell colSpan={6} className='text-center'>
+											No data found
 										</CTableDataCell>
-									)}
-								</CTableRow>
-							</>
-						) : (
-							<>
-								<CTableRow>
-									<CTableDataCell colSpan={6} className='text-center'>
-										No data found
-									</CTableDataCell>
-								</CTableRow>
-							</>
-						)}
-					</CTableBody>
-				</CTable>
+									</CTableRow>
+								</>
+							)}
+						</CTableBody>
+					</CTable>
 				</div>
-				 <CModal visible={modalVisible} onClose={() => setModalVisible(false)} >
-        <CModalHeader closeButton>Transaction Details</CModalHeader>
-      <CModalBody>
-  {selectedTxn && (
-    <div className="table-responsive">
-      <table className="table table-bordered table-striped">
-        <tbody>
-          <tr>
-            <th scope="row">Transaction ID</th>
-            <td>{selectedTxn.wallet_trnx_id}</td>
-          </tr>
-          {/* <tr>
+				<CModal visible={modalVisible} onClose={() => setModalVisible(false)}>
+					<CModalHeader closeButton>Transaction Details</CModalHeader>
+					<CModalBody>
+						{selectedTxn && (
+							<div className='table-responsive'>
+								<table className='table table-bordered table-striped'>
+									<tbody>
+										<tr>
+											<th scope='row'>Transaction ID</th>
+											<td>{selectedTxn.wallet_trnx_id}</td>
+										</tr>
+										{/* <tr>
             <th scope="row">Reference ID</th>
             <td>{selectedTxn.reference_id}</td>
           </tr> */}
-          <tr>
-            <th scope="row">Deposit Amount</th>
-            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_deposit_amount)}</td>
-          </tr>
-          <tr>
-            <th scope="row">Bonus Amount</th>
-            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_bonus_amount)}</td>
-          </tr>
-          <tr>
-            <th scope="row">Withdrawable Amount</th>
-            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_withdrawable_amount)}</td>
-          </tr>
-          <tr>
-            <th scope="row">Total Amount</th>
-            <td>₹{balanceRefactor(selectedTxn.total_amount)}</td>
-          </tr>
-          <tr>
-            <th scope="row">Available Bonus Balance</th>
-            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_available_bonus_balance)}</td>
-          </tr>
-          <tr>
-            <th scope="row">Available Deposit Balance</th>
-            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_available_deposit_balance)}</td>
-          </tr>
-          <tr>
-            <th scope="row">Available Withdrawable Balance</th>
-            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_available_withdrawable_balance)}</td>
-          </tr>
-          <tr>
-            <th scope="row">Type</th>
-            <td>{selectedTxn.wallet_trnx_type}</td>
-          </tr>
-          <tr>
-            <th scope="row">Status</th>
-            <td>{selectedTxn.wallet_trnx_status}</td>
-          </tr>
-          <tr>
-            <th scope="row">Date</th>
-            <td>{new Date(selectedTxn.wallet_trnx_date).toLocaleString()}</td>
-          </tr>
-          <tr>
-            <th scope="row">Description</th>
-            <td>{selectedTxn.wallet_trnx_description}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  )}
-</CModalBody>
+										<tr>
+											<th scope='row'>Deposit Amount</th>
+											<td>₹{balanceRefactor(selectedTxn.wallet_trnx_deposit_amount)}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Bonus Amount</th>
+											<td>₹{balanceRefactor(selectedTxn.wallet_trnx_bonus_amount)}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Withdrawable Amount</th>
+											<td>₹{balanceRefactor(selectedTxn.wallet_trnx_withdrawable_amount)}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Total Amount</th>
+											<td>₹{balanceRefactor(selectedTxn.total_amount)}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Available Bonus Balance</th>
+											<td>₹{balanceRefactor(selectedTxn.wallet_trnx_available_bonus_balance)}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Available Deposit Balance</th>
+											<td>₹{balanceRefactor(selectedTxn.wallet_trnx_available_deposit_balance)}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Available Withdrawable Balance</th>
+											<td>
+												₹{balanceRefactor(selectedTxn.wallet_trnx_available_withdrawable_balance)}
+											</td>
+										</tr>
+										<tr>
+											<th scope='row'>Type</th>
+											<td>{selectedTxn.wallet_trnx_type}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Status</th>
+											<td>{selectedTxn.wallet_trnx_status}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Date</th>
+											<td>{new Date(selectedTxn.wallet_trnx_date).toLocaleString()}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Description</th>
+											<td>{selectedTxn.wallet_trnx_description}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						)}
+					</CModalBody>
 
-        <CModalFooter>
-          <CButton color='secondary' onClick={() => setModalVisible(false)}>
-            Close
-          </CButton>
-        </CModalFooter>
+					<CModalFooter>
+						<CButton color='secondary' onClick={() => setModalVisible(false)}>
+							Close
+						</CButton>
+					</CModalFooter>
 				</CModal>
-				</>
+			</>
 		);
 	}
 	if (tab == 2) {
 		return (
 			<>
-			<div>
-				{/* <h6 className="mb-3">{title}</h6> */}
+				<div>
+					{/* <h6 className="mb-3">{title}</h6> */}
 
-				<CTable striped hover responsive>
-					<CTableHead>
-						<CTableRow>
-							<CTableHeaderCell>Transaction ID</CTableHeaderCell>
-							{/* <CTableHeaderCell>Reference ID</CTableHeaderCell> */}
-							<CTableHeaderCell>Deposit Amount</CTableHeaderCell>
-							<CTableHeaderCell>Bonus Amount</CTableHeaderCell>
-							{/* <CTableHeaderCell>Withdrawable</CTableHeaderCell> */}
-							<CTableHeaderCell>Total</CTableHeaderCell>
+					<CTable striped hover responsive>
+						<CTableHead>
+							<CTableRow>
+								<CTableHeaderCell>Transaction ID</CTableHeaderCell>
+								{/* <CTableHeaderCell>Reference ID</CTableHeaderCell> */}
+								<CTableHeaderCell>Deposit Amount</CTableHeaderCell>
+								<CTableHeaderCell>Bonus Amount</CTableHeaderCell>
+								{/* <CTableHeaderCell>Withdrawable</CTableHeaderCell> */}
+								<CTableHeaderCell>Total</CTableHeaderCell>
 
-							{/* <CTableHeaderCell scope='col'>Available Bonus Balance</CTableHeaderCell>
+								{/* <CTableHeaderCell scope='col'>Available Bonus Balance</CTableHeaderCell>
 							<CTableHeaderCell scope='col'>Available Deposit Balance</CTableHeaderCell>
 							<CTableHeaderCell scope='col'>Available Withdrawable Balance</CTableHeaderCell> */}
 
-							{/* <CTableHeaderCell>Action</CTableHeaderCell> */}
+								{/* <CTableHeaderCell>Action</CTableHeaderCell> */}
 								{/* <CTableHeaderCell>Type</CTableHeaderCell> */}
 								{/* <CTableHeaderCell scope='col'>Type</CTableHeaderCell> */}
-							{/* <CTableHeaderCell>Status</CTableHeaderCell> */}
-							<CTableHeaderCell>Date</CTableHeaderCell>
-							{/* <CTableHeaderCell>Description</CTableHeaderCell> */}
-						</CTableRow>
-					</CTableHead>
-					<CTableBody>
-						{data.length > 0 ? (
-							<>
-								{data.map((txn) => (
-									<CTableRow key={txn.wallet_trnx_id} onClick={() => openModal(txn)}>
-										<CTableDataCell>{txn.wallet_trnx_id}</CTableDataCell>
-										{/* <CTableDataCell>{txn.reference_id}</CTableDataCell> */}
-										<CTableDataCell>
-											₹{balanceRefactor(txn.wallet_trnx_deposit_amount)}
-										</CTableDataCell>
-										<CTableDataCell>
-											₹{balanceRefactor(txn.wallet_trnx_bonus_amount)}
-										</CTableDataCell>
-										{/* <CTableDataCell>
+								{/* <CTableHeaderCell>Status</CTableHeaderCell> */}
+								<CTableHeaderCell>Date</CTableHeaderCell>
+								{/* <CTableHeaderCell>Description</CTableHeaderCell> */}
+							</CTableRow>
+						</CTableHead>
+						<CTableBody>
+							{data.length > 0 ? (
+								<>
+									{data.map((txn) => (
+										<CTableRow key={txn.wallet_trnx_id} onClick={() => openModal(txn)}>
+											<CTableDataCell>{txn.wallet_trnx_id}</CTableDataCell>
+											{/* <CTableDataCell>{txn.reference_id}</CTableDataCell> */}
+											<CTableDataCell>
+												₹{balanceRefactor(txn.wallet_trnx_deposit_amount)}
+											</CTableDataCell>
+											<CTableDataCell>
+												₹{balanceRefactor(txn.wallet_trnx_bonus_amount)}
+											</CTableDataCell>
+											{/* <CTableDataCell>
 											₹{balanceRefactor(txn.wallet_trnx_withdrawable_amount)}
 										</CTableDataCell> */}
-										<CTableDataCell>₹{balanceRefactor(txn.total_amount)}</CTableDataCell>
-										{/* <CTableDataCell>
+											<CTableDataCell>₹{balanceRefactor(txn.total_amount)}</CTableDataCell>
+											{/* <CTableDataCell>
 											₹{balanceRefactor(txn.wallet_trnx_available_bonus_balance)}
 										</CTableDataCell>
 										<CTableDataCell>
@@ -1168,265 +1182,267 @@ total_available_balance
 										<CTableDataCell>
 											₹{balanceRefactor(txn.wallet_trnx_available_withdrawable_balance)}
 										</CTableDataCell> */}
-										{/* <CTableDataCell>{txn?.wallet_trnx_action || "TFB"}</CTableDataCell> */}
-										{/* <CTableDataCell>{txn.transaction_type}</CTableDataCell> */}
+											{/* <CTableDataCell>{txn?.wallet_trnx_action || "TFB"}</CTableDataCell> */}
+											{/* <CTableDataCell>{txn.transaction_type}</CTableDataCell> */}
 											{/* <CTableDataCell>{txn.wallet_trnx_type
 }</CTableDataCell> */}
-										{/* <CTableDataCell>{txn.wallet_trnx_status}</CTableDataCell> */}
-										<CTableDataCell>
-											{new Date(txn.wallet_trnx_date).toLocaleString()}
-										</CTableDataCell>
-										{/* <CTableDataCell>{txn.wallet_trnx_description}</CTableDataCell> */}
+											{/* <CTableDataCell>{txn.wallet_trnx_status}</CTableDataCell> */}
+											<CTableDataCell>
+												{new Date(txn.wallet_trnx_date).toLocaleString()}
+											</CTableDataCell>
+											{/* <CTableDataCell>{txn.wallet_trnx_description}</CTableDataCell> */}
+										</CTableRow>
+									))}
+									<CTableRow>
+										{isLoadMoreInActive ? (
+											<></>
+										) : (
+											<CTableDataCell colSpan='100%' className='text-center'>
+												<CButton
+													color='secondary'
+													variant='outline'
+													onClick={() => setLimit((prev) => prev + 20)}>
+													Load More
+												</CButton>
+											</CTableDataCell>
+										)}
 									</CTableRow>
-								))}
-								<CTableRow>
-									{isLoadMoreInActive ? (
-										<></>
-									) : (
-										<CTableDataCell colSpan='100%' className='text-center'>
-											<CButton
-												color='secondary'
-												variant='outline'
-												onClick={() => setLimit((prev) => prev + 20)}>
-												Load More
-											</CButton>
+								</>
+							) : (
+								<>
+									<CTableRow>
+										<CTableDataCell colSpan={5} className='text-center'>
+											No data found
 										</CTableDataCell>
-									)}
-								</CTableRow>
-							</>
-						) : (
-							<>
-								<CTableRow>
-									<CTableDataCell colSpan={5} className='text-center'>
-										No data found
-									</CTableDataCell>
-								</CTableRow>
-							</>
-						)}
-					</CTableBody>
-				</CTable>
+									</CTableRow>
+								</>
+							)}
+						</CTableBody>
+					</CTable>
 				</div>
-				 <CModal visible={modalVisible} onClose={() => setModalVisible(false)} >
-        <CModalHeader closeButton>Transaction Details</CModalHeader>
-        <CModalBody>
-          {selectedTxn && (
-             <div className="table-responsive">
-      <table className="table table-bordered table-striped">
-        <tbody>
-          <tr>
-            <th scope="row">Transaction ID</th>
-            <td>{selectedTxn.wallet_trnx_id}</td>
-          </tr>
-          {/* <tr>
+				<CModal visible={modalVisible} onClose={() => setModalVisible(false)}>
+					<CModalHeader closeButton>Transaction Details</CModalHeader>
+					<CModalBody>
+						{selectedTxn && (
+							<div className='table-responsive'>
+								<table className='table table-bordered table-striped'>
+									<tbody>
+										<tr>
+											<th scope='row'>Transaction ID</th>
+											<td>{selectedTxn.wallet_trnx_id}</td>
+										</tr>
+										{/* <tr>
             <th scope="row">Reference ID</th>
             <td>{selectedTxn.reference_id}</td>
           </tr> */}
-          <tr>
-            <th scope="row">Deposit Amount</th>
-            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_deposit_amount)}</td>
-          </tr>
-          <tr>
-            <th scope="row">Bonus Amount</th>
-            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_bonus_amount)}</td>
-          </tr>
-          <tr>
-            <th scope="row">Withdrawable Amount</th>
-            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_withdrawable_amount)}</td>
-          </tr>
-          <tr>
-            <th scope="row">Total Amount</th>
-            <td>₹{balanceRefactor(selectedTxn.total_amount)}</td>
-          </tr>
-          <tr>
-            <th scope="row">Available Bonus Balance</th>
-            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_available_bonus_balance)}</td>
-          </tr>
-          <tr>
-            <th scope="row">Available Deposit Balance</th>
-            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_available_deposit_balance)}</td>
-          </tr>
-          <tr>
-            <th scope="row">Available Withdrawable Balance</th>
-            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_available_withdrawable_balance)}</td>
-          </tr>
-          <tr>
-            <th scope="row">Type</th>
-            <td>{selectedTxn.wallet_trnx_type}</td>
-          </tr>
-          <tr>
-            <th scope="row">Status</th>
-            <td>{selectedTxn.wallet_trnx_status}</td>
-          </tr>
-          <tr>
-            <th scope="row">Date</th>
-            <td>{new Date(selectedTxn.wallet_trnx_date).toLocaleString()}</td>
-          </tr>
-          <tr>
-            <th scope="row">Description</th>
-            <td>{selectedTxn.wallet_trnx_description}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-          )}
-        </CModalBody>
-        <CModalFooter>
-          <CButton color='secondary' onClick={() => setModalVisible(false)}>
-            Close
-          </CButton>
-        </CModalFooter>
+										<tr>
+											<th scope='row'>Deposit Amount</th>
+											<td>₹{balanceRefactor(selectedTxn.wallet_trnx_deposit_amount)}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Bonus Amount</th>
+											<td>₹{balanceRefactor(selectedTxn.wallet_trnx_bonus_amount)}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Withdrawable Amount</th>
+											<td>₹{balanceRefactor(selectedTxn.wallet_trnx_withdrawable_amount)}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Total Amount</th>
+											<td>₹{balanceRefactor(selectedTxn.total_amount)}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Available Bonus Balance</th>
+											<td>₹{balanceRefactor(selectedTxn.wallet_trnx_available_bonus_balance)}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Available Deposit Balance</th>
+											<td>₹{balanceRefactor(selectedTxn.wallet_trnx_available_deposit_balance)}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Available Withdrawable Balance</th>
+											<td>
+												₹{balanceRefactor(selectedTxn.wallet_trnx_available_withdrawable_balance)}
+											</td>
+										</tr>
+										<tr>
+											<th scope='row'>Type</th>
+											<td>{selectedTxn.wallet_trnx_type}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Status</th>
+											<td>{selectedTxn.wallet_trnx_status}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Date</th>
+											<td>{new Date(selectedTxn.wallet_trnx_date).toLocaleString()}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Description</th>
+											<td>{selectedTxn.wallet_trnx_description}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						)}
+					</CModalBody>
+					<CModalFooter>
+						<CButton color='secondary' onClick={() => setModalVisible(false)}>
+							Close
+						</CButton>
+					</CModalFooter>
 				</CModal>
-				</>
+			</>
 		);
 	}
 	if (tab == 3) {
 		return (
 			<>
-			<div>
-				{/* <h6 className="mb-3">{title}</h6> */}
+				<div>
+					{/* <h6 className="mb-3">{title}</h6> */}
 
-				<CTable striped hover responsive>
-					<CTableHead>
-						<CTableRow>
-							<CTableHeaderCell>Transaction ID</CTableHeaderCell>
-							{/* <CTableHeaderCell>Reference ID</CTableHeaderCell> */}
-							<CTableHeaderCell>Bonus Amount</CTableHeaderCell>
-							<CTableHeaderCell>Total Amount</CTableHeaderCell>
-							{/* <CTableHeaderCell scope='col'>Available Bonus Balance</CTableHeaderCell> */}
-							{/* <CTableHeaderCell>Type</CTableHeaderCell> */}
-							<CTableHeaderCell>Status</CTableHeaderCell>
-							{/* <CTableHeaderCell>Type</CTableHeaderCell> */}
-							<CTableHeaderCell>Date</CTableHeaderCell>
-							{/* <CTableHeaderCell>Description</CTableHeaderCell> */}
-						</CTableRow>
-					</CTableHead>
-					<CTableBody>
-						{data.length > 0 ? (
-							<>
-								{data.map((txn) => (
-									<CTableRow key={txn.wallet_trnx_id} onClick={() => openModal(txn)}>
-										<CTableDataCell>{txn.wallet_trnx_id}</CTableDataCell>
-										{/* <CTableDataCell>{txn.reference_id}</CTableDataCell> */}
-										<CTableDataCell>
-											₹{balanceRefactor(txn.wallet_trnx_bonus_amount)}
-										</CTableDataCell>
-										<CTableDataCell>₹{balanceRefactor(txn.total_amount)}</CTableDataCell>
-										{/* <CTableDataCell>
+					<CTable striped hover responsive>
+						<CTableHead>
+							<CTableRow>
+								<CTableHeaderCell>Transaction ID</CTableHeaderCell>
+								{/* <CTableHeaderCell>Reference ID</CTableHeaderCell> */}
+								<CTableHeaderCell>Bonus Amount</CTableHeaderCell>
+								<CTableHeaderCell>Total Amount</CTableHeaderCell>
+								{/* <CTableHeaderCell scope='col'>Available Bonus Balance</CTableHeaderCell> */}
+								{/* <CTableHeaderCell>Type</CTableHeaderCell> */}
+								<CTableHeaderCell>Status</CTableHeaderCell>
+								{/* <CTableHeaderCell>Type</CTableHeaderCell> */}
+								<CTableHeaderCell>Date</CTableHeaderCell>
+								{/* <CTableHeaderCell>Description</CTableHeaderCell> */}
+							</CTableRow>
+						</CTableHead>
+						<CTableBody>
+							{data.length > 0 ? (
+								<>
+									{data.map((txn) => (
+										<CTableRow key={txn.wallet_trnx_id} onClick={() => openModal(txn)}>
+											<CTableDataCell>{txn.wallet_trnx_id}</CTableDataCell>
+											{/* <CTableDataCell>{txn.reference_id}</CTableDataCell> */}
+											<CTableDataCell>
+												₹{balanceRefactor(txn.wallet_trnx_bonus_amount)}
+											</CTableDataCell>
+											<CTableDataCell>₹{balanceRefactor(txn.total_amount)}</CTableDataCell>
+											{/* <CTableDataCell>
 											₹{balanceRefactor(txn.wallet_trnx_available_bonus_balance)}
 										</CTableDataCell> */}
-										{/* <CTableDataCell>{txn.wallet_trnx_action}</CTableDataCell> */}
-										<CTableDataCell>{txn.wallet_trnx_status}</CTableDataCell>
-										{/* <CTableDataCell>{txn.transaction_type}</CTableDataCell> */}
-										<CTableDataCell>
-											{new Date(txn.wallet_trnx_date).toLocaleString()}
-										</CTableDataCell>
-										{/* <CTableDataCell>{txn.wallet_trnx_description}</CTableDataCell> */}
+											{/* <CTableDataCell>{txn.wallet_trnx_action}</CTableDataCell> */}
+											<CTableDataCell>{txn.wallet_trnx_status}</CTableDataCell>
+											{/* <CTableDataCell>{txn.transaction_type}</CTableDataCell> */}
+											<CTableDataCell>
+												{new Date(txn.wallet_trnx_date).toLocaleString()}
+											</CTableDataCell>
+											{/* <CTableDataCell>{txn.wallet_trnx_description}</CTableDataCell> */}
+										</CTableRow>
+									))}
+									<CTableRow>
+										{isLoadMoreInActive ? (
+											<></>
+										) : (
+											<CTableDataCell colSpan='100%' className='text-center'>
+												<CButton
+													color='secondary'
+													variant='outline'
+													onClick={() => setLimit((prev) => prev + 20)}>
+													Load More
+												</CButton>
+											</CTableDataCell>
+										)}
 									</CTableRow>
-								))}
-								<CTableRow>
-									{isLoadMoreInActive ? (
-										<></>
-									) : (
-										<CTableDataCell colSpan='100%' className='text-center'>
-											<CButton
-												color='secondary'
-												variant='outline'
-												onClick={() => setLimit((prev) => prev + 20)}>
-												Load More
-											</CButton>
+								</>
+							) : (
+								<>
+									<CTableRow>
+										<CTableDataCell colSpan={5} className='text-center'>
+											No data found
 										</CTableDataCell>
-									)}
-								</CTableRow>
-							</>
-						) : (
-							<>
-								<CTableRow>
-									<CTableDataCell colSpan={5} className='text-center'>
-										No data found
-									</CTableDataCell>
-								</CTableRow>
-							</>
-						)}
-					</CTableBody>
-				</CTable>
+									</CTableRow>
+								</>
+							)}
+						</CTableBody>
+					</CTable>
 				</div>
-				 <CModal visible={modalVisible} onClose={() => setModalVisible(false)} >
-        <CModalHeader closeButton>Transaction Details</CModalHeader>
-        <CModalBody>
-          {selectedTxn && (
-           <div className="table-responsive">
-      <table className="table table-bordered table-striped">
-        <tbody>
-          <tr>
-            <th scope="row">Transaction ID</th>
-            <td>{selectedTxn.wallet_trnx_id}</td>
-          </tr>
-          {/* <tr>
+				<CModal visible={modalVisible} onClose={() => setModalVisible(false)}>
+					<CModalHeader closeButton>Transaction Details</CModalHeader>
+					<CModalBody>
+						{selectedTxn && (
+							<div className='table-responsive'>
+								<table className='table table-bordered table-striped'>
+									<tbody>
+										<tr>
+											<th scope='row'>Transaction ID</th>
+											<td>{selectedTxn.wallet_trnx_id}</td>
+										</tr>
+										{/* <tr>
             <th scope="row">Reference ID</th>
             <td>{selectedTxn.reference_id}</td>
           </tr> */}
-          <tr>
-            <th scope="row">Deposit Amount</th>
-            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_deposit_amount)}</td>
-          </tr>
-          <tr>
-            <th scope="row">Bonus Amount</th>
-            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_bonus_amount)}</td>
-          </tr>
-          <tr>
-            <th scope="row">Withdrawable Amount</th>
-            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_withdrawable_amount)}</td>
-          </tr>
-          <tr>
-            <th scope="row">Total Amount</th>
-            <td>₹{balanceRefactor(selectedTxn.total_amount)}</td>
-          </tr>
-          <tr>
-            <th scope="row">Available Bonus Balance</th>
-            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_available_bonus_balance)}</td>
-          </tr>
-          <tr>
-            <th scope="row">Available Deposit Balance</th>
-            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_available_deposit_balance)}</td>
-          </tr>
-          <tr>
-            <th scope="row">Available Withdrawable Balance</th>
-            <td>₹{balanceRefactor(selectedTxn.wallet_trnx_available_withdrawable_balance)}</td>
-          </tr>
-          <tr>
-            <th scope="row">Type</th>
-            <td>{selectedTxn.wallet_trnx_type}</td>
-          </tr>
-          <tr>
-            <th scope="row">Status</th>
-            <td>{selectedTxn.wallet_trnx_status}</td>
-          </tr>
-          <tr>
-            <th scope="row">Date</th>
-            <td>{new Date(selectedTxn.wallet_trnx_date).toLocaleString()}</td>
-          </tr>
-          <tr>
-            <th scope="row">Description</th>
-            <td>{selectedTxn.wallet_trnx_description}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-          )}
-        </CModalBody>
-        <CModalFooter>
-          <CButton color='secondary' onClick={() => setModalVisible(false)}>
-            Close
-          </CButton>
-        </CModalFooter>
+										<tr>
+											<th scope='row'>Deposit Amount</th>
+											<td>₹{balanceRefactor(selectedTxn.wallet_trnx_deposit_amount)}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Bonus Amount</th>
+											<td>₹{balanceRefactor(selectedTxn.wallet_trnx_bonus_amount)}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Withdrawable Amount</th>
+											<td>₹{balanceRefactor(selectedTxn.wallet_trnx_withdrawable_amount)}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Total Amount</th>
+											<td>₹{balanceRefactor(selectedTxn.total_amount)}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Available Bonus Balance</th>
+											<td>₹{balanceRefactor(selectedTxn.wallet_trnx_available_bonus_balance)}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Available Deposit Balance</th>
+											<td>₹{balanceRefactor(selectedTxn.wallet_trnx_available_deposit_balance)}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Available Withdrawable Balance</th>
+											<td>
+												₹{balanceRefactor(selectedTxn.wallet_trnx_available_withdrawable_balance)}
+											</td>
+										</tr>
+										<tr>
+											<th scope='row'>Type</th>
+											<td>{selectedTxn.wallet_trnx_type}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Status</th>
+											<td>{selectedTxn.wallet_trnx_status}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Date</th>
+											<td>{new Date(selectedTxn.wallet_trnx_date).toLocaleString()}</td>
+										</tr>
+										<tr>
+											<th scope='row'>Description</th>
+											<td>{selectedTxn.wallet_trnx_description}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						)}
+					</CModalBody>
+					<CModalFooter>
+						<CButton color='secondary' onClick={() => setModalVisible(false)}>
+							Close
+						</CButton>
+					</CModalFooter>
 				</CModal>
-				</>
+			</>
 		);
 	}
 
-	return <>
-	 
-	</>
+	return <></>;
 };
 
 export default Profile;

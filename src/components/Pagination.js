@@ -8,7 +8,7 @@ const TransactionPagination = ({ page, totalPages, onPageChange }) => {
     }
   };
 
-  // Generate a range of page numbers to show
+  
   const getPageNumbers = () => {
     const maxVisiblePages = 5;
     let start = Math.max(1, page - Math.floor(maxVisiblePages / 2));
