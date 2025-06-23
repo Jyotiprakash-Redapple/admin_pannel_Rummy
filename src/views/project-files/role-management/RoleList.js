@@ -24,6 +24,8 @@ import Service from "../../../apis/Service";
 import { ToastContainer, toast } from "react-toastify";
 import { Constants, REGEX, ERROR_MESSAGE } from "../../../apis/Constant";
 import { useNavigate } from "react-router-dom";
+import { createFeatureFlags } from "../../../Utility/helper";
+import { PageLoader } from "../../../components/Loder";
 const users = [
 	{
 		id: 1,
@@ -54,6 +56,8 @@ const users = [
 	},
 ];
 
+
+
 const UserRoleManagement = () => {
 	const navigate = useNavigate();
 	const [visible, setVisible] = useState(false);
@@ -64,6 +68,11 @@ const UserRoleManagement = () => {
 	const [updateVisible, setUpdateVisible] = useState(false);
 	const [updateRole, setUpdateRole] = useState({});
 	const [getAllMenu, setGetAllMenu] = useState([]);
+	const activeMenuId = useSelector((state) => state.active_menu_id)
+	const menuPermission = useSelector((state) => state.menu_permission)
+	const [accessMenu, setAccessMenu] = useState(null)
+	
+	
 
 	const filteredUsers = roleList.filter((u) => {
 		if (statusFilter === "All") return true;
@@ -171,32 +180,30 @@ const UserRoleManagement = () => {
 			});
 	};
 
-	const getAllMenuFromServer = () => {
-		Service.apiGetCallRequest(RouteURL.get_all_menu, token)
-			.then((res) => {
-				console.log(res.data);
-				if (res.err === Constants.API_RESPONSE_STATUS_SUCCESS) {
-					setGetAllMenu(res.data.roles);
-				} else {
-					toast.error(res.message, {
-						position: "bottom-right",
-						
-					});
-				}
-			})
-			.catch((error) => {
-				toast.error(error?.response?.data?.message || "unable to fetch menu list", {
-					position: "bottom-right",
-			
-				});
-			});
-	};
+	
 
 	useEffect(() => {
+		
 		document.documentElement.setAttribute("data-coreui-theme", "light");
 		FetchRoleListDetails();
-	//	getAllMenuFromServer();
 	}, []);
+
+	useEffect(() => {
+		if (menuPermission.length && activeMenuId) {
+			let menu = menuPermission.filter((mId) => mId.menu_id === activeMenuId);
+			console.log("MENU PERMISSION::", menu)
+			if (menu.length > 0) {
+				setAccessMenu(menu[0])
+			}
+		}
+	},[activeMenuId])
+
+	if (accessMenu === null) {
+		return <PageLoader/>
+	}
+
+	const FEATURE = createFeatureFlags(accessMenu.menu_features)
+	
 	return (
 		<div className={styles.container}>
 			<ToastContainer />
@@ -215,7 +222,7 @@ const UserRoleManagement = () => {
 						<option>Inactive</option>
 					</select>
 				</div>
-				<CButton color='primary' onClick={() => setVisible(true)}>
+				<CButton color='primary' onClick={() => setVisible(true)} className={ FEATURE.isCreate == false ? 'prevent_default' : 'auto'}>
 					Add Role
 				</CButton>
 			</div>
@@ -239,12 +246,14 @@ const UserRoleManagement = () => {
 									{/* Actions: Delete / Edit */}
 									<CTableDataCell className='text-center'>
 										<button
-											className={styles.deleteBtn}
+								className={`${styles.deleteBtn} ${FEATURE.isDelete == false ? 'prevent_default' : 'auto'}`}
+
 											onClick={() => DeleteRoleToServer(u?.role_id)}>
 											<i className='fa fa-trash-o'></i>
 										</button>
 										<button
-											className={styles.editBtn}
+												className={`${styles.editBtn} ${FEATURE.isEdit === false ? 'prevent_default' : 'auto'}`}
+										
 											onClick={() => {
 												setUpdateRole({ ...u });
 												setUpdateVisible(true);
@@ -258,7 +267,7 @@ const UserRoleManagement = () => {
 									<CTableDataCell className='text-center'>{u.role_name}</CTableDataCell>
 
 									{/* Status Label */}
-									<CTableDataCell className='text-center'>
+									<CTableDataCell className={`text-center ${FEATURE.isEdit  === false ? 'prevent_default' : 'auto'}`}>
 										<CBadge
 											color={u.role_status === "active" ? "success" : "danger"}
 											onClick={() => {
@@ -288,10 +297,10 @@ const UserRoleManagement = () => {
             </CTableDataCell> */}
 
 									{/* Permissions Button */}
-									<CTableDataCell className='text-center'>
+									<CTableDataCell className={`text-center ${FEATURE.isView  === false ? 'prevent_default' : 'auto'}`} >
 										<button
 											className={styles.select}
-											onClick={() => navigate("/manage-permission")}>
+											onClick={() => navigate("/manage-permission", { state: { role_id: u.role_id } })}>
 											Manage Permission
 										</button>
 									</CTableDataCell>

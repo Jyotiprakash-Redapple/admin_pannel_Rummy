@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 
 const initialState = {
     user: {},
+    menu_permission: [],
+    active_menu_id: 0,
     isLoggedIn: false,
     type: 'set',
     sidebarShow: true,
@@ -30,6 +32,13 @@ const SuperAdminDetailStateSlice = createSlice({
             state.user = { ...state.user, ...action.payload };
             state.isLoggedIn = true;
         },
+        setActiveMenuId: (state, action) => {
+            state.active_menu_id = action.payload
+        },
+        setMenuPerMission: (state, action) => {
+           
+          state.menu_permission = action.payload
+        },
         signOut: (state, action) => {
             // state.user = {};
             // state.currency = [];
@@ -37,13 +46,7 @@ const SuperAdminDetailStateSlice = createSlice({
             // state.currency_amount = '';
             // state.isLoggedIn = false;
             // state.sidebarShow = true;
-            const savedUsername = localStorage.getItem("rememberedUsername");
-            const savedPassword = localStorage.getItem("rememberedPassword");
-
-            localStorage.clear();
-            localStorage.setItem("rememberedUsername", savedUsername);
-            localStorage.setItem("rememberedPassword", savedPassword);
-            localStorage.setItem("rememberMe", "true");
+           state = initialState
         },
         sideBarOpen: (state, action) => {
             state.type = 'set';
@@ -106,7 +109,7 @@ const SuperAdminDetailStateSlice = createSlice({
 });
 
 export const { signIn, signOut, sideBarOpen, sideBarClose, Currency, SelectCurrency, currencyWiseAmount, client, client_data_clear, account, providerStore, clientAccountTransferBalanceDetails, clientAccountDetails, walletDetails, PlayerDetails, LoginDetails,technicalDetails 
-    ,selectedCurrencyAccountDetails
+    ,selectedCurrencyAccountDetails,setMenuPerMission, setActiveMenuId
 } =
     SuperAdminDetailStateSlice.actions;
 

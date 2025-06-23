@@ -52,6 +52,8 @@ import DateTimeRangeContainer from "react-advanced-datetimerange-picker";
 import { FormControl } from "react-bootstrap";
 import Pagination from "../../../components/Pagination";
 import AllInOneExportButton from "../../../components/AllInOneExportButton";
+import { createFeatureFlags } from "../../../Utility/helper";
+import { PageLoader } from "../../../components/Loder";
 export default function PlayerList() {
 	const dispatch = useDispatch();
 	let navigate = useNavigate();
@@ -74,6 +76,10 @@ export default function PlayerList() {
 		account_id: "",
 		status_id: "active",
 	});
+	const activeMenuId = useSelector((state) => state.active_menu_id)
+		const menuPermission = useSelector((state) => state.menu_permission)
+		const [accessMenu, setAccessMenu] = useState(null)
+		
 
 	function balanceRefactor(b) {
 		return b / 100;
@@ -604,6 +610,23 @@ export default function PlayerList() {
 		});
 		return humanReadable;
 	}
+
+	 useEffect(() => {
+      if (menuPermission.length && activeMenuId) {
+        let menu = menuPermission.filter((mId) => mId.menu_id === activeMenuId);
+        console.log("MENU PERMISSION::", menu)
+        if (menu.length > 0) {
+          setAccessMenu(menu[0])
+        }
+      }
+    },[activeMenuId])
+  
+    if (accessMenu === null) {
+      return <PageLoader/>
+    }
+  
+    const FEATURE = createFeatureFlags(accessMenu.menu_features)
+    
 
 	return (
 		<div>

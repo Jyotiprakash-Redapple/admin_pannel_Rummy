@@ -68,25 +68,31 @@ const AddCashTransaction = React.lazy(() => import('./views/project-files/Transa
 const TDSReport = React.lazy(() => import('./views/project-files/reports/TdsReport'))
 const GSTReport = React.lazy(() => import('./views/project-files/reports/GstReport'))
 const Revenue = React.lazy(() => import('./views/project-files/Revenue/RevenueSection'))
+
+const Page403 = React.lazy(() => import('./views/auth/Page403'))
 const routes = [
-  { path: '/', exact: true, name: 'Home' },
-  {path: '/revenue', name: 'Revenue', element: Revenue},
-  { path: '/tds-report', name: 'TDS Reports', element: TDSReport },
-  { path: '/gst-report', name: 'GST Reports', element: GSTReport },
-  { path: '/dashboard', name: 'Dashboard', element: Dashboard },
-  { path: '/manage-permission', name: 'Manage Permission', element: Permission },
-  { path: '/role-management', name: 'Dashboard', element: Rolelist },
-  { path: '/user-management', name: 'Dashboard', element: UserManagement },
-  { path: '/my-account-list', name: 'Account List', element: MyProfile, exact: true },
-  { path: '/my-account-list/client-manage-account', name: 'Manage Account', element: ClientManageAccountDetailsMainPage },
+  { path: '/', exact: true, name: 'Home' , permissionKey: -1},
+  {path: '/revenue', name: 'Revenue', element: Revenue, permissionKey: 46},
+  { path: '/tds-report', name: 'TDS Reports', element: TDSReport , permissionKey: 44},
+  { path: '/gst-report', name: 'GST Reports', element: GSTReport , permissionKey: 45},
+  { path: '/dashboard', name: 'Dashboard', element: Dashboard, permissionKey: -1 },
+  { path: '/manage-permission', name: 'Manage Permission', element: Permission, permissionKey: 47 },
+  { path: '/role-management', name: 'Role Management', element: Rolelist, permissionKey: 47  },
+  { path: '/user-management', name: 'User Management', element: UserManagement , permissionKey: 36},
 
-  { path: '/test', name: 'My Profile', element: Test },
+  { path: '/referral-list', name: 'Referral List', element: ReferralManagement, permissionKey: 39 },
+{ path: '/add-cash-transaction-list', name: 'Add Cash Transaction List', element: AddCashTransaction , permissionKey: 42 },
+  { path: '/admin-transaction-list', name: 'Admin Transaction List', element: AdminTransaction , permissionKey: 41},
+ { path: '/player-list', name: 'Player Management - Player List', element: PlayerList , exact: true,permissionKey: 38 },
+  { path: '/player-details', name: 'Player Details', element: PlayerDetails, permissionKey: 38 },
 
-{ path: '/referral-list', name: 'Referral List', element: ReferralManagement },
+
+
+  // NOT IMPLEMENT
+
+
 { path: '/game-play-transaction-list', name: 'Game Play Transaction List', element: GamePlayTransaction },
-
-  { path: '/add-cash-transaction-list', name: 'Add Cash Transaction List', element: AddCashTransaction },
-{ path: '/admin-transaction-list', name: 'Admin Transaction List', element: AdminTransaction },
+  
   { path: '/wallet-history', name: 'Wallet History', element: WalletHistory },
   { path: '/transaction-log', name: 'Transaction Log', element: WalletTransactionLog },
   { path: '/update-wallet-balance', name: 'Update Wallet Balance', element: UpdateWalletBalance },
@@ -100,7 +106,6 @@ const routes = [
   { path: '/client-list/client-transfer-balance', name: 'Client Transfer Balance', element: ClientTransferBalance },
   { path: '/client-list/client-manage-account', name: 'Manage Account', element: ClientManageAccountDetailsMainPage },
 
-
   { path: '/client-transaction-history', name: 'Client Transaction History', element: TransactionHistory },
   { path: '/client-account', name: 'Client Account List', element: ClientAccount },
 
@@ -111,9 +116,6 @@ const routes = [
   { path: '/provider-update', name: 'Provider Update', element: AddEditProvider },
 
   { path: '/game-list', name: 'Game List', element: GameList },
-
-  { path: '/player-list', name: 'Player Management - Player List', element: PlayerList , exact: true},
-  { path: '/player-details', name: 'Player List', element: PlayerDetails },
   { path: '/player-list/account-player-details', name: 'Player Details', element: AccountPlayerDetails },
   { path: '/player-list/player-details', name: 'Player Details', element: PlayerDetailsTransaction },
   { path: '/player-list/transaction-summary', name: 'Transaction Summary', element: PlayerTransactionSummary },
@@ -126,6 +128,7 @@ const routes = [
   { path: '/category-wise-report', name: 'Report Management - Category Wise Report', element: CategoryWiseReport, exact: true },
   { path: '/game-wise-report', name: 'Report Management - Game Wise Report', element: GameWiseReport, exact: true },
   { path: '/wallet-transaction-report', name: 'Report Management - Wallet Transaction Report', element: WalletTransactionReport, exact: true },
+   { path: '/403', name: 'Page 403', element: Page403, exact: true },
 
 ]
 

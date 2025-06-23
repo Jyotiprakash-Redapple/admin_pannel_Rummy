@@ -25,7 +25,8 @@ import { leftTrim } from "../../Utility/helper";
 import "react-toastify/dist/ReactToastify.css";
 import "src/scss/login.scss";
 import { useDispatch } from "react-redux";
-import { signIn } from "../../redux/slices/superAdminStateSlice";
+import { signIn, setMenuPerMission } from "../../redux/slices/superAdminStateSlice";
+import NavMenu from '../../components/_nav'
 export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
@@ -130,6 +131,44 @@ export default function Login() {
     return formIsValid;
   };
 
+  function getAllMenuFromServer(role_id, token) {
+    
+      let params = {
+        role_id: role_id,
+       
+      }
+    Service.apiPostCallRequest(RouteURL.get_all_menu_with_permission, params, token)
+        .then((res) => {
+          console.log(res, "res:: getAllMenuFromServer");
+      
+          if (res.err === Constants.API_RESPONSE_STATUS_SUCCESS) {
+            dispatch(setMenuPerMission(res.data.menus))
+            setTimeout(() => {
+              navigate('/')
+              setIsLoading(false); // Reset loader
+        setIsDisabled(false); // Enable button
+            }, 20)
+            
+            
+          } else {
+            toast.error(res.message, {
+              position: "bottom-right",
+  
+            });
+          }
+          
+        })
+      .catch((error) => {
+           setIsLoading(false); // Reset loader
+        setIsDisabled(false); // Enable button
+          toast.error(error?.response?.data?.message || "unable to fetch user permissions", {
+            position: "bottom-right",
+    
+          });
+        });
+  }
+
+
   // Submit Login Form
   const LoginSubmitClick = () => {
     setIsLoading(true); // Show loader
@@ -142,8 +181,7 @@ export default function Login() {
       .then((res) => {
         console.log(res, "RES===============>")
        
-        setIsLoading(false); // Reset loader
-        setIsDisabled(false); // Enable button
+        
 
         if (res.err === Constants.API_RESPONSE_STATUS_SUCCESS) {
           toast.success(res.message, {
@@ -167,10 +205,11 @@ export default function Login() {
           }
 
 
+          getAllMenuFromServer(res.data.role_id, res.data.token)
 
            dispatch(signIn({ username: state.username, token: res.data.token}));
           
-          navigate('/dashboard')
+          
           
 
           // navigate("/otp", {
@@ -211,10 +250,18 @@ export default function Login() {
       <div className="login-container min-vh-100 d-flex flex-row align-items-center">
         <ToastContainer />
         <CContainer style={{ zIndex: "2" }}>
-          <CRow className="justify-content-center">
-            <CCol md={6}>
+          <CRow className="justify-content-center" >
+            <CCol md={6} style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexDirection: 'column'
+            }}>
               <h3>Welcome to Rummy Panel</h3>
-              <img className="w-75 " src={casino} alt="Rummy Fair Logo" />
+              <img className="w-45 " style={{
+                width: '45%',
+                objectFit: 'content'
+              }} src={casino} alt="Rummy Fair Logo" />
             </CCol>
             <CCol md={6} className="mt-5">
               <CCardGroup>

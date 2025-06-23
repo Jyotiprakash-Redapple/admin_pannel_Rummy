@@ -37,7 +37,7 @@ const AppBreadcrumb = () => {
           <React.Fragment key={index}>
             <span className="mx-2"> - </span> 
             <CBreadcrumbItem
-              {...(breadcrumb.active ? { active: true } : { href: import.meta.env.VITE_APP_PLATFORM_ENVIROMENT == 'development' ? breadcrumb.pathname : '/cl' + breadcrumb.pathname })}
+              {...(breadcrumb.active ? { active: true } : { href: import.meta.env.VITE_APP_PLATFORM_ENVIROMENT == 'development' ? breadcrumb.pathname : breadcrumb.pathname })}
               key={index}
             >
               {breadcrumb.name}

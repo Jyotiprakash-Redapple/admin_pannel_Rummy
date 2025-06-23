@@ -46,6 +46,8 @@ import AllInOneExportButton from "../../../components/AllInOneExportButton";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import Swal from "sweetalert2";
+import { createFeatureFlags } from "../../../Utility/helper";
+import { PageLoader } from "../../../components/Loder";
 const mockProfile = {
 	name: "John Doe",
 	email: "john@example.com",
@@ -398,6 +400,10 @@ const Profile = () => {
 	const [bonusTransaction, setBonusTransaction] = useState([]);
 	const [limit, setLimit] = useState(10);
 	const [isLoadMoreInActive, setIsLoadMoreInActive] = useState(false);
+	const activeMenuId = useSelector((state) => state.active_menu_id)
+	const menuPermission = useSelector((state) => state.menu_permission)
+	const [accessMenu, setAccessMenu] = useState(null)
+			
 	function balanceRefactor(b) {
 		return b / 100;
 	}
@@ -574,6 +580,25 @@ const Profile = () => {
 		PlayerDetails();
 	}, []);
 
+	useEffect(() => {
+				if (menuPermission.length && activeMenuId) {
+					let menu = menuPermission.filter((mId) => mId.menu_id === activeMenuId);
+					console.log("MENU PERMISSION::", menu)
+					if (menu.length > 0) {
+						setAccessMenu(menu[0])
+					}
+				}
+			},[activeMenuId])
+		
+			if (accessMenu === null) {
+				return <PageLoader/>
+			}
+		
+			const FEATURE = createFeatureFlags(accessMenu.menu_features)
+			
+	
+	
+	
 	return (
 		<CRow>
 			{/* Left Side */}
@@ -603,7 +628,7 @@ const Profile = () => {
 								alt='Profile'
 								className={styles.profilePicture}
 							/>
-							<div className={styles.displayName}>{profile.display_name}</div>
+							<div className={styles.displayName}>{profile?.display_name}</div>
 						</div>
 						{/* Status Indicators */}
 						{/* <div className={styles.statusRow}>
@@ -747,7 +772,10 @@ const Profile = () => {
 						<div className={styles.buttons}>
 							<CButton
 								color={profile.player_status === "active" ? "danger" : "success"}
-								className={styles.button}
+								
+
+								className={`${styles.button} ${FEATURE.isEdit === false ? 'prevent_default' : 'auto'}`}
+								
 								style={{ color: "white" }}
 								onClick={() => {
 									let up = profile?.player_status === "active" ? "inactive" : "active";
@@ -769,7 +797,8 @@ const Profile = () => {
 							<CButton
 								color='info'
 								style={{ color: "white" }}
-								className={styles.button}
+							
+									className={`${styles.button} ${FEATURE.isEdit === false ? 'prevent_default' : 'auto'}`}
 								onClick={() => {
 									setAddMoneyModal(true);
 								}}>
@@ -779,8 +808,9 @@ const Profile = () => {
 
 							<CButton
 								color='danger'
+									className={`${styles.button} ${FEATURE.isEdit === false ? 'prevent_default' : 'auto'}`}
 								style={{ color: "white" }}
-								className={styles.button}
+								
 								onClick={() => setDedubtMoneyModal(true)}>
 								{/* <CIcon icon={cilMoney} className="me-2" /> */}
 								Deduct Money

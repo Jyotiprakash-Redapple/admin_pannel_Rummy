@@ -127,7 +127,7 @@ const ReferralManagement = () => {
 								/>
 							</CInputGroup>
 						</div>
-						<div className='col-md-7'>
+						<div className='col-md-8'>
 							<label
 								htmlFor='status_id'
 								className='form-label'

@@ -1,30 +1,78 @@
 import React from 'react';
-import { ExportAsExcel, ExportAsCsv } from '@siamf/react-export';
-import { CButton, CDropdown, CDropdownToggle, CDropdownMenu, CDropdownItem } from '@coreui/react';
+import {
+  ExportAsExcel,
+  ExportAsCsv
+} from '@siamf/react-export';
+import {
+  CDropdown,
+  CDropdownToggle,
+  CDropdownMenu,
+  CDropdownItem
+} from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilSpreadsheet } from '@coreui/icons';
 import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable'; 
+import autoTable from 'jspdf-autotable';
+
+const addTotalsRow = (data) => {
+  if (!data || data.length === 0) return data;
+
+  const keys = Object.keys(data[0]);
+
+  const totals = {};
+  keys.forEach((key, index) => {
+    const values = data.map(row => row[key]);
+    const isNumeric = values.every(val => !isNaN(parseFloat(val)) && isFinite(val));
+
+    if (index === 0) {
+      totals[key] = 'TOTAL';
+    } else if (isNumeric) {
+      totals[key] = values.reduce((sum, val) => sum + parseFloat(val || 0), 0).toFixed(2);
+    } else {
+      totals[key] = '';
+    }
+  });
+
+  return [...data, totals];
+};
+
 
 const exportStyledPDF = (data, filename) => {
+  if (!data || data.length === 0) return;
+
   const doc = new jsPDF({
     orientation: 'portrait',
     unit: 'pt',
     format: 'a4'
   });
 
-  // Add a title
   doc.setFontSize(16);
   doc.setTextColor(40);
   doc.text(`${filename}`, 40, 40);
 
+  const keys = Object.keys(data[0]);
+  const body = data.map(row => Object.values(row));
+
+  const totals = keys.map((key, index) => {
+    const values = data.map(row => row[key]);
+    const isNumeric = values.every(val => !isNaN(parseFloat(val)) && isFinite(val));
+
+    if (index === 0) return 'TOTAL';
+    if (isNumeric) {
+      return values.reduce((acc, val) => acc + parseFloat(val || 0), 0).toFixed(2);
+    }
+    return '';
+  });
+
+  body.push(totals);
+
   autoTable({
     startY: 60,
-    head: [Object.keys(data[0])],
-    body: data.map((row) => Object.values(row)),
-    theme: 'striped', // cleaner look
+    head: [keys],
+    body,
+    theme: 'striped',
     headStyles: {
-      fillColor: [29, 140, 248], // blue header
+      fillColor: [29, 140, 248],
       textColor: 255,
       fontStyle: 'bold',
       halign: 'center'
@@ -34,29 +82,27 @@ const exportStyledPDF = (data, filename) => {
       fontSize: 10
     },
     styles: {
-      overflow: 'linebreak', // wrap long text
+      overflow: 'linebreak',
       cellPadding: 5
     },
-    margin: { top: 60, bottom: 20, left: 20, right: 20 },
-    // didDrawPage: (data) => {
-    //   // Optional: add page numbers
-    //   const pageCount = doc.getNumberOfPages();
-    //   doc.setFontSize(9);
-    //   doc.text(`Page ${data.pageNumber} of ${pageCount}`, doc.internal.pageSize.width - 60, doc.internal.pageSize.height - 20);
-    // }
+    margin: { top: 60, bottom: 20, left: 20, right: 20 }
   });
 
   doc.save(`${filename}.pdf`);
 };
 
+
 const AllInOneExportButton = ({ data, filename }) => {
-console.log(data, "data AllInOneExportButton", filename)
   const formatHeader = (key) =>
-	key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-  let headers = []
+    key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+
+  let headers = [];
   if (data?.length >= 1) {
     headers = Object.keys(data?.[0]).map((key) => formatHeader(key));
   }
+
+ 
+  const dataWithTotals = addTotalsRow(data);
 
   return (
     <CDropdown>
@@ -65,30 +111,23 @@ console.log(data, "data AllInOneExportButton", filename)
         Export
       </CDropdownToggle>
       <CDropdownMenu>
-        <ExportAsExcel data={data} headers={headers} fileName={filename}>
+        <ExportAsExcel data={dataWithTotals} headers={headers} fileName={filename}>
           {(props) => (
             <CDropdownItem {...props}>Export to Excel</CDropdownItem>
           )}
         </ExportAsExcel>
 
-        {
-          data?.length ? <ExportAsCsv data={data} fileName={filename}>
-          {(props) => (
-            <CDropdownItem {...props}>Export to CSV</CDropdownItem>
-          )}
-        </ExportAsCsv> : <></>
-        }
-        {/* <ExportAsCsv data={data} fileName={filename}>
-          {(props) => (
-            <CDropdownItem {...props}>Export to CSV</CDropdownItem>
-          )}
-        </ExportAsCsv> */}
+        {data?.length ? (
+          <ExportAsCsv data={dataWithTotals} fileName={filename}>
+            {(props) => (
+              <CDropdownItem {...props}>Export to CSV</CDropdownItem>
+            )}
+          </ExportAsCsv>
+        ) : null}
 
-       {/* <CButton style={{paddingInline: '20px', fontSize: '15px'}} size="sm" onClick={() => exportStyledPDF(data, 'User Report')}>
-  
-  Export to PDF
-</CButton> */}
-
+        <CDropdownItem onClick={() => exportStyledPDF(data, filename)}>
+          Export to PDF (with Totals)
+        </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>
   );

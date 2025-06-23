@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import {
@@ -15,12 +15,20 @@ import logo from 'src/assets/images/rummy_fair.png';
 import { sideBarOpen, sideBarClose } from "../redux/slices/superAdminStateSlice";
 // sidebar nav config
 import navigation from './_nav'
+import {filterNavSideBarItems} from '../Utility/helper'
+
 
 const AppSidebar = () => {
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.sidebarShow)
+  const permissions = useSelector((state) => state.menu_permission)
+  const [sidebarNavigation, setSidebarNavigation]=useState([])
 
+  useEffect(() => {
+   
+    setSidebarNavigation( filterNavSideBarItems(navigation, permissions))
+  },[permissions])
   return (
     <CSidebar
       className="border-end"
@@ -45,7 +53,7 @@ const AppSidebar = () => {
           }
         />
       </CSidebarHeader>
-      <AppSidebarNav items={navigation} />
+      <AppSidebarNav items={sidebarNavigation} />
       <CSidebarFooter className="border-top d-none d-lg-flex">
         <CSidebarToggler
           onClick={() =>

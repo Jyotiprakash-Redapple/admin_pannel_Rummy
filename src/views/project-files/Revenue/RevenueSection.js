@@ -22,6 +22,7 @@ import Service from "../../../apis/Service";
 import RouteURL from "../../../apis/ApiURL";
 import { Constants } from "../../../apis/Constant";
 import { ToastContainer, toast } from "react-toastify";
+import AllInOneExportButton from "../../../components/AllInOneExportButton";
 const today = new Date()
 const toDateStr = today.toISOString().split('T')[0]
 
@@ -48,10 +49,10 @@ const RevenueSection = () => {
   
       Service.apiPostCallRequest(RouteURL.admin_revenue, params, token)
         .then((res) => {
-          console.log(res, "filter playerExportDeposit List");
+          console.log(res.data.revenuedata, "filter playerExportDeposit List");
           if (res.err === Constants.API_RESPONSE_STATUS_SUCCESS) {
        
-            setTotalRevenueDeposit(res.data.revenuedata.total_deposit);
+            setTotalRevenueDeposit(res.data.revenuedata?.[0].total_deposit);
             setRevenueDeposit(res.data.revenuedatadeposit)
             
           } else {
@@ -79,7 +80,7 @@ const RevenueSection = () => {
         .then((res) => {
           console.log(res, "filter playerExportWithDraw List");
           if (res.err === Constants.API_RESPONSE_STATUS_SUCCESS) {
-              setTotalRevenueWithDraw(res.data.revenuedata.total_withdrawn);
+              setTotalRevenueWithDraw(res.data.revenuedata?.[0]?.total_withdrawn);
             setRevenueWithDraw(res.data.revenuedatawidhdrwan
 )
           } else {
@@ -100,7 +101,7 @@ const RevenueSection = () => {
       playerExportWithDraw()
     }, []);
   
-  
+  console.log(totalRevenueWithDraw, "totalRevenueWithDraw", revenueWithdraw, "revenueWithdraw",totalRevenueDeposit, "totalRevenueDeposit" , revenueDeposit)
   return (
 
      <CCard className="mt-4">
@@ -202,11 +203,13 @@ const RevenueSection = () => {
             <div className={styles.cardBody}>
               <div className={styles.ctnArea}>
                 TOTAL AMOUNT RECEIVED <span className={styles.subTitle}>(DEPOSIT VIA CASHFREE)</span>
-                  <p className={styles.amount}>0</p>
+                    <p className={styles.amount}>{totalRevenueDeposit }</p>
               </div>
               <div className={styles.btnArea}>
-                  <p className={styles.transactions}>0 Transactions</p>
-              <CButton color="success" size="sm">Export</CButton>
+                    <p className={styles.transactions}>{totalRevenueDeposit} Transactions</p>
+                    
+                    <AllInOneExportButton data={revenueDeposit} filename={'revenueDeposit'}/>
+              {/* <CButton color="success" size="sm">Export</CButton> */}
               </div>
             
             </div>
@@ -222,11 +225,11 @@ const RevenueSection = () => {
             <div className={styles.cardBody}>
               <div className={styles.ctnArea}>
                 TOTAL AMOUNT WITHDRAWAL
-                 <p className={styles.amount}>0</p>
+                    <p className={styles.amount}>{totalRevenueWithDraw }</p>
               </div>
               <div className={styles.btnArea} >
-                <p className={styles.transactions}>0 Transactions</p>
-              <CButton color="success" size="sm">Export</CButton>
+                    <p className={styles.transactions}>{ totalRevenueWithDraw} Transactions</p>
+              <AllInOneExportButton data={revenueWithdraw} filename={'revenueWithdraw'}/>
              </div>
               
             </div>

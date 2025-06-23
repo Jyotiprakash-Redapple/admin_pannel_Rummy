@@ -26,6 +26,7 @@ import { Constants, REGEX, ERROR_MESSAGE } from "../../../apis/Constant";
 function balanceRefactor(b) {
 	return b / 100;
 }
+console.log("HELLO")
 // Updated Admin Transaction Data
 export const transactionData = [
 	{
@@ -73,7 +74,7 @@ const AdminTransactionManagement = () => {
 	const [copied, setCopied] = useState("");
 	const [transaction, setTransaction] = useState([]);
 	const [limit, setLimit] = useState(10);
-	const [isLoadMoreInActive, setIsLoadMoreInActive] = useState(true);
+	const [isLoadMoreInActive, setIsLoadMoreInActive] = useState(false);
 	const [fromDate, setFromDate] = useState("");
 	const [toDate, setToDate] = useState("");
 	const onCopy = (id) => {
@@ -88,10 +89,8 @@ const AdminTransactionManagement = () => {
 	);
 
 	const handleLoadMore = () => {
-		setLimit((prevLimit) => prevLimit + 10);
-		if (limit + 10 >= filteredTransactionData.length) {
-			setIsLoadMoreInActive(true);
-		}
+		setLimit((prevLimit) => prevLimit * 2);
+		
 	};
 	const fetchAdminCashTransaction = () => {
 		let params = {
@@ -101,6 +100,7 @@ const AdminTransactionManagement = () => {
 			page: 1,
 			limit: limit,
 		};
+		console.log(params, "PARAM<")
 		Service.apiPostCallRequest(RouteURL.get_admin_transaction, params, token)
 			.then((res) => {
 				console.log(res, "transaction get_admin_transaction transaction");
@@ -188,7 +188,8 @@ const AdminTransactionManagement = () => {
 							</CTableHead>
 							<CTableBody>
 								{filteredTransactionData.length > 0 ? (
-									filteredTransactionData.slice(0, limit).map((item, index) => (
+									<>
+										{filteredTransactionData.slice(0, limit).map((item, index) => (
 										<>
 											<CTableRow key={index}>
 												<CTableDataCell>
@@ -237,17 +238,25 @@ const AdminTransactionManagement = () => {
 													</CButton> */}
 												</CTableDataCell>
 											</CTableRow>
-											{index === limit - 1 && filteredTransactionData.length > limit && (
-												<CTableRow>
-													<CTableDataCell colSpan='100%' className='text-center'>
+											
+										
+										</>
+										))}
+								
+											{isLoadMoreInActive ? <></> : <CTableRow>
+													<CTableDataCell colSpan='100%' className='text-center' >
 														<CButton color='secondary' variant='outline' onClick={handleLoadMore}>
 															Load More
 														</CButton>
 													</CTableDataCell>
-												</CTableRow>
-											)}
-										</>
-									))
+												</CTableRow>}
+							
+									
+										
+										
+
+									</>
+									
 								) : (
 									<CTableRow>
 										<CTableDataCell colSpan='10' className='text-center'>

@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import SimpleBar from 'simplebar-react'
 import 'simplebar-react/dist/simplebar.min.css'
 import { CBadge, CNavLink, CSidebarNav } from '@coreui/react'
-
+import { useSelector, useDispatch } from 'react-redux'
+import {setActiveMenuId} from '../redux/slices/superAdminStateSlice'
 export const AppSidebarNav = ({ items }) => {
+  const [menu, setMenu] = useState()
+  const dispatch = useDispatch()
   const navLink = (name, icon, badge, indent = false) => {
     return (
       <>
@@ -32,7 +35,10 @@ export const AppSidebarNav = ({ items }) => {
     return (
       <Component as="div" key={index}>
         {rest.to || rest.href ? (
-          <CNavLink {...(rest.to && { as: NavLink })} {...rest}>
+          <CNavLink {...(rest.to && { as: NavLink })} {...rest} onClick={(e) =>{
+            console.log(item, "ITEM===>CLICK")
+            dispatch(setActiveMenuId(item.menu_id))
+          }}>
             {navLink(name, icon, badge, indent)}
           </CNavLink>
         ) : (

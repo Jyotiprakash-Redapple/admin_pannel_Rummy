@@ -1,5 +1,10 @@
 .container {
+    max-width: 100%;
+  background: #fff;
   padding: 20px;
+  border-radius: 8px;
+   color: #000;
+  font-family: "Segoe UI", sans-serif;
 }
 
 .table {
@@ -27,7 +32,6 @@ td {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-weight: bold;
   text-transform: capitalize;
 }
 
