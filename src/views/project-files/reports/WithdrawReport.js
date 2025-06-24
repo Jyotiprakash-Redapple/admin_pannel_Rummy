@@ -25,8 +25,8 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { Constants } from "../../../apis/Constant";
 function balanceRefactor(b) {
-		return b / 100;
-	}
+    return b / 100;
+  }
 // Updated Admin Transaction Data
 export const transactionData = [
   {
@@ -99,32 +99,32 @@ const [fromDate, setFromDate] = useState("");
     let params = {
       report_type: 'gst',
       search: search,
-			from_date: fromDate,
-			to_date: toDate,
-			page: 1,
-			limit: pageLimit
-		};
-		Service.apiPostCallRequest(RouteURL.admin_report_management, params, token)
-			.then((res) => {
-				console.log(res, "report");
-				if (res.err === Constants.API_RESPONSE_STATUS_SUCCESS) {
-					if (res.data.total == res.data.reportTransactions.length) {
-						setIsLoadMoreInActive(true);
-					}
-					setTransaction(res.data.reportTransactions);
-				} else {
-					toast.error(res.message, {
-						position: "bottom-right",
-		
-					});
-				}
-			})
+      from_date: fromDate,
+      to_date: toDate,
+      page: 1,
+      limit: pageLimit
+    };
+    Service.apiPostCallRequest(RouteURL.admin_report_management, params, token)
+      .then((res) => {
+        console.log(res, "report");
+        if (res.err === Constants.API_RESPONSE_STATUS_SUCCESS) {
+          if (res.data.total == res.data.reportTransactions.length) {
+            setIsLoadMoreInActive(true);
+          }
+          setTransaction(res.data.reportTransactions);
+        } else {
+          toast.error(res.message, {
+            position: "bottom-right",
+    
+          });
+        }
+      })
       .catch((error) => {
         console.log(error, "ERROR ===============> ||")
-				toast.error(error.response.data.message, {
-					position: "bottom-right",
-				});
-			});
+        toast.error(error.response.data.message, {
+          position: "bottom-right",
+        });
+      });
     };
   
   useEffect(() => {

@@ -106,10 +106,10 @@ const [fromDate, setFromDate] = useState("");
 			.then((res) => {
 				console.log(res, "report");
 				if (res.err === Constants.API_RESPONSE_STATUS_SUCCESS) {
-					if (res.data.total == res.data.tdsTransactions.length) {
+					if (res.data.total == res.data.reportTransactions.length) {
 						setIsLoadMoreInActive(true);
 					}
-					setTransaction(res.data.tdsTransactions);
+					setTransaction(res.data.reportTransactions);
 				} else {
 					toast.error(res.data.message, {
 						position: "bottom-right",

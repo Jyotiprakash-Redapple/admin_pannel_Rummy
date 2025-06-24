@@ -144,7 +144,7 @@ export default function Login() {
           if (res.err === Constants.API_RESPONSE_STATUS_SUCCESS) {
             dispatch(setMenuPerMission(res.data.menus))
             setTimeout(() => {
-              navigate('/')
+              navigate('/dashboard')
               setIsLoading(false); // Reset loader
         setIsDisabled(false); // Enable button
             }, 20)

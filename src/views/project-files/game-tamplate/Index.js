@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 import {
   CCard, CCardHeader, CButton, CFormInput, CInputGroup, CInputGroupText,
   CTable, CTableHead, CTableRow, CTableHeaderCell, CTableBody, CTableDataCell,
-  CModal, CModalBody, CModalHeader, CModalTitle, CModalFooter
+  CModal, CModalBody, CModalHeader, CModalTitle, CModalFooter,
+  CCardBody, CBadge
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilSearch, cilPlus } from '@coreui/icons';
@@ -91,8 +92,9 @@ const TemplateManagement = () => {
         </CButton>
       </CCardHeader>
 
-      <div className="row m-3">
-        <div className="col-md-6">
+      <CCardBody>
+          <div className="row m-3">
+        <div className="col-4">
           <CInputGroup>
             <CInputGroupText><CIcon icon={cilSearch} /></CInputGroupText>
             <CFormInput
@@ -103,16 +105,16 @@ const TemplateManagement = () => {
             />
           </CInputGroup>
         </div>
-        <div className="col-md-6 text-end">
+        <div className="col-8 text-end">
           <AllInOneExportButton data={filteredData} filename="template-export" />
         </div>
       </div>
 
       <div className="table-responsive">
-        <CTable hover bordered responsive>
-          <CTableHead color="light">
+        <CTable hover bordered responsive >
+          <CTableHead className='table-primary text-center align-middle'>
             <CTableRow>
-              <CTableHeaderCell>ID</CTableHeaderCell>
+              <CTableHeaderCell>Id</CTableHeaderCell>
               <CTableHeaderCell>Name</CTableHeaderCell>
               <CTableHeaderCell>Min Buyin</CTableHeaderCell>
               <CTableHeaderCell>Max Buyin</CTableHeaderCell>
@@ -124,7 +126,7 @@ const TemplateManagement = () => {
           </CTableHead>
           <CTableBody>
             {filteredData.map((item, index) => (
-              <CTableRow key={index}>
+              <CTableRow key={index} className='text-center'>
                 <CTableDataCell>{item.id}</CTableDataCell>
                 <CTableDataCell>{item.name}</CTableDataCell>
                 <CTableDataCell>{item.minBuyin}</CTableDataCell>
@@ -132,12 +134,27 @@ const TemplateManagement = () => {
                 <CTableDataCell>{item.minPlayer} - {item.maxPlayer}</CTableDataCell>
                 <CTableDataCell>{item.noOfCards}</CTableDataCell>
                 <CTableDataCell>{item.serviceFee}</CTableDataCell>
-                <CTableDataCell>{item.status === 1 ? 'Active' : 'Inactive'}</CTableDataCell>
+                <CTableDataCell >
+                  <CBadge
+                                        color={item.status === 1 ? "success" : "danger"}
+                                        // onClick={() => {
+                                        //   UpdateRoleToServer(
+                                        //     u.role_id,
+                                        //     u.role_name,
+                                        //     u.role_status === "active" ? "inactive" : "active"
+                                        //   );
+                                        // }}
+                                        style={{ cursor: "pointer" }}>
+                                       {item.status === 1 ? 'Active' : 'Inactive'}
+                                      </CBadge>
+                 </CTableDataCell>
               </CTableRow>
             ))}
           </CTableBody>
         </CTable>
       </div>
+      </CCardBody>
+    
 
       <CModal visible={visible} onClose={() => setVisible(false)} backdrop="static">
         <CModalHeader>

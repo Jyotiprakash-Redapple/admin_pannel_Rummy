@@ -109,6 +109,13 @@ const _nav = [
         name: 'GST',
         to: '/gst-report',
       },
+      //! DUPLICATE KEY
+      {
+        component: CNavItem,
+        menu_id: 45,
+        name: 'Withdraw',
+        to: '/withdraw-report',
+      },
     ],
   },
   {
@@ -119,6 +126,7 @@ const _nav = [
     menu_id: 46,
     icon: <CIcon icon={cilChartPie} customClassName="nav-icon" />,
   },
+  //! DUPLICATE KEY
   {
     component: CNavItem,
     name: 'Game Tamplate',
