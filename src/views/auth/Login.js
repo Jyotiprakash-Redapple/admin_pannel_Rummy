@@ -145,6 +145,8 @@ export default function Login() {
             dispatch(setMenuPerMission(res.data.menus))
             setTimeout(() => {
               navigate('/dashboard')
+
+           dispatch(signIn({ username: state.username, token}));
               setIsLoading(false); // Reset loader
         setIsDisabled(false); // Enable button
             }, 20)
@@ -207,7 +209,6 @@ export default function Login() {
 
           getAllMenuFromServer(res.data.role_id, res.data.token)
 
-           dispatch(signIn({ username: state.username, token: res.data.token}));
           
           
           
