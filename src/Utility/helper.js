@@ -110,12 +110,12 @@ function createFeatureFlags(features) {
     acc[feature.feature_name.toLowerCase()] = feature.prop === true;
     return acc;
   }, {});
-
+console.log("FEATURE::MAP", featureMap)
   return {
-    isView: () => featureMap['view'] || false,
-    isCreate: () => featureMap['add'] || false,
-    isEdit: () => featureMap['edit'] || false,
-    isDelete: () => featureMap['delete'] || false,
+    isView: featureMap['view'] || false,
+    isCreate:featureMap['add'] || false,
+    isEdit: featureMap['edit'] || false,
+    isDelete: featureMap['delete'] || false,
   };
 }
 

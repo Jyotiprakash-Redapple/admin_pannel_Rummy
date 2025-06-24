@@ -294,3 +294,8 @@ button.btn.btn-secondary.dropdown-toggle {
 .date_rng_piker{
   position: absolute;
 }
+.prevent_default{
+  pointer-events: none !important;
+  cursor: none !important;
+  
+}

@@ -207,7 +207,7 @@ const UserRoleManagement = () => {
 	}
 
 	const FEATURE = createFeatureFlags(accessMenu.menu_features)
-	
+	console.log(FEATURE.isDelete, "FETAURE ROLE", accessMenu.menu_features)
 	return (
 		<div className={styles.container}>
 			<ToastContainer />
