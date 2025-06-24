@@ -70,9 +70,11 @@ const GSTReport = React.lazy(() => import('./views/project-files/reports/GstRepo
 const Revenue = React.lazy(() => import('./views/project-files/Revenue/RevenueSection'))
 
 const Page403 = React.lazy(() => import('./views/auth/Page403'))
+const GameTamplate = React.lazy(()=>import('./views/project-files/game-tamplate/Index'))
 const routes = [
   { path: '/', exact: true, name: 'Home' , permissionKey: -1},
-  {path: '/revenue', name: 'Revenue', element: Revenue, permissionKey: 46},
+  { path: '/revenue', name: 'Revenue', element: Revenue, permissionKey: 46 },
+  {path: '/game-tamplate', name: 'Game Tamplate', element: GameTamplate, permissionKey: 46},
   { path: '/tds-report', name: 'TDS Reports', element: TDSReport , permissionKey: 44},
   { path: '/gst-report', name: 'GST Reports', element: GSTReport , permissionKey: 45},
   { path: '/dashboard', name: 'Dashboard', element: Dashboard, permissionKey: -1 },

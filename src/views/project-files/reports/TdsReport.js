@@ -21,8 +21,9 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { ToastContainer, toast } from 'react-toastify';
 import Service from "../../../apis/Service";
 import RouteURL from "../../../apis/ApiURL";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Constants } from "../../../apis/Constant";
+import {setLimit} from "../../../redux/slices/superAdminStateSlice"
 function balanceRefactor(b) {
 		return b / 100;
 	}
@@ -67,11 +68,13 @@ export const transactionData = [
 ];
 
 const AdminTransactionManagement = () => {
-   const token = useSelector((state) => state.user.token);
+  const dispatch = useDispatch()
+  const token = useSelector((state) => state.user.token);
+  const pageLimit = useSelector((state) => state.limit);
   const [search, setSearch] = useState('');
   const [copied, setCopied] = useState('');
   const [transaction, setTransaction] = useState([]);
-  const [limit, setLimit] = useState(10);
+  // const [limit, setLimit] = useState(10);
   const [isLoadMoreInActive, setIsLoadMoreInActive] = useState(true);
 const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
@@ -88,10 +91,7 @@ const [fromDate, setFromDate] = useState("");
   );
 
   const handleLoadMore = () => {
-    setLimit((prevLimit) => prevLimit + 10);
-    if (limit + 10 >= filteredTransactionData.length) {
-      setIsLoadMoreInActive(true);
-    }
+    dispatch(setLimit(pageLimit))
   };
   const fetchAdminCashTransaction = () => {
     let params = {
@@ -100,7 +100,7 @@ const [fromDate, setFromDate] = useState("");
 			from_date: fromDate,
 			to_date: toDate,
 			page: 1,
-			limit: limit,
+			limit: pageLimit,
 		};
 		Service.apiPostCallRequest(RouteURL.admin_report_management, params, token)
 			.then((res) => {
@@ -220,7 +220,8 @@ const [fromDate, setFromDate] = useState("");
               </CTableHead>
               <CTableBody>
                 {filteredTransactionData.length > 0 ? (
-                  filteredTransactionData.slice(0, limit).map((item, index) => (
+                  <>
+                  { filteredTransactionData.map((item, index) => (
                     <>
                       <CTableRow key={index}>
                         <CTableDataCell>
@@ -275,21 +276,20 @@ const [fromDate, setFromDate] = useState("");
                           {/* </CButton> */}
                         </CTableDataCell>
                       </CTableRow>
-                      {index === limit - 1 && filteredTransactionData.length > limit && (
-                        <CTableRow>
-                          <CTableDataCell colSpan="100%" className="text-center">
-                            <CButton
-                              color="secondary"
-                              variant="outline"
-                              onClick={handleLoadMore}
-                            >
-                              Load More
-                            </CButton>
-                          </CTableDataCell>
-                        </CTableRow>
-                      )}
+                      
                     </>
-                  ))
+                  ))}
+                 {isLoadMoreInActive ? <></> : <CTableRow>
+                                                                <CTableDataCell colSpan='100%' className='text-center' >
+                                                                  <CButton color='secondary' variant='outline' onClick={handleLoadMore}>
+                                                                    Load More
+                                                                  </CButton>
+                                                                </CTableDataCell>
+                                                              </CTableRow>}
+                  </>
+
+                  
+                 
                 ) : (
                   <CTableRow>
                     <CTableDataCell colSpan="10" className="text-center">

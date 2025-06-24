@@ -48,6 +48,7 @@ import "react-date-range/dist/theme/default.css"; // theme css file
 import Swal from "sweetalert2";
 import { createFeatureFlags } from "../../../Utility/helper";
 import { PageLoader } from "../../../components/Loder";
+import {setLimit} from '../../../redux/slices/superAdminStateSlice'
 const mockProfile = {
 	name: "John Doe",
 	email: "john@example.com",
@@ -389,6 +390,7 @@ const Profile = () => {
 	let navigate = useNavigate();
 	let location = useLocation();
 	const token = useSelector((state) => state.user.token);
+	const pageLimit = useSelector((state) => state.limit);
 	const [activeTab, setActiveTab] = useState("1");
 	const [fromDate, setFromDate] = useState("");
 	const [toDate, setToDate] = useState("");
@@ -398,7 +400,7 @@ const Profile = () => {
 	const [accountTransaction, setAccountTransaction] = useState([]);
 	const [addCashTransaction, setAddcashTransaction] = useState([]);
 	const [bonusTransaction, setBonusTransaction] = useState([]);
-	const [limit, setLimit] = useState(10);
+	// const [limit, setLimit] = useState(10);
 	const [isLoadMoreInActive, setIsLoadMoreInActive] = useState(false);
 	const activeMenuId = useSelector((state) => state.active_menu_id)
 	const menuPermission = useSelector((state) => state.menu_permission)
@@ -439,7 +441,7 @@ const Profile = () => {
 			from_date: fromDate,
 			to_date: toDate,
 			page: 1,
-			limit: limit,
+			limit: pageLimit,
 		};
 		Service.apiPostCallRequest(RouteURL.get_account_statement, params, token)
 			.then((res) => {
@@ -468,7 +470,7 @@ const Profile = () => {
 			from_date: fromDate,
 			to_date: toDate,
 			page: 1,
-			limit: limit,
+			limit: pageLimit,
 		};
 		Service.apiPostCallRequest(RouteURL.add_cash_account_statement, params, token)
 			.then((res) => {
@@ -498,7 +500,7 @@ const Profile = () => {
 			from_date: fromDate,
 			to_date: toDate,
 			page: 1,
-			limit: limit,
+			limit: pageLimit,
 		};
 		Service.apiPostCallRequest(RouteURL.bonus_account_statement, params, token)
 			.then((res) => {
@@ -574,7 +576,7 @@ const Profile = () => {
 		} else if (activeTab == 3) {
 			fetchBonusransaction();
 		}
-	}, [activeTab, fromDate, toDate, limit]);
+	}, [activeTab, fromDate, toDate, pageLimit]);
 
 	useEffect(() => {
 		PlayerDetails();
@@ -845,7 +847,7 @@ const Profile = () => {
 									setActiveTab("2");
 									setFromDate("");
 									setToDate("");
-									setLimit(10);
+									setLimit(20);
 									setIsLoadMoreInActive(false);
 								}}
 								role='button'>
@@ -859,7 +861,7 @@ const Profile = () => {
 									setFromDate("");
 									setToDate("");
 									setActiveTab("3");
-									setLimit(10);
+									setLimit(20);
 									setIsLoadMoreInActive(false);
 								}}
 								role='button'>

@@ -34,6 +34,7 @@ import RouteURL from "../../../apis/ApiURL";
 import { Constants } from "../../../apis/Constant";
 import { ToastContainer, toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import { setLimit } from "../../../redux/slices/superAdminStateSlice";
 export const referralData = [
 	{ id: 1, username: "laxk", totalReferral: 2, bonusEarn: 25 },
 	{ id: 2, username: "28V3IARZKL", totalReferral: 2, bonusEarn: 4 },
@@ -48,12 +49,13 @@ export const referralData = [
 ];
 const ReferralManagement = () => {
 	const token = useSelector((state) => state.user.token);
+		const pageLimit = useSelector((state) => state.limit);
 	const [search, setSearch] = useState("");
 	const [list, setList] = useState([]);
 	const [copied, setCopied] = useState({ copied: false, copyText: "" });
 	const [page, setPage] = useState(1);
 	const [total, setTotal] = useState(10);
-	const [limit, setLimit] = useState(10);
+	// const [limit, setLimit] = useState(10);
 	const onCopy = React.useCallback((id) => {
 		setCopied((prevState) => ({
 			...prevState,
@@ -68,7 +70,7 @@ const ReferralManagement = () => {
 		let params = JSON.stringify({
 			search: search,
 			page: page,
-			limit: limit,
+			limit: pageLimit,
 		});
 
 		Service.apiPostCallRequest(RouteURL.player_filter_list, params, token)
@@ -94,7 +96,7 @@ const ReferralManagement = () => {
 
 	useEffect(() => {
 		playerRefreealList();
-	}, [page, limit, search]);
+	}, [page, pageLimit, search]);
 
 	return (
 		<CCard className='mt-4'>

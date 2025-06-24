@@ -21,8 +21,9 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import { ToastContainer, toast } from "react-toastify";
 import Service from "../../../apis/Service";
 import RouteURL from "../../../apis/ApiURL";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Constants, REGEX, ERROR_MESSAGE } from "../../../apis/Constant";
+import { setLimit } from "../../../redux/slices/superAdminStateSlice";
 // Demo Data
 export const transactionData = [
 	{
@@ -55,10 +56,12 @@ function balanceRefactor(b) {
 
 const AddCashTransactionManagement = () => {
 	const token = useSelector((state) => state.user.token);
+	const pageLimit = useSelector((state) => state.limit);
+	const dispatch = useDispatch()
 	const [search, setSearch] = useState("");
 	const [copied, setCopied] = useState("");
 	const [transaction, setTransaction] = useState([]);
-	const [limit, setLimit] = useState(10);
+	// const [limit, setLimit] = useState(10);
 	const [isLoadMoreInActive, setIsLoadMoreInActive] = useState(true);
 	const [fromDate, setFromDate] = useState("");
 	const [toDate, setToDate] = useState("");
@@ -74,10 +77,8 @@ const AddCashTransactionManagement = () => {
 	);
 
 	const handleLoadMore = () => {
-		setLimit((prevLimit) => prevLimit + 10);
-		// if (limit + 10 >= filteredTransactionData.length) {
-		//   setIsLoadMoreInActive(true);
-		// }
+		dispatch(setLimit(pageLimit))
+
 	};
 
 	const fetchAddCashTransaction = () => {
@@ -86,7 +87,7 @@ const AddCashTransactionManagement = () => {
 			from_date: fromDate,
 			to_date: toDate,
 			page: 1,
-			limit: limit,
+			limit: pageLimit,
 		};
 		Service.apiPostCallRequest(RouteURL.add_cash_account_statement, params, token)
 			.then((res) => {
@@ -112,7 +113,7 @@ const AddCashTransactionManagement = () => {
 
 	useEffect(() => {
 		fetchAddCashTransaction();
-	}, [limit]);
+	}, [pageLimit]);
 
 	return (
 		<CCard className='mt-4'>
@@ -175,9 +176,8 @@ const AddCashTransactionManagement = () => {
 								</CTableRow>
 							</CTableHead>
 							<CTableBody>
-                
-								{filteredTransactionData.length > 0 ? (
-									filteredTransactionData.slice(0, limit).map((txn, index) => (
+								<>{filteredTransactionData.length > 0 ? <>{
+									filteredTransactionData.map((txn, index) => (
 										<>
 											<CTableRow key={txn.wallet_trnx_id}>
 												<CTableDataCell>
@@ -232,6 +232,84 @@ const AddCashTransactionManagement = () => {
 												</CTableDataCell>
 												<CTableDataCell>{txn.wallet_trnx_description}</CTableDataCell>
 											</CTableRow>
+
+
+
+											
+										</>
+									))}
+											{isLoadMoreInActive ? <></> : <CTableRow>
+										<CTableDataCell colSpan='100%' className='text-center' >
+											<CButton color='secondary' variant='outline' onClick={handleLoadMore}>
+												Load More
+											</CButton>
+										</CTableDataCell>
+									</CTableRow>}
+								</>
+										
+									 : <></>}
+								
+								
+								</>
+								{filteredTransactionData.length > 0 ? (
+									filteredTransactionData.map((txn, index) => (
+										<>
+											<CTableRow key={txn.wallet_trnx_id}>
+												<CTableDataCell>
+													<span style={{ color: copied !== txn.wallet_trnx_id ? "" : "#1b9e3e" }}>
+														{txn.wallet_trnx_id}
+													</span>
+													<CopyToClipboard
+														text={txn.wallet_trnx_id}
+														onCopy={() => onCopy(txn.wallet_trnx_id)}>
+														<a
+															href='#'
+															style={{
+																marginLeft: "5px",
+																color: copied !== txn.wallet_trnx_id ? "" : "#1b9e3e",
+															}}>
+															<CTooltip content='Copy Order ID'>
+																{copied !== txn.wallet_trnx_id ? (
+																	<i className='bi bi-copy' />
+																) : (
+																	<i className='bi bi-check-lg' />
+																)}
+															</CTooltip>
+														</a>
+													</CopyToClipboard>
+												</CTableDataCell>
+
+												{/* <CTableDataCell>{txn.reference_id}</CTableDataCell> */}
+												<CTableDataCell>
+													₹{balanceRefactor(txn.wallet_trnx_deposit_amount)}
+												</CTableDataCell>
+												<CTableDataCell>
+													₹{balanceRefactor(txn.wallet_trnx_bonus_amount)}
+												</CTableDataCell>
+												<CTableDataCell>
+													₹{balanceRefactor(txn.wallet_trnx_withdrawable_amount)}
+												</CTableDataCell>
+												<CTableDataCell>₹{balanceRefactor(txn.total_amount)}</CTableDataCell>
+												<CTableDataCell>
+													₹{balanceRefactor(txn.wallet_trnx_available_bonus_balance)}
+												</CTableDataCell>
+												<CTableDataCell>
+													₹{balanceRefactor(txn.wallet_trnx_available_deposit_balance)}
+												</CTableDataCell>
+												<CTableDataCell>
+													₹{balanceRefactor(txn.wallet_trnx_available_withdrawable_balance)}
+												</CTableDataCell>
+												{/* <CTableDataCell>{txn?.wallet_trnx_action || "TFB"}</CTableDataCell> */}
+												{/* <CTableDataCell>{txn.transaction_type}</CTableDataCell> */}
+												<CTableDataCell>{txn.wallet_trnx_status}</CTableDataCell>
+												<CTableDataCell>
+													{new Date(txn.wallet_trnx_date).toLocaleString()}
+												</CTableDataCell>
+												<CTableDataCell>{txn.wallet_trnx_description}</CTableDataCell>
+											</CTableRow>
+
+
+
 											{index === limit - 1 && filteredTransactionData.length > limit && (
 												<CTableRow>
 													<CTableDataCell colSpan='100%' className='text-center'>

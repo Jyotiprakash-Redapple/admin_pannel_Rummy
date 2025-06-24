@@ -42,6 +42,7 @@ import {
 	SelectCurrency,
 	currencyWiseAmount,
 	PlayerDetails,
+	setLimit
 } from "../../../redux/slices/superAdminStateSlice";
 import MasterData from "../../../Utility/MasterData";
 import Swal from "sweetalert2";
@@ -58,6 +59,7 @@ export default function PlayerList() {
 	const dispatch = useDispatch();
 	let navigate = useNavigate();
 	const token = useSelector((state) => state.user.token);
+	const PageLimit = useSelector((state)=>state.limit)
 	const [accountList, setAccountList] = useState([]);
 	const [startDate, setStartDate] = useState(moment().subtract(1, "days"));
 	const [endDate, setEndDate] = useState(moment());
@@ -559,7 +561,7 @@ export default function PlayerList() {
 
 			status: playerFilter.status,
 			page: playerFilter.page,
-			limit: playerFilter.limit,
+			limit: PageLimit,
 		});
 
 		console.log(params, "params player list");
@@ -596,7 +598,7 @@ export default function PlayerList() {
 		playerFilter.search,
 	
 		playerFilter.page,
-		playerFilter.limit,
+PageLimit,
 		playerFilter.status,
 	]);
 

@@ -119,6 +119,14 @@ const _nav = [
     menu_id: 46,
     icon: <CIcon icon={cilChartPie} customClassName="nav-icon" />,
   },
+  {
+    component: CNavItem,
+    name: 'Game Tamplate',
+    to: '/game-tamplate',
+    parent_menu_id: 0,
+    menu_id: 46,
+    icon: <CIcon icon={cilChartPie} customClassName="nav-icon" />,
+  },
 ]
 
 export default _nav

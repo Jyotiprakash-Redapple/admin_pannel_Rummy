@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 const initialState = {
     user: {},
+    limit: 2,
     menu_permission: [],
     active_menu_id: 0,
     isLoggedIn: false,
@@ -34,6 +35,9 @@ const SuperAdminDetailStateSlice = createSlice({
         },
         setActiveMenuId: (state, action) => {
             state.active_menu_id = action.payload
+        },
+        setLimit: (state, action) => {
+            state.limit = action.payload;  
         },
         setMenuPerMission: (state, action) => {
            
@@ -109,7 +113,7 @@ const SuperAdminDetailStateSlice = createSlice({
 });
 
 export const { signIn, signOut, sideBarOpen, sideBarClose, Currency, SelectCurrency, currencyWiseAmount, client, client_data_clear, account, providerStore, clientAccountTransferBalanceDetails, clientAccountDetails, walletDetails, PlayerDetails, LoginDetails,technicalDetails 
-    ,selectedCurrencyAccountDetails,setMenuPerMission, setActiveMenuId
+    ,selectedCurrencyAccountDetails,setMenuPerMission, setActiveMenuId, setLimit
 } =
     SuperAdminDetailStateSlice.actions;
 

@@ -32,6 +32,8 @@ import { Constants, REGEX, ERROR_MESSAGE } from "../../../apis/Constant";
 import { setTimeout } from "core-js";
 import { createFeatureFlags } from '../../../Utility/helper';
 import { PageLoader } from '../../../components/Loder';
+import CIcon from '@coreui/icons-react';
+import { cilSearch, cilPlus } from '@coreui/icons';
 const UserRoleManagement = () => {
 	const [visible, setVisible] = useState(false);
 	const token = useSelector((state) => state.user.token);
@@ -245,7 +247,8 @@ const UserRoleManagement = () => {
 						<option>Inactive</option>
 					</select>
 				</div>
-				<CButton color='primary' onClick={() => setVisible(true)}  className={ FEATURE.isCreate == false ? 'prevent_default' : 'auto'} >
+				<CButton color='primary' onClick={() => setVisible(true)} className={FEATURE.isCreate == false ? 'prevent_default' : 'auto'} >
+					 <CIcon icon={cilPlus} className="me-2" /> 
 					Add User
 				</CButton>
 			</div>

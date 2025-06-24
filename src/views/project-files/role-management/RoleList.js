@@ -26,6 +26,10 @@ import { Constants, REGEX, ERROR_MESSAGE } from "../../../apis/Constant";
 import { useNavigate } from "react-router-dom";
 import { createFeatureFlags } from "../../../Utility/helper";
 import { PageLoader } from "../../../components/Loder";
+import CIcon from '@coreui/icons-react';
+import { cilSearch, cilPlus } from '@coreui/icons';
+
+
 const users = [
 	{
 		id: 1,
@@ -222,7 +226,8 @@ const UserRoleManagement = () => {
 						<option>Inactive</option>
 					</select>
 				</div>
-				<CButton color='primary' onClick={() => setVisible(true)} className={ FEATURE.isCreate == false ? 'prevent_default' : 'auto'}>
+				<CButton color='primary' onClick={() => setVisible(true)} className={FEATURE.isCreate == false ? 'prevent_default' : 'auto'}>
+						<CIcon icon={cilPlus} className="me-2" /> 
 					Add Role
 				</CButton>
 			</div>

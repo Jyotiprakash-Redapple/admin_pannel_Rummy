@@ -21,7 +21,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import { ToastContainer, toast } from "react-toastify";
 import Service from "../../../apis/Service";
 import RouteURL from "../../../apis/ApiURL";
-import { useSelector } from "react-redux";
+import { useSelector , useDispatch} from "react-redux";
 import { Constants, REGEX, ERROR_MESSAGE } from "../../../apis/Constant";
 function balanceRefactor(b) {
 	return b / 100;
@@ -69,7 +69,9 @@ export const transactionData = [
 ];
 
 const AdminTransactionManagement = () => {
+	const dispatch = useDispatch()
 	const token = useSelector((state) => state.user.token);
+	const pageLimit = useSelector((state) => state.limit);
 	const [search, setSearch] = useState("");
 	const [copied, setCopied] = useState("");
 	const [transaction, setTransaction] = useState([]);
@@ -89,8 +91,8 @@ const AdminTransactionManagement = () => {
 	);
 
 	const handleLoadMore = () => {
-		setLimit((prevLimit) => prevLimit * 2);
-		
+		dispatch(setLimit(pageLimit))
+
 	};
 	const fetchAdminCashTransaction = () => {
 		let params = {
@@ -98,7 +100,7 @@ const AdminTransactionManagement = () => {
 			from_date: fromDate,
 			to_date: toDate,
 			page: 1,
-			limit: limit,
+			limit: pageLimit,
 		};
 		console.log(params, "PARAM<")
 		Service.apiPostCallRequest(RouteURL.get_admin_transaction, params, token)
