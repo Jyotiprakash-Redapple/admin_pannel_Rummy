@@ -48,7 +48,7 @@ import "react-date-range/dist/theme/default.css"; // theme css file
 import Swal from "sweetalert2";
 import { createFeatureFlags } from "../../../Utility/helper";
 import { PageLoader } from "../../../components/Loder";
-import {setLimit} from '../../../redux/slices/superAdminStateSlice'
+import {setLimit, clearLimit} from '../../../redux/slices/superAdminStateSlice'
 const mockProfile = {
 	name: "John Doe",
 	email: "john@example.com",
@@ -523,7 +523,10 @@ const Profile = () => {
 				});
 			});
 	};
+const handleLoadMore = () => {
+		dispatch(setLimit(pageLimit))
 
+	};
 	const updatePlayerStatus = (up) => {
 		let params = {
 			player_id: location?.state?.playerId,
@@ -568,6 +571,15 @@ const Profile = () => {
 		});
 	};
 
+		useEffect(() => {
+				// fetchAddCashTransaction();
+		
+				return () => {
+							dispatch(clearLimit())
+						}
+		}, []);
+	
+	
 	useEffect(() => {
 		if (activeTab == 1) {
 			fetchAccountTransaction();
@@ -596,7 +608,7 @@ const Profile = () => {
 				return <PageLoader/>
 			}
 		
-			const FEATURE = createFeatureFlags(accessMenu.menu_features)
+			const FEATURE = createFeatureFlags(accessMenu?.menu_features)
 			
 	
 	
@@ -834,7 +846,7 @@ const Profile = () => {
 									setFromDate("");
 									setToDate("");
 									setIsLoadMoreInActive(false);
-									setLimit(10);
+									dispatch(clearLimit())
 								}}
 								role='button'>
 								Account Statement
@@ -847,8 +859,9 @@ const Profile = () => {
 									setActiveTab("2");
 									setFromDate("");
 									setToDate("");
-									setLimit(20);
+			
 									setIsLoadMoreInActive(false);
+									dispatch(clearLimit())
 								}}
 								role='button'>
 								Add Cash Transaction
@@ -861,7 +874,8 @@ const Profile = () => {
 									setFromDate("");
 									setToDate("");
 									setActiveTab("3");
-									setLimit(20);
+							
+									dispatch(clearLimit())
 									setIsLoadMoreInActive(false);
 								}}
 								role='button'>
@@ -945,7 +959,7 @@ const Profile = () => {
 									data={accountTransaction}
 									title='Account Statement'
 									tab={activeTab}
-									setLimit={setLimit}
+									handleLoadMore={handleLoadMore}
 									isLoadMoreInActive={isLoadMoreInActive}
 								/>
 							</CTabPane>
@@ -954,7 +968,7 @@ const Profile = () => {
 									data={addCashTransaction}
 									title='Add Cash Transaction'
 									tab={activeTab}
-									setLimit={setLimit}
+								handleLoadMore={handleLoadMore}
 									isLoadMoreInActive={isLoadMoreInActive}
 								/>
 							</CTabPane>
@@ -963,7 +977,7 @@ const Profile = () => {
 									data={bonusTransaction}
 									title='Bonus History'
 									tab={activeTab}
-									setLimit={setLimit}
+									handleLoadMore={handleLoadMore}
 									isLoadMoreInActive={isLoadMoreInActive}
 								/>
 							</CTabPane>
@@ -979,7 +993,7 @@ const TransactionList = ({
 	data,
 	title,
 	tab,
-	setLimit,
+	handleLoadMore,
 	isLoadMoreInActive,
 }) => {
 	const [modalVisible, setModalVisible] = useState(false);
@@ -1065,7 +1079,7 @@ total_available_balance
 												<CButton
 													color='secondary'
 													variant='outline'
-													onClick={() => setLimit((prev) => prev + 20)}>
+													onClick={handleLoadMore}>
 													Load More
 												</CButton>
 											</CTableDataCell>
@@ -1084,7 +1098,7 @@ total_available_balance
 						</CTableBody>
 					</CTable>
 				</div>
-				<CModal visible={modalVisible} onClose={() => setModalVisible(false)}>
+				<CModal visible={modalVisible} onClose={() => setModalVisible(false)} backdrop={'static'}>
 					<CModalHeader closeButton>Transaction Details</CModalHeader>
 					<CModalBody>
 						{selectedTxn && (
@@ -1233,7 +1247,7 @@ total_available_balance
 												<CButton
 													color='secondary'
 													variant='outline'
-													onClick={() => setLimit((prev) => prev + 20)}>
+													onClick={handleLoadMore}>
 													Load More
 												</CButton>
 											</CTableDataCell>
@@ -1252,7 +1266,7 @@ total_available_balance
 						</CTableBody>
 					</CTable>
 				</div>
-				<CModal visible={modalVisible} onClose={() => setModalVisible(false)}>
+				<CModal visible={modalVisible} onClose={() => setModalVisible(false)} backdrop={'static'}>
 					<CModalHeader closeButton>Transaction Details</CModalHeader>
 					<CModalBody>
 						{selectedTxn && (
@@ -1379,7 +1393,7 @@ total_available_balance
 												<CButton
 													color='secondary'
 													variant='outline'
-													onClick={() => setLimit((prev) => prev + 20)}>
+													onClick={handleLoadMore}>
 													Load More
 												</CButton>
 											</CTableDataCell>
@@ -1398,7 +1412,7 @@ total_available_balance
 						</CTableBody>
 					</CTable>
 				</div>
-				<CModal visible={modalVisible} onClose={() => setModalVisible(false)}>
+				<CModal visible={modalVisible} onClose={() => setModalVisible(false)} backdrop={'static'}>
 					<CModalHeader closeButton>Transaction Details</CModalHeader>
 					<CModalBody>
 						{selectedTxn && (

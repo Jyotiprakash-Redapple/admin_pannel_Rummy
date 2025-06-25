@@ -225,7 +225,7 @@ const UserRoleManagement = () => {
       return <PageLoader/>
     }
   
-    const FEATURE = createFeatureFlags(accessMenu.menu_features)
+    const FEATURE = createFeatureFlags(accessMenu?.menu_features)
     
   
   
@@ -363,7 +363,7 @@ const UserRoleManagement = () => {
 				</CTable>
 			</div>
 
-			<CModal visible={visible} onClose={() => setVisible(false)}>
+			<CModal visible={visible} onClose={() => setVisible(false)} backdrop={'static'}>
 				<CCard className='mb-4'>
 					<CCardHeader>
 						<strong>Create Admin</strong>
@@ -494,7 +494,7 @@ const UserRoleManagement = () => {
 				</CCard>
 			</CModal>
 
-			<CModal visible={updateVisible} onClose={() => setUpdateVisible(false)}>
+			<CModal visible={updateVisible} onClose={() => setUpdateVisible(false)} backdrop={'static'}>
 				<CCard className='mb-4'>
 					<CCardHeader>
 						<strong>Update Admin</strong>

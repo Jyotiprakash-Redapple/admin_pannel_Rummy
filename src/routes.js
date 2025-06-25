@@ -74,27 +74,23 @@ const GameTamplate = React.lazy(() => import('./views/project-files/game-tamplat
 const WithDrawReport = React.lazy(()=>import('./views/project-files/reports/WithdrawReport'))
 const routes = [
   { path: '/', exact: true, name: 'Home' , permissionKey: -1},
-  { path: '/revenue', name: 'Revenue', element: Revenue, permissionKey: 46 },
-
-  //! permission key duplicate
-   { path: '/withdraw-report', name: 'Withdraw Report', element: WithDrawReport, permissionKey: 46 },
-  { path: '/game-tamplate', name: 'Game Tamplate', element: GameTamplate, permissionKey: 46 },
-  
-  //! permission key duplicate
+  { path: '/revenue', name: 'Revenue', element: Revenue, permissionKey: 12 },
+  { path: '/withdraw-report', name: 'Withdraw Report', element: WithDrawReport, permissionKey: 15 },
+  { path: '/game-tamplate', name: 'Game Tamplate', element: GameTamplate, permissionKey: 16 },
 
 
-  { path: '/tds-report', name: 'TDS Reports', element: TDSReport , permissionKey: 44},
-  { path: '/gst-report', name: 'GST Reports', element: GSTReport , permissionKey: 45},
+  { path: '/tds-report', name: 'TDS Reports', element: TDSReport, permissionKey: 10 },
+  { path: '/gst-report', name: 'GST Reports', element: GSTReport, permissionKey: 11 },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard, permissionKey: -1 },
-  { path: '/manage-permission', name: 'Manage Permission', element: Permission, permissionKey: 47 },
-  { path: '/role-management', name: 'Role Management', element: Rolelist, permissionKey: 47  },
-  { path: '/user-management', name: 'User Management', element: UserManagement , permissionKey: 36},
+  { path: '/manage-permission', name: 'Manage Permission', element: Permission, permissionKey: 4 },
+  { path: '/role-management', name: 'Role Management', element: Rolelist, permissionKey: 4 },
+  { path: '/user-management', name: 'User Management', element: UserManagement, permissionKey: 5 },
 
-  { path: '/referral-list', name: 'Referral List', element: ReferralManagement, permissionKey: 39 },
-{ path: '/add-cash-transaction-list', name: 'Add Cash Transaction List', element: AddCashTransaction , permissionKey: 42 },
-  { path: '/admin-transaction-list', name: 'Admin Transaction List', element: AdminTransaction , permissionKey: 41},
- { path: '/player-list', name: 'Player Management - Player List', element: PlayerList , exact: true,permissionKey: 38 },
-  { path: '/player-details', name: 'Player Details', element: PlayerDetails, permissionKey: 38 },
+  { path: '/referral-list', name: 'Referral List', element: ReferralManagement, permissionKey: 7 },
+  { path: '/add-cash-transaction-list', name: 'Add Cash Transaction List', element: AddCashTransaction, permissionKey: 9 },
+  { path: '/admin-transaction-list', name: 'Admin Transaction List', element: AdminTransaction, permissionKey: 8 },
+  { path: '/player-list', name: 'Player Management - Player List', element: PlayerList, exact: true, permissionKey: 6 },
+  { path: '/player-details', name: 'Player Details', element: PlayerDetails, permissionKey: 6 },
 
 
 

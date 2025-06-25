@@ -37,7 +37,12 @@ const SuperAdminDetailStateSlice = createSlice({
             state.active_menu_id = action.payload
         },
         setLimit: (state, action) => {
-            state.limit = action.payload;  
+            console.log(action.payload, "ACTION STARR")
+            state.limit = state.limit +  action.payload;  
+        },
+        clearLimit: (state, action) => {
+            console.log(action.payload, "ACTION STARR CLEAR")
+            state.limit = initialState.limit
         },
         setMenuPerMission: (state, action) => {
            
@@ -113,7 +118,7 @@ const SuperAdminDetailStateSlice = createSlice({
 });
 
 export const { signIn, signOut, sideBarOpen, sideBarClose, Currency, SelectCurrency, currencyWiseAmount, client, client_data_clear, account, providerStore, clientAccountTransferBalanceDetails, clientAccountDetails, walletDetails, PlayerDetails, LoginDetails,technicalDetails 
-    ,selectedCurrencyAccountDetails,setMenuPerMission, setActiveMenuId, setLimit
+    ,selectedCurrencyAccountDetails,setMenuPerMission, setActiveMenuId, setLimit,  clearLimit
 } =
     SuperAdminDetailStateSlice.actions;
 

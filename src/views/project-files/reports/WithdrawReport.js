@@ -23,6 +23,7 @@ import Service from "../../../apis/Service";
 import RouteURL from "../../../apis/ApiURL";
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import { setLimit, clearLimit } from '../../../redux/slices/superAdminStateSlice';
 import { Constants } from "../../../apis/Constant";
 function balanceRefactor(b) {
     return b / 100;
@@ -71,7 +72,7 @@ export const transactionData = [
 const AdminTransactionManagement = () => {
   const dispatch = useDispatch()
   const token = useSelector((state) => state.user.token);
-  const pageLimit = useSelector(() => state.limit);
+  const pageLimit = useSelector((state) => state.limit);
   const [search, setSearch] = useState('');
   const [copied, setCopied] = useState('');
   const [transaction, setTransaction] = useState([]);
@@ -97,7 +98,7 @@ const [fromDate, setFromDate] = useState("");
   };
   const fetchAdminCashTransaction = () => {
     let params = {
-      report_type: 'gst',
+      report_type: 'withdrawn',
       search: search,
       from_date: fromDate,
       to_date: toDate,
@@ -129,7 +130,15 @@ const [fromDate, setFromDate] = useState("");
   
   useEffect(() => {
     fetchAdminCashTransaction()
-  },[ fromDate, toDate, pageLimit,])
+  }, [fromDate, toDate, pageLimit,])
+  
+    useEffect(() => {
+          // fetchAddCashTransaction();
+      
+          return () => {
+                dispatch(clearLimit())
+              }
+      }, []);
   return (
     <CCard className="mt-4">
       <ToastContainer />

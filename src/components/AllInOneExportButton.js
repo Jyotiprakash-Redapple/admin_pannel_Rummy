@@ -125,9 +125,9 @@ const AllInOneExportButton = ({ data, filename }) => {
           </ExportAsCsv>
         ) : null}
 
-        <CDropdownItem onClick={() => exportStyledPDF(data, filename)}>
+        {/* <CDropdownItem onClick={() => exportStyledPDF(data, filename)}>
           Export to PDF (with Totals)
-        </CDropdownItem>
+        </CDropdownItem> */}
       </CDropdownMenu>
     </CDropdown>
   );

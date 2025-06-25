@@ -23,6 +23,7 @@ import Service from "../../../apis/Service";
 import RouteURL from "../../../apis/ApiURL";
 import { useSelector , useDispatch} from "react-redux";
 import { Constants, REGEX, ERROR_MESSAGE } from "../../../apis/Constant";
+import { setLimit, clearLimit } from "../../../redux/slices/superAdminStateSlice";
 function balanceRefactor(b) {
 	return b / 100;
 }
@@ -75,7 +76,7 @@ const AdminTransactionManagement = () => {
 	const [search, setSearch] = useState("");
 	const [copied, setCopied] = useState("");
 	const [transaction, setTransaction] = useState([]);
-	const [limit, setLimit] = useState(10);
+	//const [limit, setLimit] = useState(10);
 	const [isLoadMoreInActive, setIsLoadMoreInActive] = useState(false);
 	const [fromDate, setFromDate] = useState("");
 	const [toDate, setToDate] = useState("");
@@ -127,9 +128,21 @@ const AdminTransactionManagement = () => {
 			});
 	};
 
+
+	useEffect(() => {
+			// fetchAddCashTransaction();
+	
+			return () => {
+						dispatch(clearLimit())
+					}
+	}, []);
+	
+
 	useEffect(() => {
 		fetchAdminCashTransaction();
-	}, [limit]);
+
+		
+	}, [pageLimit]);
 	return (
 		<CCard className='mt-4'>
 			<ToastContainer />
@@ -191,7 +204,7 @@ const AdminTransactionManagement = () => {
 							<CTableBody>
 								{filteredTransactionData.length > 0 ? (
 									<>
-										{filteredTransactionData.slice(0, limit).map((item, index) => (
+										{filteredTransactionData.map((item, index) => (
 										<>
 											<CTableRow key={index}>
 												<CTableDataCell>

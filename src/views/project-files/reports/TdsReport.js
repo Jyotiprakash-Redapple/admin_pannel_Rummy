@@ -23,7 +23,7 @@ import Service from "../../../apis/Service";
 import RouteURL from "../../../apis/ApiURL";
 import { useSelector, useDispatch } from 'react-redux';
 import { Constants } from "../../../apis/Constant";
-import {setLimit} from "../../../redux/slices/superAdminStateSlice"
+import {setLimit, clearLimit} from "../../../redux/slices/superAdminStateSlice"
 function balanceRefactor(b) {
 		return b / 100;
 	}
@@ -127,8 +127,16 @@ const [fromDate, setFromDate] = useState("");
   
   useEffect(() => {
     fetchAdminCashTransaction()
-  }, [limit, fromDate, toDate])
+  }, [ fromDate, toDate, pageLimit])
   
+
+  useEffect(() => {
+        // fetchAddCashTransaction();
+    
+        return () => {
+              dispatch(clearLimit())
+            }
+    }, []);
   console.log(transaction, "TRANSACTION___")
   return (
     <CCard className="mt-4">

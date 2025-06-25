@@ -206,8 +206,8 @@ const UserRoleManagement = () => {
 		return <PageLoader/>
 	}
 
-	const FEATURE = createFeatureFlags(accessMenu.menu_features)
-	console.log(FEATURE.isDelete, "FETAURE ROLE", accessMenu.menu_features)
+	const FEATURE = createFeatureFlags(accessMenu?.menu_features)
+	console.log(FEATURE.isDelete, "FETAURE ROLE", accessMenu?.menu_features)
 	return (
 		<div className={styles.container}>
 			<ToastContainer />
@@ -322,7 +322,7 @@ const UserRoleManagement = () => {
 				</CTable>
 			</div>
 
-			<CModal visible={visible} onClose={() => setVisible(false)}>
+			<CModal visible={visible} onClose={() => setVisible(false)} backdrop={'static'}>
 				<CModalHeader>
 					<CModalTitle>Add New Role</CModalTitle>
 				</CModalHeader>
@@ -344,7 +344,7 @@ const UserRoleManagement = () => {
 				</CModalFooter>
 			</CModal>
 
-			<CModal visible={updateVisible} onClose={() => setUpdateVisible(false)}>
+			<CModal visible={updateVisible} onClose={() => setUpdateVisible(false)} backdrop={'static'}>
 				<CModalHeader>
 					<CModalTitle>Update Role</CModalTitle>
 				</CModalHeader>

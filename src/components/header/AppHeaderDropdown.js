@@ -36,7 +36,8 @@ import ChangePassword from "../../views/auth/ChangePass";
 import RouteURL from "../../apis/ApiURL";
 import Service from "../../apis/Service";
 import { Constants } from "../../apis/Constant";
-
+import { PageLoader } from "../Loder";
+import {createFeatureFlags} from "../../Utility/helper"
 const defaultData = {
 	cfg_bonus_percentage: 50,
 	cfg_gst_percentage: 28,
@@ -47,6 +48,8 @@ const defaultData = {
 	cfg_tds_percentage: 0,
 	cfg_tds_threshold_amount: 0,
 	cfg_tds_transfer_to_bonus: true,
+	cfg_min_deposit_limit: 0,
+cfg_max_deposit_limit : 0
 };
 
 const TaxConfigModal = ({ visible, onClose, isEdit, isView }) => {
@@ -129,6 +132,8 @@ const TaxConfigModal = ({ visible, onClose, isEdit, isView }) => {
 				});
 			});
 	};
+
+
 	console.log(formData, "hello=============>");
 	return (
 		<CModal visible={visible} onClose={onClose} backdrop={'static'}>
@@ -142,6 +147,7 @@ const TaxConfigModal = ({ visible, onClose, isEdit, isView }) => {
 						<CCol md={6}>
 							<CFormLabel htmlFor='cfg_gst_percentage'>GST %</CFormLabel>
 							<CFormInput
+								readOnly={isEdit === false}
 								type='number'
 								name='cfg_gst_percentage'
 								value={formData.cfg_gst_percentage}
@@ -152,6 +158,7 @@ const TaxConfigModal = ({ visible, onClose, isEdit, isView }) => {
 						<CCol md={6}>
 							<CFormLabel htmlFor='cfg_bonus_percentage'>Bonus %</CFormLabel>
 							<CFormInput
+								readOnly={isEdit === false}
 								type='number'
 								name='cfg_bonus_percentage'
 								value={formData.cfg_bonus_percentage}
@@ -164,6 +171,7 @@ const TaxConfigModal = ({ visible, onClose, isEdit, isView }) => {
 								Min Threshold for TDS %
 							</CFormLabel>
 							<CFormInput
+								readOnly={isEdit === false}
 								type='number'
 								name='cfg_tds_threshold_amount'
 								value={formData.cfg_tds_threshold_amount}
@@ -174,6 +182,7 @@ const TaxConfigModal = ({ visible, onClose, isEdit, isView }) => {
 						<CCol md={6}>
 							<CFormLabel htmlFor='cfg_tds_percentage'>TDS %</CFormLabel>
 							<CFormInput
+								readOnly={isEdit === false}
 								type='number'
 								name='cfg_tds_percentage'
 								value={formData.cfg_tds_percentage}
@@ -182,8 +191,9 @@ const TaxConfigModal = ({ visible, onClose, isEdit, isView }) => {
 							/>
 						</CCol>
 						<CCol md={6}>
-							<CFormLabel htmlFor='cfg_min_withdraw_amount'>Min Withdraw Amount %</CFormLabel>
+							<CFormLabel htmlFor='cfg_min_withdraw_amount'>Min Withdraw Amount </CFormLabel>
 							<CFormInput
+								readOnly={isEdit === false}
 								type='number'
 								name='cfg_min_withdraw_amount'
 								value={formData.cfg_min_withdraw_amount}
@@ -191,9 +201,32 @@ const TaxConfigModal = ({ visible, onClose, isEdit, isView }) => {
 								// disabled={type === 'get'}
 							/>
 						</CCol>
+							<CCol md={6}>
+							<CFormLabel htmlFor='cfg_min_deposit_limit'>Min Deposit Amount </CFormLabel>
+							<CFormInput
+								readOnly={isEdit === false}
+								type='number'
+								name='cfg_min_deposit_limit'
+								value={formData.cfg_min_deposit_limit}
+								onChange={handleChange}
+								// disabled={type === 'get'}
+							/>
+						</CCol>
+							<CCol md={6}>
+							<CFormLabel htmlFor='cfg_max_deposit_limit'>Max Deposit Amount </CFormLabel>
+							<CFormInput
+								readOnly={isEdit === false}
+								type='number'
+								name='cfg_max_deposit_limit'
+								value={formData.cfg_max_deposit_limit}
+								onChange={handleChange}
+								// disabled={type === 'get'}
+							/>
+						</CCol>
 						<CCol md={6}>
 							<CFormLabel htmlFor='cfg_platform_fees_percentage'>Platform Fees %</CFormLabel>
 							<CFormInput
+								readOnly={isEdit === false}
 								type='number'
 								name='cfg_platform_fees_percentage'
 								value={formData.cfg_platform_fees_percentage}
@@ -203,6 +236,7 @@ const TaxConfigModal = ({ visible, onClose, isEdit, isView }) => {
 						</CCol>
 						<CCol md={6}>
 							<CFormCheck
+								readOnly={isEdit === false}
 								label='Apply GST on Bonus'
 								name='cfg_gst_transfer_to_bonus'
 								checked={formData.cfg_gst_transfer_to_bonus}
@@ -211,6 +245,7 @@ const TaxConfigModal = ({ visible, onClose, isEdit, isView }) => {
 							/>
 
 							<CFormCheck
+								readOnly={isEdit === false}
 								label='Apply TDS on Bonus'
 								name='cfg_tds_transfer_to_bonus'
 								checked={formData.cfg_tds_transfer_to_bonus}
@@ -240,7 +275,7 @@ const AppHeaderDropdown = () => {
 	const navigate = useNavigate();
 	const user = useSelector((state) => state.user);
 	const menuPermission = useSelector((state) => state.menu_permission);
-	const [tax_config_key, _] = useState(48);
+	const [tax_config_key, _] = useState(14);
 	const [taxtConfigFeature, setTaxConfigFeature] = useState(null);
 	const dispatch = useDispatch();
 	const [show, setShow] = useState(false);
@@ -315,6 +350,7 @@ const AppHeaderDropdown = () => {
 			isTaxConfigFeatureEdit = true;
 		}
 	});
+	console.log(isTaxConfigFeatureEdit, "isTaxConfigFeatureEdit=======")
 
 	return (
 		<>
@@ -380,8 +416,8 @@ const AppHeaderDropdown = () => {
 				onClose={() => {
 					setTaxConfigModal(false);
 				}}
-				isEdit={isTaxConfigFeatureView}
-				isView={isTaxConfigFeatureEdit}
+				isEdit={isTaxConfigFeatureEdit}
+				isView={isTaxConfigFeatureView}
 			/>
 		</>
 	);

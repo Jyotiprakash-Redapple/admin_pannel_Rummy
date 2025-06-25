@@ -42,7 +42,7 @@ const AppContent = () => {
           })}
           {/* <Route path="/" element={<Navigate to="dashboard" replace />} /> */}
           {/* {path = { import.meta.env.VITE_APP_WEB_PLATFORM_HOMEPAGE == 'development' ? "/" : '/cl' }} */}
-          <Route path="/*" element={token ? <Navigate to="/" replace /> : <Navigate to="login" replace />} />
+          <Route path="/*" element={token ? <Navigate to="/dashboard" replace /> : <Navigate to="login" replace />} />
         </Routes>
       </Suspense>
     </CContainer>
