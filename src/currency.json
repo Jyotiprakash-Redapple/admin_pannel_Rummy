@@ -1,0 +1,14 @@
+{
+    "currency_details":[
+        {
+        "currency_code":"INR",
+         "symbol":"₹"
+        },{
+            "currency_code":"USD",
+            "simbol":"$"
+        },{
+            "currency_code":"KRW",
+            "simbol":"₩"
+        }
+]
+}

@@ -1,0 +1,105 @@
+.container {
+  padding: 1rem;
+  background-color: #f5f8fa;
+  
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.dateRange {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #e2e7ed;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+}
+
+.icon {
+  color: #6c757d;
+}
+
+.cardRow {
+  gap: 1rem;
+  display: flex;
+  flex-wrap: nowrap
+}
+
+.card {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  background-color: white;
+}
+.cardBody{
+  width: 75%;
+  height: auto;
+  padding-left: 4px;
+}
+.iconBoxBlue {
+  background-color: #2f6db6;
+  color: white;
+  width: 25%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border-radius: 5px;
+  font-size: 1.2rem;
+}
+
+.iconBoxGreen {
+  background-color: #4db84d;
+  color: white;
+ width: 25%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+}
+
+.title {
+  font-size: 0.9rem;
+  font-weight: 600;
+
+}
+
+.subTitle {
+  font-style: italic;
+  font-size: 0.8rem;
+  color: #333;
+}
+
+.amount {
+  font-size: 1rem;
+ 
+}
+
+.transactions {
+  margin-bottom: 0.5rem;
+}
+
+.note {
+  font-size: 0.75rem;
+  font-style: italic;
+  margin-top: 1rem;
+  text-align: right;
+}
+.btnArea{
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+.ctnArea{
+  display: flex;
+  flex-direction: column;
+  gap: 0.1px;
+}

@@ -1,0 +1,177 @@
+/* Login.css */
+.login-container {
+  display: flex;
+  height: 100vh;
+  background:#001f3f;
+  color: white;
+}
+
+.login-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  text-align: center;
+}
+
+.login-sec h1{margin: 0px; padding: 2rem 0; font-size: 2rem;color: #001f3f; text-align: center;}
+
+.login_mid .input-group{height: 50px; margin-bottom: 8px;}
+.btn_sec{width: 100%;}
+.btn_sec button{width: 100%; padding: 15px 0;font-size: 1rem;
+font-weight: bold;
+border-radius: 4px;
+background-color: #5856d6;
+color: #fff;
+transition: background-color 0.3s ease;}
+.overlay_sec { position: absolute; top: 0px; right: 0px;}
+.overlay_sec img { width: 1500px; height: 480px;}
+.login-left h1 {
+  font-size: 2.5rem;
+}
+
+.overlay_sec img {
+  width: 100%;
+  height: auto;
+  max-height: 500px;
+  object-fit: cover;
+}
+
+
+
+.login-left h2 {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.login-illustration {
+  width: 300px;
+  height: 300px;
+  background: url('/path-to-your-illustration.png') no-repeat center center;
+  background-size: contain;
+}
+
+.login-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+}
+
+.login-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.error-message {
+  margin-top: 4px; /* Small spacing between input and error */
+  margin-bottom: 0.9rem; /* Add space below the error message */
+  font-size: 0.875rem;
+  color: #ff4d4f;
+  display: block; /* Forces error message to appear on a new line */
+}
+
+
+
+.text-right {
+  text-align: right;
+}
+@keyframes rotateImage {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.rotate {
+  animation: rotateImage 20s linear infinite;
+}
+.input-group input {
+  font-size: 1rem; /* Ensure readability */
+  padding: 0.5rem; /* Adjust padding for comfort */
+  border-radius: 4px; /* For a modern design */
+  border: 1px solid #ccc; /* Subtle border */
+  box-shadow: none; /* Avoid shadow for cleaner look */
+}
+.input-group input:focus {
+  border-color: #001f3f; /* Highlight border on focus */
+  outline: none;
+}
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-check-input {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+
+.form-check-label {
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .login-left h1 {
+    font-size: 1.8rem;
+  }
+
+  .login-sec h1 {
+    font-size: 1.5rem;
+  }
+
+  .login-left,
+  .login-right {
+    padding: 1rem;
+    flex: none; /* Allow them to shrink */
+  }
+
+  .overlay_sec img {
+    max-height: 300px; /* Adjust overlay size for smaller screens */
+  }
+
+  .rotate {
+    animation: rotateImage 15s linear infinite;
+  }
+
+  .btn_sec button {
+    padding: 12px 0;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-left h1 {
+    font-size: 1.5rem;
+  }
+
+  .login-sec h1 {
+    font-size: 1.2rem;
+  }
+
+  .login-mid .input-group {
+    height: 40px;
+    font-size: 0.9rem;
+  }
+
+  .btn_sec button {
+    padding: 10px 0;
+    font-size: 0.8rem;
+  }
+}
+

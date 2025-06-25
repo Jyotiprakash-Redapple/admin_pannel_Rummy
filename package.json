@@ -1,7 +1,7 @@
 {
-  "name": "Marco Casino Super Admin Panel",
+  "name": "Rummy fair admin",
   "version": "0.0.1",
-  "description": "Marco Casino Super Admin Panel",
+  "description": "Rummy fair admin",
   "homepage": "/cl",
   "scripts": {
     "build": "vite build",
@@ -23,6 +23,7 @@
     "@mui/material": "^6.4.10",
     "@popperjs/core": "^2.11.8",
     "@reduxjs/toolkit": "^2.2.8",
+    "@siamf/react-export": "^4.1.1",
     "antd": "^5.24.5",
     "axios": "^1.7.7",
     "chart.js": "^4.4.4",
@@ -38,6 +39,7 @@
     "react-advanced-datetimerange-picker": "^1.0.14",
     "react-bootstrap": "^2.10.5",
     "react-copy-to-clipboard": "^5.1.0",
+    "react-date-range": "^2.0.1",
     "react-dom": "^18.3.1",
     "react-otp-input": "^3.1.1",
     "react-redux": "^9.1.2",
