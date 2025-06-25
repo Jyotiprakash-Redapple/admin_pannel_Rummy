@@ -553,7 +553,7 @@ const Profile = () => {
 
 	const updatePlayerStatusConfirmation = (up) => {
 		Swal.fire({
-			title: "Do you want to changes player status?",
+			title: "Do you want to change player status?",
 			showDenyButton: true,
 			// showCancelButton: true,
 			confirmButtonText: "Yes",
