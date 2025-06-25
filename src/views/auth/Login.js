@@ -181,10 +181,6 @@ export default function Login() {
 
     Service.apiPostCallRequestWithoutToken(RouteURL.login_api, params)
       .then((res) => {
-        console.log(res, "RES===============>")
-       
-        
-
         if (res.err === Constants.API_RESPONSE_STATUS_SUCCESS) {
           toast.success(res.message, {
             position: "bottom-right",
@@ -229,7 +225,6 @@ export default function Login() {
         }
       })
       .catch((error) => {
-        console.log(error,"iiiiiiiiiiiii")
         setIsLoading(false); // Reset loader
         setIsDisabled(false); // Enable button
 

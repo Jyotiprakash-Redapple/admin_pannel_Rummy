@@ -131,7 +131,7 @@ const TaxConfigModal = ({ visible, onClose, isEdit, isView }) => {
 	};
 	console.log(formData, "hello=============>");
 	return (
-		<CModal visible={visible} onClose={onClose}>
+		<CModal visible={visible} onClose={onClose} backdrop={'static'}>
 			<ToastContainer />
 			<CModalHeader>
 				<CModalTitle> Tax Configuration</CModalTitle>
