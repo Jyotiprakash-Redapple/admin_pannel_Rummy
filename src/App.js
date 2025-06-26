@@ -37,7 +37,8 @@ console.log(token, "GETTOKEN++++++++++++++++++")
     }
   
     setColorMode(storedTheme)
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [])// eslint-disable-line react-hooks/exhaustive-deps
+  // console.log('')
   return (
     <BrowserRouter basename={import.meta.env.VITE_APP_WEB_PLATFORM_HOMEPAGE}>
       <Suspense
