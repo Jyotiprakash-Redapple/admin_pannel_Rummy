@@ -264,7 +264,7 @@ const TemplateManagement = () => {
       <CTableHeaderCell>Max Player</CTableHeaderCell>
       <CTableHeaderCell>Cards</CTableHeaderCell>
       <CTableHeaderCell>Decks</CTableHeaderCell>
-      <CTableHeaderCell>Service Fee (%)</CTableHeaderCell>
+      <CTableHeaderCell>Platform Fee (%)</CTableHeaderCell>
       <CTableHeaderCell>Status</CTableHeaderCell>
     </CTableRow>
   </CTableHead>

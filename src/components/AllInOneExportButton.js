@@ -101,8 +101,13 @@ const AllInOneExportButton = ({ data, filename }) => {
     headers = Object.keys(data?.[0]).map((key) => formatHeader(key));
   }
 
+  let dataWithTotals = [];
+  dataWithTotals = addTotalsRow(data);
+  if (filename == 'player-list') {
+    dataWithTotals = data;
+  }
  
-  const dataWithTotals = addTotalsRow(data);
+
 
   return (
     <CDropdown>
