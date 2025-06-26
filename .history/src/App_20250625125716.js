@@ -42,19 +42,9 @@ console.log(token, "GETTOKEN++++++++++++++++++")
     <BrowserRouter basename={import.meta.env.VITE_APP_WEB_PLATFORM_HOMEPAGE}>
       <Suspense
         fallback={
-         <div style={{
-  width: '100%',
-  height: '100vh',  // Ensures full viewport height
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center'
-}}>
-  <div className="pt-3 text-center">
-    <CSpinner color="primary" variant="grow" />
-  </div>
-</div>
-
-          
+          <div className="pt-3 text-center">
+            <CSpinner color="primary" variant="grow" />
+          </div>
         }
       >
         <Routes>

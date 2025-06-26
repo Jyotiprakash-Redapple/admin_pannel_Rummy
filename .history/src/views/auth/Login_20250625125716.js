@@ -147,14 +147,12 @@ export default function Login() {
               navigate('/dashboard')
 
            dispatch(signIn({ username: state.username, token}));
-          
+              setIsLoading(false); // Reset loader
+        setIsDisabled(false); // Enable button
             }, 20)
             
-                setIsLoading(false); // Reset loader
-        setIsDisabled(false); // Enable button
+            
           } else {
-            setIsLoading(false); // Reset loader
-        setIsDisabled(false); // Enable button
             toast.error(res.message, {
               position: "bottom-right",
   
@@ -223,8 +221,6 @@ export default function Login() {
           //   },
           // });
         } else {
-          setIsLoading(false); // Reset loader
-        setIsDisabled(false); // Enable button
           // Show error toast for invalid credentials
           toast.error(res.message, {
             position: "bottom-right",
@@ -348,14 +344,14 @@ export default function Login() {
                           </div>
                         </CCol>
                         <CCol xs={12} className="text-right">
-                          {/* <CButton
+                          <CButton
                             type="button"
                             color="link"
                             className="px-0"
                             onClick={() => navigate("/forgot-password")}
                           >
                             Forgot password?
-                          </CButton> */}
+                          </CButton>
                         </CCol>
                       </CRow>
                     </CForm>

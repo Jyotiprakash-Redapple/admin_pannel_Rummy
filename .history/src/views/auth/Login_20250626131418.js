@@ -348,14 +348,7 @@ export default function Login() {
                           </div>
                         </CCol>
                         <CCol xs={12} className="text-right">
-                          {/* <CButton
-                            type="button"
-                            color="link"
-                            className="px-0"
-                            onClick={() => navigate("/forgot-password")}
-                          >
-                            Forgot password?
-                          </CButton> */}
+                          
                         </CCol>
                       </CRow>
                     </CForm>

@@ -305,7 +305,7 @@ const UserRoleManagement = () => {
 									<CTableDataCell className={`text-center ${FEATURE.isView  === false ? 'prevent_default' : 'auto'}`} >
 										<button
 											className={styles.select}
-											onClick={() => navigate("manage-permission", { state: { role_id: u.role_id } })}>
+											onClick={() => navigate("/manage-permission", { state: { role_id: u.role_id } })}>
 											Manage Permission
 										</button>
 									</CTableDataCell>
