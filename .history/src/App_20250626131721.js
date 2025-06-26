@@ -37,24 +37,22 @@ console.log(token, "GETTOKEN++++++++++++++++++")
     }
   
     setColorMode(storedTheme)
-  }, [])// eslint-disable-line react-hooks/exhaustive-deps
-  // console.log('')
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <BrowserRouter basename={import.meta.env.VITE_APP_WEB_PLATFORM_HOMEPAGE}>
       <Suspense
         fallback={
-         <div style={{
-  width: '100%',
-  height: '100vh',  // Ensures full viewport height
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center'
-}}>
-  <div className="pt-3 text-center">
-    <CSpinner color="primary" variant="grow" />
-  </div>
-</div>
-
+          <div style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <div className="pt-3 text-center">
+            <CSpinner color="primary" variant="grow" />
+          </div>
+         </div>
           
         }
       >

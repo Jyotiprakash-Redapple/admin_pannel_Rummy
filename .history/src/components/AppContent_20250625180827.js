@@ -21,17 +21,7 @@ const AppContent = () => {
   const menu_permission =  useSelector((state) => state.menu_permission);
   return (
     <CContainer className="px-4" fluid>
-      <Suspense fallback={<div style={{
-        width: '100%',
-        height: '100vh',  // Ensures full viewport height
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}>
-        <div className="pt-3 text-center">
-          <CSpinner color="primary" variant="grow" />
-        </div>
-      </div>}>
+      <Suspense fallback={<CSpinner color="primary" />}>
         <Routes>
           {token && routes.map((route, idx) => {
             return (
