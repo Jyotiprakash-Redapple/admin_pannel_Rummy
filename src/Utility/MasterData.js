@@ -1,7 +1,7 @@
 const MasterData = {
     Status: [
         { label: 'Active', value: 'active' },
-        { label: 'InActive', value: 'inactive' }
+        { label: 'Inactive', value: 'inactive' }
     ],
     typeOfTransaction:[
         { label: 'All', value: '' },
