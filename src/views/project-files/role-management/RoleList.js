@@ -79,9 +79,11 @@ const UserRoleManagement = () => {
 	
 
 	const filteredUsers = roleList.filter((u) => {
-		if (statusFilter === "All") return true;
-		if (statusFilter === "Active") return u.status === "active";
-		if (statusFilter === "Inactive") return u.status === "inactive";
+		if (statusFilter === "") return true;
+		if (statusFilter === "active") return u.role_status
+ === "active";
+		if (statusFilter === "inactive") return u.role_status
+ === "inactive";
 		return true;
 	});
 
@@ -221,9 +223,9 @@ const UserRoleManagement = () => {
 						id='status_id'
 						value={statusFilter}
 						onChange={(e) => setStatusFilter(e.target.value)}>
-						<option>All</option>
-						<option>Active</option>
-						<option>Inactive</option>
+						<option value={''}>All</option>
+						<option value={'active'}>Active</option>
+						<option value={'inactive'}>Inactive</option>
 					</select>
 				</div>
 				<CButton color='primary' onClick={() => setVisible(true)} className={FEATURE.isCreate == false ? 'prevent_default' : 'auto'}>
