@@ -642,7 +642,7 @@ const handleLoadMore = () => {
 								alt='Profile'
 								className={styles.profilePicture}
 							/>
-							<div className={styles.displayName}>{profile?.player_display_name}</div>
+							<div className={styles.displayName}>{profile?.display_name}</div>
 						</div>
 						{/* Status Indicators */}
 						{/* <div className={styles.statusRow}>
@@ -683,12 +683,12 @@ const handleLoadMore = () => {
 						</div>
 						<div className={styles.row}>
 							<span>Name</span>
-							<span className={styles.value}>{profile?.player_full_name}</span>
+							<span className={styles.value}>{profile?.player_name}</span>
 						</div>
-						{/* <div className={styles.row}>
+						<div className={styles.row}>
 							<span>Display Name</span>
 							<span className={styles.value}>{profile?.player_display_name}</span>
-						</div> */}
+						</div>
 						<div className={styles.row}>
 							<span>Mobile No</span>
 							<span className={styles.value}>{profile?.player_mobile}</span>
@@ -696,7 +696,7 @@ const handleLoadMore = () => {
 
 						<div className={styles.row}>
 							<span>Deposit Wallet</span>
-							<span className={styles.value}>{profile?.player_deposit_balance || 0}</span>
+							<span className={styles.value}>{profile?.player_deposit_wallet || 0}</span>
 						</div>
 						<div className={styles.row}>
 							<span>Win Wallet</span>
@@ -704,20 +704,16 @@ const handleLoadMore = () => {
 						</div>
 						<div className={styles.row}>
 							<span>Bonus Wallet</span>
-							<span className={styles.value}>{profile?.player_bonus_balance || 0}</span>
+							<span className={styles.value}>{profile?.player_bonus_wallet || 0}</span>
 						</div>
 						<div className={styles.row}>
 							<span>Total Wallet</span>
-							<span className={styles.value}>{profile?.player_total_balance || 0}</span>
-						</div>
-							<div className={styles.row}>
-							<span>Referral Code</span>
-							<span className={styles.value}>{profile?.player_referral_code || ''}</span>
+							<span className={styles.value}>{profile?.player_total_wallet || 0}</span>
 						</div>
 
 						<div className={styles.row}>
 							<span>Referred Users</span>
-							<span className={styles.value}>{profile?.refercount || 0}</span>
+							<span className={styles.value}>{profile?.referred_users || 0}</span>
 						</div>
 
 						<div className={styles.row}>
@@ -726,11 +722,7 @@ const handleLoadMore = () => {
 						</div>
 						<div className={styles.row}>
 							<span>Total Withdrawal </span>
-							<span className={styles.value}>{profile?.total_withdrawn || 0}</span>
-						</div>
-						<div className={styles.row}>
-							<span>Total Bonus </span>
-							<span className={styles.value}>{profile?.total_bonus || 0}</span>
+							<span className={styles.value}>{profile?.total_withdraw || 0}</span>
 						</div>
 						<div className={styles.row}>
 							<span>Total Match </span>
@@ -770,8 +762,7 @@ const handleLoadMore = () => {
 						<div className={styles.row}>
 							<span>Last Login</span>
 							<span className={styles.value}>
-								
-								{new Date(profile?.player_last_login_at).toLocaleString()}
+								{new Date(profile?.player_last_login).toLocaleString()}
 							</span>
 						</div>
 

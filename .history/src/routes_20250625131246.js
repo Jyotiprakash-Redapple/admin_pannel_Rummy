@@ -83,7 +83,6 @@ const routes = [
   { path: '/gst-report', name: 'GST Reports', element: GSTReport, permissionKey: 11 },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard, permissionKey: -1 },
   { path: '/manage-permission', name: 'Manage Permission', element: Permission, permissionKey: 4 },
-   { path: '/role-management/manage-permission', name: 'Manage Permission', element: Permission, permissionKey: 4 },
   { path: '/role-management', name: 'Role Management', element: Rolelist, permissionKey: 4 },
   { path: '/user-management', name: 'User Management', element: UserManagement, permissionKey: 5 },
 
