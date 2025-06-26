@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 const initialState = {
     user: {},
-    limit: 2,
+    limit: 20,
     menu_permission: [],
     active_menu_id: 0,
     isLoggedIn: false,

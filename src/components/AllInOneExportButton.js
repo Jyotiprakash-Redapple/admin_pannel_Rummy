@@ -24,12 +24,22 @@ const addTotalsRow = (data) => {
     const values = data.map(row => row[key]);
     const isNumeric = values.every(val => !isNaN(parseFloat(val)) && isFinite(val));
 
-    if (index === 0) {
-      totals[key] = 'TOTAL';
-    } else if (isNumeric) {
-      totals[key] = values.reduce((sum, val) => sum + parseFloat(val || 0), 0).toFixed(2);
-    } else {
-      totals[key] = '';
+    if (key == 'wallet_trnx_id') {
+      if (index === 0) {
+        totals[key] = 'TOTAL';
+      } else if (isNumeric) {
+        totals[key] = ''
+      } else {
+        totals[key] = '';
+      }
+     } else {
+      if (index === 0) {
+        totals[key] = 'TOTAL';
+      } else if (isNumeric) {
+        totals[key] = values.reduce((sum, val) => sum + parseFloat(val || 0), 0).toFixed(2);
+      } else {
+        totals[key] = '';
+      }
     }
   });
 

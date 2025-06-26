@@ -206,7 +206,7 @@ const RevenueSection = () => {
                     <p className={styles.amount}>{totalRevenueDeposit }</p>
               </div>
               <div className={styles.btnArea}>
-                    <p className={styles.transactions}>{totalRevenueDeposit} Transactions</p>
+                    <p className={styles.transactions}>{revenueDeposit?.length} Transactions</p>
                     
                     <AllInOneExportButton data={revenueDeposit} filename={'revenueDeposit'}/>
               {/* <CButton color="success" size="sm">Export</CButton> */}
@@ -228,7 +228,7 @@ const RevenueSection = () => {
                     <p className={styles.amount}>{totalRevenueWithDraw }</p>
               </div>
               <div className={styles.btnArea} >
-                    <p className={styles.transactions}>{ totalRevenueWithDraw} Transactions</p>
+                    <p className={styles.transactions}>{ revenueWithdraw?.length} Transactions</p>
               <AllInOneExportButton data={revenueWithdraw} filename={'revenueWithdraw'}/>
              </div>
               
