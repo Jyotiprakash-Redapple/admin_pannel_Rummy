@@ -23,7 +23,10 @@ import Service from "../../../apis/Service";
 import RouteURL from "../../../apis/ApiURL";
 import { useSelector, useDispatch } from "react-redux";
 import { Constants, REGEX, ERROR_MESSAGE } from "../../../apis/Constant";
-import { setLimit, clearLimit } from "../../../redux/slices/superAdminStateSlice";
+import {
+	setLimit,
+	clearLimit,
+} from "../../../redux/slices/superAdminStateSlice";
 // Demo Data
 export const transactionData = [
 	{
@@ -57,7 +60,7 @@ function balanceRefactor(b) {
 const AddCashTransactionManagement = () => {
 	const token = useSelector((state) => state.user.token);
 	const pageLimit = useSelector((state) => state.limit);
-	const dispatch = useDispatch()
+	const dispatch = useDispatch();
 	const [search, setSearch] = useState("");
 	const [copied, setCopied] = useState("");
 	const [transaction, setTransaction] = useState([]);
@@ -77,8 +80,7 @@ const AddCashTransactionManagement = () => {
 	);
 
 	const handleLoadMore = () => {
-		dispatch(setLimit(pageLimit))
-
+		dispatch(setLimit(pageLimit));
 	};
 
 	const fetchAddCashTransaction = () => {
@@ -90,7 +92,7 @@ const AddCashTransactionManagement = () => {
 			limit: pageLimit,
 		};
 
-		console.log(params, "PARAMS++++++++++++++++++++++++>>>")
+		console.log(params, "PARAMS++++++++++++++++++++++++>>>");
 		Service.apiPostCallRequest(RouteURL.add_cash_account_statement, params, token)
 			.then((res) => {
 				console.log(res, "transaction add cash transaction");
@@ -113,19 +115,16 @@ const AddCashTransactionManagement = () => {
 			});
 	};
 
-
 	useEffect(() => {
 		// fetchAddCashTransaction();
 
 		return () => {
-					dispatch(clearLimit())
-				}
+			dispatch(clearLimit());
+		};
 	}, []);
 	useEffect(() => {
 		fetchAddCashTransaction();
-
-	
-	}, [pageLimit]);
+	}, [pageLimit, fromDate, toDate]);
 
 	return (
 		<CCard className='mt-4'>
@@ -154,8 +153,38 @@ const AddCashTransactionManagement = () => {
 								/>
 							</CInputGroup>
 						</div>
-						<div className='col-md-3'></div>
-						<div className='col-md-3'></div>
+						<div className='col-md-3'>
+							<label htmlFor='search' className='form-label'>
+								From Date
+							</label>
+							<CInputGroup>
+								<CInputGroupText>
+									<CIcon icon={cilSearch} />
+								</CInputGroupText>
+								<CFormInput
+									type='date'
+									placeholder='from date...'
+									value={fromDate}
+									onChange={(e) => setFromDate(e.target.value)}
+								/>
+							</CInputGroup>
+						</div>
+						<div className='col-md-3'>
+							<label htmlFor='search' className='form-label'>
+								To date
+							</label>
+							<CInputGroup>
+								<CInputGroupText>
+									<CIcon icon={cilSearch} />
+								</CInputGroupText>
+								<CFormInput
+									type='date'
+									placeholder='to date...'
+									value={toDate}
+									onChange={(e) => setToDate(e.target.value)}
+								/>
+							</CInputGroup>
+						</div>
 						<div className='col-md-3 d-flex justify-content-end align-items-end'>
 							<AllInOneExportButton
 								data={filteredTransactionData}
@@ -188,86 +217,88 @@ const AddCashTransactionManagement = () => {
 								</CTableRow>
 							</CTableHead>
 							<CTableBody>
-								<>{filteredTransactionData.length > 0 ? <>{
-									filteredTransactionData.map((txn, index) => (
+								<>
+									{filteredTransactionData.length > 0 ? (
 										<>
-											<CTableRow key={txn.wallet_trnx_id}>
-												<CTableDataCell>
-													<span style={{ color: copied !== txn.wallet_trnx_id ? "" : "#1b9e3e" }}>
-														{txn.wallet_trnx_id}
-													</span>
-													<CopyToClipboard
-														text={txn.wallet_trnx_id}
-														onCopy={() => onCopy(txn.wallet_trnx_id)}>
-														<a
-															href='#'
-															style={{
-																marginLeft: "5px",
-																color: copied !== txn.wallet_trnx_id ? "" : "#1b9e3e",
-															}}>
-															<CTooltip content='Copy Order ID'>
-																{copied !== txn.wallet_trnx_id ? (
-																	<i className='bi bi-copy' />
-																) : (
-																	<i className='bi bi-check-lg' />
-																)}
-															</CTooltip>
-														</a>
-													</CopyToClipboard>
-												</CTableDataCell>
+											{filteredTransactionData.map((txn, index) => (
+												<>
+													<CTableRow key={txn.wallet_trnx_id}>
+														<CTableDataCell>
+															<span style={{ color: copied !== txn.wallet_trnx_id ? "" : "#1b9e3e" }}>
+																{txn.wallet_trnx_id}
+															</span>
+															<CopyToClipboard
+																text={txn.wallet_trnx_id}
+																onCopy={() => onCopy(txn.wallet_trnx_id)}>
+																<a
+																	href='#'
+																	style={{
+																		marginLeft: "5px",
+																		color: copied !== txn.wallet_trnx_id ? "" : "#1b9e3e",
+																	}}>
+																	<CTooltip content='Copy Order ID'>
+																		{copied !== txn.wallet_trnx_id ? (
+																			<i className='bi bi-copy' />
+																		) : (
+																			<i className='bi bi-check-lg' />
+																		)}
+																	</CTooltip>
+																</a>
+															</CopyToClipboard>
+														</CTableDataCell>
 
-												{/* <CTableDataCell>{txn.reference_id}</CTableDataCell> */}
-												<CTableDataCell>
-													₹{balanceRefactor(txn.wallet_trnx_deposit_amount)}
-												</CTableDataCell>
-												<CTableDataCell>
-													₹{balanceRefactor(txn.wallet_trnx_bonus_amount)}
-												</CTableDataCell>
-												<CTableDataCell>
-													₹{balanceRefactor(txn.wallet_trnx_withdrawable_amount)}
-												</CTableDataCell>
-												<CTableDataCell>₹{balanceRefactor(txn.total_amount)}</CTableDataCell>
-												<CTableDataCell>
-													₹{balanceRefactor(txn.wallet_trnx_available_bonus_balance)}
-												</CTableDataCell>
-												<CTableDataCell>
-													₹{balanceRefactor(txn.wallet_trnx_available_deposit_balance)}
-												</CTableDataCell>
-												<CTableDataCell>
-													₹{balanceRefactor(txn.wallet_trnx_available_withdrawable_balance)}
-												</CTableDataCell>
-												{/* <CTableDataCell>{txn?.wallet_trnx_action || "TFB"}</CTableDataCell> */}
-												{/* <CTableDataCell>{txn.transaction_type}</CTableDataCell> */}
-												<CTableDataCell>{txn.wallet_trnx_status}</CTableDataCell>
-												<CTableDataCell>
-													{new Date(txn.wallet_trnx_date).toLocaleString()}
-												</CTableDataCell>
-												<CTableDataCell>{txn.wallet_trnx_description}</CTableDataCell>
-											</CTableRow>
-
-
-
-											
+														{/* <CTableDataCell>{txn.reference_id}</CTableDataCell> */}
+														<CTableDataCell>
+															₹{balanceRefactor(txn.wallet_trnx_deposit_amount)}
+														</CTableDataCell>
+														<CTableDataCell>
+															₹{balanceRefactor(txn.wallet_trnx_bonus_amount)}
+														</CTableDataCell>
+														<CTableDataCell>
+															₹{balanceRefactor(txn.wallet_trnx_withdrawable_amount)}
+														</CTableDataCell>
+														<CTableDataCell>₹{balanceRefactor(txn.total_amount)}</CTableDataCell>
+														<CTableDataCell>
+															₹{balanceRefactor(txn.wallet_trnx_available_bonus_balance)}
+														</CTableDataCell>
+														<CTableDataCell>
+															₹{balanceRefactor(txn.wallet_trnx_available_deposit_balance)}
+														</CTableDataCell>
+														<CTableDataCell>
+															₹{balanceRefactor(txn.wallet_trnx_available_withdrawable_balance)}
+														</CTableDataCell>
+														{/* <CTableDataCell>{txn?.wallet_trnx_action || "TFB"}</CTableDataCell> */}
+														{/* <CTableDataCell>{txn.transaction_type}</CTableDataCell> */}
+														<CTableDataCell>{txn.wallet_trnx_status}</CTableDataCell>
+														<CTableDataCell>
+															{new Date(txn.wallet_trnx_date).toLocaleString()}
+														</CTableDataCell>
+														<CTableDataCell>{txn.wallet_trnx_description}</CTableDataCell>
+													</CTableRow>
+												</>
+											))}
+											{isLoadMoreInActive ? (
+												<></>
+											) : (
+												<CTableRow>
+													<CTableDataCell colSpan='100%' className='text-center'>
+														<CButton color='secondary' variant='outline' onClick={handleLoadMore}>
+															Load More
+														</CButton>
+													</CTableDataCell>
+												</CTableRow>
+											)}
 										</>
-									))}
-											{isLoadMoreInActive ? <></> : <CTableRow>
-										<CTableDataCell colSpan='100%' className='text-center' >
-											<CButton color='secondary' variant='outline' onClick={handleLoadMore}>
-												Load More
-											</CButton>
-										</CTableDataCell>
-									</CTableRow>}
+									) : (
+										<>
+											<CTableRow>
+												<CTableDataCell colSpan='9' className='text-center'>
+													No data found.
+												</CTableDataCell>
+											</CTableRow>
+										</>
+									)}
 								</>
-										
-									 : <><CTableRow>
-										<CTableDataCell colSpan='9' className='text-center'>
-											No data found.
-										</CTableDataCell>
-									</CTableRow></>}
-								
-								
-								</>
-							
 							</CTableBody>
 						</CTable>
 					</div>

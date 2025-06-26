@@ -21,13 +21,16 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import { ToastContainer, toast } from "react-toastify";
 import Service from "../../../apis/Service";
 import RouteURL from "../../../apis/ApiURL";
-import { useSelector , useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Constants, REGEX, ERROR_MESSAGE } from "../../../apis/Constant";
-import { setLimit, clearLimit } from "../../../redux/slices/superAdminStateSlice";
+import {
+	setLimit,
+	clearLimit,
+} from "../../../redux/slices/superAdminStateSlice";
 function balanceRefactor(b) {
 	return b / 100;
 }
-console.log("HELLO")
+console.log("HELLO");
 // Updated Admin Transaction Data
 export const transactionData = [
 	{
@@ -70,7 +73,7 @@ export const transactionData = [
 ];
 
 const AdminTransactionManagement = () => {
-	const dispatch = useDispatch()
+	const dispatch = useDispatch();
 	const token = useSelector((state) => state.user.token);
 	const pageLimit = useSelector((state) => state.limit);
 	const [search, setSearch] = useState("");
@@ -92,8 +95,7 @@ const AdminTransactionManagement = () => {
 	);
 
 	const handleLoadMore = () => {
-		dispatch(setLimit(pageLimit))
-
+		dispatch(setLimit(pageLimit));
 	};
 	const fetchAdminCashTransaction = () => {
 		let params = {
@@ -103,7 +105,7 @@ const AdminTransactionManagement = () => {
 			page: 1,
 			limit: pageLimit,
 		};
-		console.log(params, "PARAM<")
+		console.log(params, "PARAM<");
 		Service.apiPostCallRequest(RouteURL.get_admin_transaction, params, token)
 			.then((res) => {
 				console.log(res, "transaction get_admin_transaction transaction");
@@ -111,8 +113,7 @@ const AdminTransactionManagement = () => {
 					if (res.data.total == res.data.transactions.length) {
 						setIsLoadMoreInActive(true);
 					}
-					setTransaction(res.data.transactions
-);
+					setTransaction(res.data.transactions);
 				} else {
 					toast.error(res.message, {
 						position: "bottom-right",
@@ -121,28 +122,24 @@ const AdminTransactionManagement = () => {
 				}
 			})
 			.catch((error) => {
-				console.log(error, "error")
+				console.log(error, "error");
 				toast.error(error.response.data.message, {
 					position: "bottom-right",
 				});
 			});
 	};
 
-
 	useEffect(() => {
-			// fetchAddCashTransaction();
-	
-			return () => {
-						dispatch(clearLimit())
-					}
+		// fetchAddCashTransaction();
+
+		return () => {
+			dispatch(clearLimit());
+		};
 	}, []);
-	
 
 	useEffect(() => {
 		fetchAdminCashTransaction();
-
-		
-	}, [pageLimit]);
+	}, [pageLimit, fromDate, toDate]);
 	return (
 		<CCard className='mt-4'>
 			<ToastContainer />
@@ -170,8 +167,38 @@ const AdminTransactionManagement = () => {
 								/>
 							</CInputGroup>
 						</div>
-						<div className="col-md-3"></div>
-						<div className="col-md-3"></div>
+						<div className='col-md-3'>
+							<label htmlFor='search' className='form-label'>
+								From Date
+							</label>
+							<CInputGroup>
+								<CInputGroupText>
+									<CIcon icon={cilSearch} />
+								</CInputGroupText>
+								<CFormInput
+									type='date'
+									placeholder='from date...'
+									value={fromDate}
+									onChange={(e) => setFromDate(e.target.value)}
+								/>
+							</CInputGroup>
+						</div>
+						<div className='col-md-3'>
+							<label htmlFor='search' className='form-label'>
+								To date
+							</label>
+							<CInputGroup>
+								<CInputGroupText>
+									<CIcon icon={cilSearch} />
+								</CInputGroupText>
+								<CFormInput
+									type='date'
+									placeholder='to date...'
+									value={toDate}
+									onChange={(e) => setToDate(e.target.value)}
+								/>
+							</CInputGroup>
+						</div>
 						<div className='col-md-3 d-flex justify-content-end align-items-end'>
 							<AllInOneExportButton
 								data={filteredTransactionData}
@@ -192,7 +219,7 @@ const AdminTransactionManagement = () => {
 									<CTableHeaderCell>Withdrawable Wallet (Rs)</CTableHeaderCell>
 									<CTableHeaderCell>Total Wallet (Rs)</CTableHeaderCell>
 
-										<CTableHeaderCell>Available Deposit Amount (Rs)</CTableHeaderCell>
+									<CTableHeaderCell>Available Deposit Amount (Rs)</CTableHeaderCell>
 									<CTableHeaderCell>Available Bonus Amount (Rs)</CTableHeaderCell>
 									<CTableHeaderCell>Available Withdrawable Wallet (Rs)</CTableHeaderCell>
 									<CTableHeaderCell>Available Total Wallet (Rs)</CTableHeaderCell>
@@ -205,73 +232,81 @@ const AdminTransactionManagement = () => {
 								{filteredTransactionData.length > 0 ? (
 									<>
 										{filteredTransactionData.map((item, index) => (
-										<>
-											<CTableRow key={index}>
-												<CTableDataCell>
-													<span style={{ color: copied !== item.wallet_trnx_id ? "" : "#1b9e3e" }}>{item.wallet_trnx_id}</span>
-													<CopyToClipboard text={item.wallet_trnx_id} onCopy={() => onCopy(item.wallet_trnx_id)}>
-														<a
-															href='#'
-															style={{ marginLeft: "5px", color: copied !== item.wallet_trnx_id ? "" : "#1b9e3e" }}>
-															<CTooltip content='Copy Order ID'>
-																{copied !== item.wallet_trnx_id ? (
-																	<i className='bi bi-copy' />
-																) : (
-																	<i className='bi bi-check-lg' />
-																)}
-															</CTooltip>
-														</a>
-													</CopyToClipboard>
-												</CTableDataCell>
-												{/* <CTableDataCell>{item.username}</CTableDataCell> */}
-												<CTableDataCell>
-													₹{item.wallet_trnx_deposit_amount / 100}
-													{/* <CButton
+											<>
+												<CTableRow key={index}>
+													<CTableDataCell>
+														<span style={{ color: copied !== item.wallet_trnx_id ? "" : "#1b9e3e" }}>
+															{item.wallet_trnx_id}
+														</span>
+														<CopyToClipboard
+															text={item.wallet_trnx_id}
+															onCopy={() => onCopy(item.wallet_trnx_id)}>
+															<a
+																href='#'
+																style={{
+																	marginLeft: "5px",
+																	color: copied !== item.wallet_trnx_id ? "" : "#1b9e3e",
+																}}>
+																<CTooltip content='Copy Order ID'>
+																	{copied !== item.wallet_trnx_id ? (
+																		<i className='bi bi-copy' />
+																	) : (
+																		<i className='bi bi-check-lg' />
+																	)}
+																</CTooltip>
+															</a>
+														</CopyToClipboard>
+													</CTableDataCell>
+													{/* <CTableDataCell>{item.username}</CTableDataCell> */}
+													<CTableDataCell>
+														₹{item.wallet_trnx_deposit_amount / 100}
+														{/* <CButton
 														size='sm'
 														color={item.txnAmount >= 0 ? "success" : "danger"}
 														style={{ pointerEvents: "none" }}>
 														{item.wallet_trnx_deposit_amount}
 													</CButton> */}
-												</CTableDataCell>
-												<CTableDataCell>₹{item.wallet_trnx_bonus_amount /100}</CTableDataCell>
-												<CTableDataCell>₹{item.wallet_trnx_withdrawable_amount / 100}</CTableDataCell>
+													</CTableDataCell>
+													<CTableDataCell>₹{item.wallet_trnx_bonus_amount / 100}</CTableDataCell>
+													<CTableDataCell>₹{item.wallet_trnx_withdrawable_amount / 100}</CTableDataCell>
 													<CTableDataCell>₹{item.total_amount / 100}</CTableDataCell>
-												<CTableDataCell>₹{item.wallet_trnx_available_deposit_balance / 100}</CTableDataCell>
-												<CTableDataCell>₹{item.wallet_trnx_available_bonus_balance / 100}</CTableDataCell>
-												<CTableDataCell>₹{item.wallet_trnx_available_withdrawable_balance / 100}</CTableDataCell>
-												<CTableDataCell>₹{item.total_available_balance / 100}</CTableDataCell>
-												<CTableDataCell>
-													
-													{new Date(item.wallet_trnx_date).toLocaleString()}
-												</CTableDataCell>
-												
-												<CTableDataCell>{item.wallet_trnx_description}</CTableDataCell>
-												<CTableDataCell>
-																	{item.wallet_trnx_status}
-													{/* <CButton size='sm' color='success' style={{ pointerEvents: "none" }}>
+													<CTableDataCell>
+														₹{item.wallet_trnx_available_deposit_balance / 100}
+													</CTableDataCell>
+													<CTableDataCell>
+														₹{item.wallet_trnx_available_bonus_balance / 100}
+													</CTableDataCell>
+													<CTableDataCell>
+														₹{item.wallet_trnx_available_withdrawable_balance / 100}
+													</CTableDataCell>
+													<CTableDataCell>₹{item.total_available_balance / 100}</CTableDataCell>
+													<CTableDataCell>
+														{new Date(item.wallet_trnx_date).toLocaleString()}
+													</CTableDataCell>
+
+													<CTableDataCell>{item.wallet_trnx_description}</CTableDataCell>
+													<CTableDataCell>
+														{item.wallet_trnx_status}
+														{/* <CButton size='sm' color='success' style={{ pointerEvents: "none" }}>
 														{item.wallet_trnx_status}
 													</CButton> */}
+													</CTableDataCell>
+												</CTableRow>
+											</>
+										))}
+
+										{isLoadMoreInActive ? (
+											<></>
+										) : (
+											<CTableRow>
+												<CTableDataCell colSpan='100%' className='text-center'>
+													<CButton color='secondary' variant='outline' onClick={handleLoadMore}>
+														Load More
+													</CButton>
 												</CTableDataCell>
 											</CTableRow>
-											
-										
-										</>
-										))}
-								
-											{isLoadMoreInActive ? <></> : <CTableRow>
-													<CTableDataCell colSpan='100%' className='text-center' >
-														<CButton color='secondary' variant='outline' onClick={handleLoadMore}>
-															Load More
-														</CButton>
-													</CTableDataCell>
-												</CTableRow>}
-							
-									
-										
-										
-
+										)}
 									</>
-									
 								) : (
 									<CTableRow>
 										<CTableDataCell colSpan='10' className='text-center'>

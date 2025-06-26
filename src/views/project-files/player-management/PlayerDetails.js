@@ -265,7 +265,7 @@ const DeDuctMoneyModal = ({ visible, onClose, onSubmit, playerId, token }) => {
 	const [remark, setRemark] = useState("");
 	const [walletType, setWalletType] = useState("deposit");
 
-	const AddPlayerMoney = () => {
+	const AddPlayerMoney = (e) => {
 		e.preventDefault();
 		let params = {
 			player_id: playerId,
@@ -302,10 +302,10 @@ const DeDuctMoneyModal = ({ visible, onClose, onSubmit, playerId, token }) => {
 	return (
 		<CModal visible={visible} onClose={onClose}>
 			<CModalHeader closeButton>
-				<CModalTitle>DeDuct Money</CModalTitle>
+				<CModalTitle>Deduct Money</CModalTitle>
 			</CModalHeader>
 			<CModalBody>
-				<CForm onSubmit={AddPlayerMoney}>
+				<CForm >
 					<div className='mb-3'>
 						<CFormLabel htmlFor='amount'>Amount</CFormLabel>
 						<CFormInput
@@ -373,6 +373,7 @@ const DeDuctMoneyModal = ({ visible, onClose, onSubmit, playerId, token }) => {
 					Close
 				</CButton>
 				<CButton
+					onClick={AddPlayerMoney}
 					type='submit'
 					color='primary'
 					style={{
