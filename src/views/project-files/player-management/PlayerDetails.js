@@ -29,7 +29,7 @@ import {
 	CTableRow,
 } from "@coreui/react";
 import { DateRangePicker, Calendar } from "react-date-range";
-import { cilMoney, cilXCircle, cilCheckCircle } from "@coreui/icons";
+import { cilMoney, cilXCircle, cilCheckCircle, cilCursor } from "@coreui/icons";
 import { cilSearch } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
@@ -1047,7 +1047,7 @@ const TransactionList = ({
 							{data.length > 0 ? (
 								<>
 									{data.map((txn) => (
-										<CTableRow key={txn.wallet_trnx_id} onClick={() => openModal(txn)}>
+										<CTableRow style={{ cursor: 'pointer' }} key={txn.wallet_trnx_id} onClick={() => openModal(txn)}>
 											<CTableDataCell>{txn.wallet_trnx_id}</CTableDataCell>
 											{/* <CTableDataCell>{txn.reference_id}</CTableDataCell> */}
 											<CTableDataCell>
@@ -1215,7 +1215,7 @@ total_available_balance
 							{data.length > 0 ? (
 								<>
 									{data.map((txn) => (
-										<CTableRow key={txn.wallet_trnx_id} onClick={() => openModal(txn)}>
+										<CTableRow style={{ cursor: 'pointer' }} key={txn.wallet_trnx_id} onClick={() => openModal(txn)}>
 											<CTableDataCell>{txn.wallet_trnx_id}</CTableDataCell>
 											{/* <CTableDataCell>{txn.reference_id}</CTableDataCell> */}
 											<CTableDataCell>
@@ -1375,7 +1375,7 @@ total_available_balance
 							{data.length > 0 ? (
 								<>
 									{data.map((txn) => (
-										<CTableRow key={txn.wallet_trnx_id} onClick={() => openModal(txn)}>
+										<CTableRow style={{ cursor: 'pointer' }} key={txn.wallet_trnx_id} onClick={() => openModal(txn)}>
 											<CTableDataCell>{txn.wallet_trnx_id}</CTableDataCell>
 											{/* <CTableDataCell>{txn.reference_id}</CTableDataCell> */}
 											<CTableDataCell>
