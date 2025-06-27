@@ -595,11 +595,11 @@ export default function PlayerList() {
 	useEffect(() => {
 		PlayerListDetails();
 	}, [
-		playerFilter.search,
+		// playerFilter.search,
 	
 		playerFilter.page,
 PageLimit,
-		playerFilter.status,
+		// playerFilter.status,
 	]);
 
 	function timeFormatter(iso) {
@@ -681,7 +681,7 @@ PageLimit,
 							</select>
 						</div>
 
-						<div className='col-md-4'>
+						<div className='col-md-3'>
 							<label htmlFor='search' className='form-label'>
 								Search
 							</label>
@@ -704,7 +704,17 @@ PageLimit,
 								/>
 							</CInputGroup>
 						</div>
-						<div className='col-md-5'>
+						<div className='col-md-3'>
+							<div style={{
+								height: '100%',
+								display: 'flex',
+								alignItems: 'flex-end'
+							}}><CButton color="primary" onClick={()=>		PlayerListDetails()}>Submit</CButton></div>
+								
+							
+							
+						</div>
+						<div className='col-md-3'>
 							<label
 								htmlFor='status_id'
 								className='form-label'

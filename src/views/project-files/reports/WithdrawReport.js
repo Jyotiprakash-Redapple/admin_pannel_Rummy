@@ -150,7 +150,7 @@ const [fromDate, setFromDate] = useState("");
 
           {/* Search and Export */}
           <div className="row mb-4">
-            <div className="col-md-3">
+            <div className="col">
               <label htmlFor="search" className="form-label">Search</label>
               <CInputGroup>
                 <CInputGroupText>
@@ -164,7 +164,7 @@ const [fromDate, setFromDate] = useState("");
                 />
               </CInputGroup>
             </div>
-             <div className="col-md-3">
+             <div className="col">
               <label htmlFor="search" className="form-label">From Date</label>
               <CInputGroup>
                 <CInputGroupText>
@@ -178,7 +178,7 @@ const [fromDate, setFromDate] = useState("");
                 />
               </CInputGroup>
             </div>
-             <div className="col-md-3">
+             <div className="col">
               <label htmlFor="search" className="form-label">To date</label>
               <CInputGroup>
                 <CInputGroupText>
@@ -192,8 +192,19 @@ const [fromDate, setFromDate] = useState("");
                 />
               </CInputGroup>
             </div>
-          
-            <div className="col-md-3 d-flex justify-content-end align-items-end">
+          <div className='col'>
+                        <div
+                          style={{
+                            height: "100%",
+                            display: "flex",
+                            alignItems: "flex-end",
+                          }}>
+                          <CButton color='primary' onClick={() => fetchAdminCashTransaction()}>
+                            Submit
+                          </CButton>
+                        </div>
+                      </div>
+            <div className="col d-flex justify-content-end align-items-end">
               <AllInOneExportButton
                 data={filteredTransactionData}
                 filename="admin-transaction-list"

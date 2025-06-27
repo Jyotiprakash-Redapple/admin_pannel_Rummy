@@ -96,7 +96,7 @@ const ReferralManagement = () => {
 
 	useEffect(() => {
 		playerRefreealList();
-	}, [page, pageLimit, search]);
+	}, [page, pageLimit]);
 
 	return (
 		<CCard className='mt-4'>
@@ -129,7 +129,17 @@ const ReferralManagement = () => {
 								/>
 							</CInputGroup>
 						</div>
-						<div className='col-md-8'>
+							<div className='col-md-3'>
+													<div style={{
+														height: '100%',
+														display: 'flex',
+														alignItems: 'flex-end'
+													}}><CButton color="primary" onClick={()=>		playerRefreealList()}>Submit</CButton></div>
+														
+													
+													
+												</div>
+						<div className='col-md-5'>
 							<label
 								htmlFor='status_id'
 								className='form-label'

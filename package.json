@@ -2,7 +2,7 @@
   "name": "Rummy fair admin",
   "version": "0.0.1",
   "description": "Rummy fair admin",
-  "homepage": "/cl",
+  "homepage": "/",
   "scripts": {
     "build": "vite build",
     "lint": "eslint \"src/**/*.js\"",

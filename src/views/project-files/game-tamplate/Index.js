@@ -250,6 +250,20 @@ const TemplateManagement = () => {
 							/>
 						</CInputGroup>
 					</div>
+					 <div className='col-4'>
+																							<div
+																								style={{
+																									height: "100%",
+																									display: "flex",
+																									alignItems: "flex-end",
+																								}}>
+													<CButton color='primary' onClick={() => {
+													
+																								}}>
+																									Submit
+																								</CButton>
+																							</div>
+											</div>
 				</div>
 <div className="table-responsive">
 			<CTable hover bordered responsive>

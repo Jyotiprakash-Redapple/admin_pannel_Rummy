@@ -124,7 +124,7 @@ const AddCashTransactionManagement = () => {
 	}, []);
 	useEffect(() => {
 		fetchAddCashTransaction();
-	}, [pageLimit, fromDate, toDate]);
+	}, [pageLimit]);
 
 	return (
 		<CCard className='mt-4'>
@@ -137,7 +137,7 @@ const AddCashTransactionManagement = () => {
 
 					{/* Search and Export */}
 					<div className='row mb-4'>
-						<div className='col-md-3'>
+						<div className='col'>
 							<label htmlFor='search' className='form-label'>
 								Search
 							</label>
@@ -153,7 +153,7 @@ const AddCashTransactionManagement = () => {
 								/>
 							</CInputGroup>
 						</div>
-						<div className='col-md-3'>
+						<div className='col'>
 							<label htmlFor='search' className='form-label'>
 								From Date
 							</label>
@@ -169,7 +169,7 @@ const AddCashTransactionManagement = () => {
 								/>
 							</CInputGroup>
 						</div>
-						<div className='col-md-3'>
+						<div className='col'>
 							<label htmlFor='search' className='form-label'>
 								To date
 							</label>
@@ -185,7 +185,17 @@ const AddCashTransactionManagement = () => {
 								/>
 							</CInputGroup>
 						</div>
-						<div className='col-md-3 d-flex justify-content-end align-items-end'>
+						<div className='col'>
+																									<div style={{
+																										height: '100%',
+																										display: 'flex',
+																										alignItems: 'flex-end'
+																									}}><CButton color="primary" onClick={()=>		fetchAddCashTransaction()}>Submit</CButton></div>
+																										
+																									
+																									
+																								</div>
+						<div className='col d-flex justify-content-end align-items-end'>
 							<AllInOneExportButton
 								data={filteredTransactionData}
 								filename='add-cash-transaction-list'
