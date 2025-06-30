@@ -709,7 +709,7 @@ PageLimit,
 								height: '100%',
 								display: 'flex',
 								alignItems: 'flex-end'
-							}}><CButton color="primary" onClick={()=>		PlayerListDetails()}>Submit</CButton></div>
+							}}><CButton color="primary" onClick={()=>		PlayerListDetails()}>Search</CButton></div>
 								
 							
 							

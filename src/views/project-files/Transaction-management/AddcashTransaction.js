@@ -186,15 +186,17 @@ const AddCashTransactionManagement = () => {
 							</CInputGroup>
 						</div>
 						<div className='col'>
-																									<div style={{
-																										height: '100%',
-																										display: 'flex',
-																										alignItems: 'flex-end'
-																									}}><CButton color="primary" onClick={()=>		fetchAddCashTransaction()}>Submit</CButton></div>
-																										
-																									
-																									
-																								</div>
+							<div
+								style={{
+									height: "100%",
+									display: "flex",
+									alignItems: "flex-end",
+								}}>
+								<CButton color='primary' onClick={() => fetchAddCashTransaction()}>
+									Search
+								</CButton>
+							</div>
+						</div>
 						<div className='col d-flex justify-content-end align-items-end'>
 							<AllInOneExportButton
 								data={filteredTransactionData}
@@ -208,16 +210,22 @@ const AddCashTransactionManagement = () => {
 						<CTable hover bordered responsive>
 							<CTableHead className='table-primary text-center align-middle'>
 								<CTableRow>
+
+								
+									
+
 									<CTableHeaderCell>Transaction ID</CTableHeaderCell>
+									<CTableHeaderCell>Display Name</CTableHeaderCell>
+									<CTableHeaderCell>Full Name</CTableHeaderCell>
 									{/* <CTableHeaderCell>Reference ID</CTableHeaderCell> */}
 									<CTableHeaderCell>Deposit</CTableHeaderCell>
-									<CTableHeaderCell>Bonus</CTableHeaderCell>
+									{/* <CTableHeaderCell>Bonus</CTableHeaderCell>
 									<CTableHeaderCell>Withdrawable</CTableHeaderCell>
-									<CTableHeaderCell>Total</CTableHeaderCell>
-
-									<CTableHeaderCell scope='col'>Available Bonus Balance</CTableHeaderCell>
+									<CTableHeaderCell>Total</CTableHeaderCell> */}
+{/* 
+									<CTableHeaderCell scope='col'>Available Bonus Balance</CTableHeaderCell> */}
 									<CTableHeaderCell scope='col'>Available Deposit Balance</CTableHeaderCell>
-									<CTableHeaderCell scope='col'>Available Withdrawable Balance</CTableHeaderCell>
+									{/* <CTableHeaderCell scope='col'>Available Withdrawable Balance</CTableHeaderCell> */}
 
 									{/* <CTableHeaderCell>Action</CTableHeaderCell> */}
 									{/* <CTableHeaderCell>Type</CTableHeaderCell> */}
@@ -257,11 +265,12 @@ const AddCashTransactionManagement = () => {
 															</CopyToClipboard>
 														</CTableDataCell>
 
-														{/* <CTableDataCell>{txn.reference_id}</CTableDataCell> */}
+														<CTableDataCell>{txn.player_display_name}</CTableDataCell>
+															<CTableDataCell>{txn.player_full_name}</CTableDataCell>
 														<CTableDataCell>
 															₹{balanceRefactor(txn.wallet_trnx_deposit_amount)}
 														</CTableDataCell>
-														<CTableDataCell>
+														{/* <CTableDataCell>
 															₹{balanceRefactor(txn.wallet_trnx_bonus_amount)}
 														</CTableDataCell>
 														<CTableDataCell>
@@ -270,13 +279,13 @@ const AddCashTransactionManagement = () => {
 														<CTableDataCell>₹{balanceRefactor(txn.total_amount)}</CTableDataCell>
 														<CTableDataCell>
 															₹{balanceRefactor(txn.wallet_trnx_available_bonus_balance)}
-														</CTableDataCell>
+														</CTableDataCell> */}
 														<CTableDataCell>
 															₹{balanceRefactor(txn.wallet_trnx_available_deposit_balance)}
 														</CTableDataCell>
-														<CTableDataCell>
+														{/* <CTableDataCell>
 															₹{balanceRefactor(txn.wallet_trnx_available_withdrawable_balance)}
-														</CTableDataCell>
+														</CTableDataCell> */}
 														{/* <CTableDataCell>{txn?.wallet_trnx_action || "TFB"}</CTableDataCell> */}
 														{/* <CTableDataCell>{txn.transaction_type}</CTableDataCell> */}
 														<CTableDataCell>{txn.wallet_trnx_status}</CTableDataCell>

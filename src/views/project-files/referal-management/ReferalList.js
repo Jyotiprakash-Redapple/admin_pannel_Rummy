@@ -134,7 +134,7 @@ const ReferralManagement = () => {
 														height: '100%',
 														display: 'flex',
 														alignItems: 'flex-end'
-													}}><CButton color="primary" onClick={()=>		playerRefreealList()}>Submit</CButton></div>
+													}}><CButton color="primary" onClick={()=>		playerRefreealList()}>Search</CButton></div>
 														
 													
 													

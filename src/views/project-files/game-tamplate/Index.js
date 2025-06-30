@@ -260,7 +260,7 @@ const TemplateManagement = () => {
 													<CButton color='primary' onClick={() => {
 													
 																								}}>
-																									Submit
+																									Search
 																								</CButton>
 																							</div>
 											</div>

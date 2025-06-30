@@ -199,16 +199,18 @@ const AdminTransactionManagement = () => {
 								/>
 							</CInputGroup>
 						</div>
-							<div className='col'>
-																			<div style={{
-																				height: '100%',
-																				display: 'flex',
-																				alignItems: 'flex-end'
-																			}}><CButton color="primary" onClick={()=>		fetchAdminCashTransaction()}>Submit</CButton></div>
-																				
-																			
-																			
-																		</div>
+						<div className='col'>
+							<div
+								style={{
+									height: "100%",
+									display: "flex",
+									alignItems: "flex-end",
+								}}>
+								<CButton color='primary' onClick={() => fetchAdminCashTransaction()}>
+									Search
+								</CButton>
+							</div>
+						</div>
 						<div className='col d-flex justify-content-end align-items-end'>
 							<AllInOneExportButton
 								data={filteredTransactionData}
@@ -222,17 +224,21 @@ const AdminTransactionManagement = () => {
 						<CTable hover bordered responsive>
 							<CTableHead className='table-primary text-center align-middle'>
 								<CTableRow>
+									
+									
 									<CTableHeaderCell>Transaction ID</CTableHeaderCell>
-									{/* <CTableHeaderCell>Username</CTableHeaderCell> */}
+									<CTableHeaderCell>Display Name</CTableHeaderCell>
+									<CTableHeaderCell>Full Name</CTableHeaderCell>
+
 									<CTableHeaderCell>Deposit Amount (Rs)</CTableHeaderCell>
 									<CTableHeaderCell>Bonus Amount (Rs)</CTableHeaderCell>
-									<CTableHeaderCell>Withdrawable Wallet (Rs)</CTableHeaderCell>
-									<CTableHeaderCell>Total Wallet (Rs)</CTableHeaderCell>
+									{/* <CTableHeaderCell>Withdrawable Wallet (Rs)</CTableHeaderCell> */}
+									{/* <CTableHeaderCell>Total Wallet (Rs)</CTableHeaderCell> */}
 
 									<CTableHeaderCell>Available Deposit Amount (Rs)</CTableHeaderCell>
 									<CTableHeaderCell>Available Bonus Amount (Rs)</CTableHeaderCell>
-									<CTableHeaderCell>Available Withdrawable Wallet (Rs)</CTableHeaderCell>
-									<CTableHeaderCell>Available Total Wallet (Rs)</CTableHeaderCell>
+									{/* <CTableHeaderCell>Available Withdrawable Wallet (Rs)</CTableHeaderCell> */}
+									{/* <CTableHeaderCell>Available Total Wallet (Rs)</CTableHeaderCell> */}
 									<CTableHeaderCell>Date</CTableHeaderCell>
 									<CTableHeaderCell>Remark</CTableHeaderCell>
 									<CTableHeaderCell>Status</CTableHeaderCell>
@@ -268,6 +274,8 @@ const AdminTransactionManagement = () => {
 														</CopyToClipboard>
 													</CTableDataCell>
 													{/* <CTableDataCell>{item.username}</CTableDataCell> */}
+													<CTableDataCell>{item.player_display_name}</CTableDataCell> 
+													 <CTableDataCell>{item.player_full_name}</CTableDataCell>
 													<CTableDataCell>
 														₹{item.wallet_trnx_deposit_amount / 100}
 														{/* <CButton
@@ -278,18 +286,18 @@ const AdminTransactionManagement = () => {
 													</CButton> */}
 													</CTableDataCell>
 													<CTableDataCell>₹{item.wallet_trnx_bonus_amount / 100}</CTableDataCell>
-													<CTableDataCell>₹{item.wallet_trnx_withdrawable_amount / 100}</CTableDataCell>
-													<CTableDataCell>₹{item.total_amount / 100}</CTableDataCell>
+													{/* <CTableDataCell>₹{item.wallet_trnx_withdrawable_amount / 100}</CTableDataCell>
+													<CTableDataCell>₹{item.total_amount / 100}</CTableDataCell> */}
 													<CTableDataCell>
 														₹{item.wallet_trnx_available_deposit_balance / 100}
 													</CTableDataCell>
 													<CTableDataCell>
 														₹{item.wallet_trnx_available_bonus_balance / 100}
 													</CTableDataCell>
-													<CTableDataCell>
+													{/* <CTableDataCell>
 														₹{item.wallet_trnx_available_withdrawable_balance / 100}
 													</CTableDataCell>
-													<CTableDataCell>₹{item.total_available_balance / 100}</CTableDataCell>
+													<CTableDataCell>₹{item.total_available_balance / 100}</CTableDataCell> */}
 													<CTableDataCell>
 														{new Date(item.wallet_trnx_date).toLocaleString()}
 													</CTableDataCell>

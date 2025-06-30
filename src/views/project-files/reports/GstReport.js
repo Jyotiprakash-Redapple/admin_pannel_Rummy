@@ -199,7 +199,7 @@ const [fromDate, setFromDate] = useState("");
                             alignItems: "flex-end",
                           }}>
                           <CButton color='primary' onClick={() => fetchAdminCashTransaction()}>
-                            Submit
+                            Search
                           </CButton>
                         </div>
                       </div>
@@ -222,13 +222,15 @@ const [fromDate, setFromDate] = useState("");
                   
                   <CTableHeaderCell>Deposit Amount (Rs)</CTableHeaderCell>
                   <CTableHeaderCell>Bonus Amount (Rs)</CTableHeaderCell>
-                  <CTableHeaderCell>Withdrawable Amount (Rs)</CTableHeaderCell>
-                  <CTableHeaderCell>Total Amount (Rs)</CTableHeaderCell>
+                  {/* <CTableHeaderCell>Withdrawable Amount (Rs)</CTableHeaderCell> */}
+                  {/* <CTableHeaderCell>Total Amount (Rs)</CTableHeaderCell>
 
                   <CTableHeaderCell>Available Deposit Amount (Rs)</CTableHeaderCell>
+                  <CTableHeaderCell>Available Bonus Amount (Rs)</CTableHeaderCell> */}
+                  <CTableHeaderCell>Available Deposit Amount (Rs)</CTableHeaderCell>
                   <CTableHeaderCell>Available Bonus Amount (Rs)</CTableHeaderCell>
-                  <CTableHeaderCell>Available Withdrawable Amount (Rs)</CTableHeaderCell>
-                  <CTableHeaderCell>Available Total Amount (Rs)</CTableHeaderCell>
+                  {/* <CTableHeaderCell>Available Withdrawable Amount (Rs)</CTableHeaderCell> */}
+                  {/* <CTableHeaderCell>Available Total Amount (Rs)</CTableHeaderCell> */}
 
                   <CTableHeaderCell>Date</CTableHeaderCell>
                   <CTableHeaderCell>Type</CTableHeaderCell>
@@ -261,26 +263,20 @@ const [fromDate, setFromDate] = useState("");
                             </a>
                           </CopyToClipboard>
                         </CTableDataCell>
-                        <CTableDataCell>{item.player_name}</CTableDataCell>
+                        <CTableDataCell>{item.player_full_name}</CTableDataCell>
                         <CTableDataCell>{item.player_display_name}</CTableDataCell>
                         <CTableDataCell>
                           {item.wallet_trnx_deposit_amount / 100}
-                          {/* <CButton
-                            size="sm"
-                            color={item.wallet_trnx_deposit_amount / 100 >= 0 ? 'success' : 'danger'}
-                            style={{ pointerEvents: 'none' }}
-                          >
-                            {item.wallet_trnx_deposit_amount / 100}
-                          </CButton> */}
+                          
                         </CTableDataCell>
                         <CTableDataCell>{item.wallet_trnx_bonus_amount / 100}</CTableDataCell>
-                        <CTableDataCell>{item.wallet_trnx_withdrawable_amount / 100}</CTableDataCell>
-                        <CTableDataCell>{item.total_amount / 100}</CTableDataCell>
+                        {/* <CTableDataCell>{item.wallet_trnx_withdrawable_amount / 100}</CTableDataCell> */}
+                        {/* <CTableDataCell>{item.total_amount / 100}</CTableDataCell> */}
 
                         <CTableDataCell>{item.wallet_trnx_available_deposit_balance / 100}</CTableDataCell>
                          <CTableDataCell>{item.wallet_trnx_available_bonus_balance / 100}</CTableDataCell>
-                         <CTableDataCell>{item.wallet_trnx_available_withdrawable_balance / 100}</CTableDataCell>
-                         <CTableDataCell>{item.total_available_balance / 100}</CTableDataCell>
+                         {/* <CTableDataCell>{item.wallet_trnx_available_withdrawable_balance / 100}</CTableDataCell> */}
+                         {/* <CTableDataCell>{item.total_available_balance / 100}</CTableDataCell> */}
                         
 
                         <CTableDataCell>{new Date(item.wallet_trnx_date).toLocaleString()}</CTableDataCell>
