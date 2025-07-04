@@ -145,12 +145,12 @@ const [fromDate, setFromDate] = useState("");
       <div className="card shadow-lg rounded">
         <div className="card-body">
           <CCardHeader className="d-flex justify-content-between align-items-center">
-            <h5>GST Reports</h5>
+            <h5>Withdraw Reports</h5>
           </CCardHeader>
 
           {/* Search and Export */}
           <div className="row mb-4">
-            <div className="col-md-3">
+            <div className="col">
               <label htmlFor="search" className="form-label">Search</label>
               <CInputGroup>
                 <CInputGroupText>
@@ -164,7 +164,7 @@ const [fromDate, setFromDate] = useState("");
                 />
               </CInputGroup>
             </div>
-             <div className="col-md-3">
+             <div className="col">
               <label htmlFor="search" className="form-label">From Date</label>
               <CInputGroup>
                 <CInputGroupText>
@@ -178,7 +178,7 @@ const [fromDate, setFromDate] = useState("");
                 />
               </CInputGroup>
             </div>
-             <div className="col-md-3">
+             <div className="col">
               <label htmlFor="search" className="form-label">To date</label>
               <CInputGroup>
                 <CInputGroupText>
@@ -192,8 +192,19 @@ const [fromDate, setFromDate] = useState("");
                 />
               </CInputGroup>
             </div>
-          
-            <div className="col-md-3 d-flex justify-content-end align-items-end">
+          <div className='col'>
+                        <div
+                          style={{
+                            height: "100%",
+                            display: "flex",
+                            alignItems: "flex-end",
+                          }}>
+                          <CButton color='primary' onClick={() => fetchAdminCashTransaction()}>
+                            Search
+                          </CButton>
+                        </div>
+                      </div>
+            <div className="col d-flex justify-content-end align-items-end">
               <AllInOneExportButton
                 data={filteredTransactionData}
                 filename="admin-transaction-list"
@@ -210,15 +221,15 @@ const [fromDate, setFromDate] = useState("");
                   <CTableHeaderCell>Player Name</CTableHeaderCell>
                   <CTableHeaderCell>Display Name</CTableHeaderCell>
                   
-                  <CTableHeaderCell>Deposit Amount (Rs)</CTableHeaderCell>
-                  <CTableHeaderCell>Bonus Amount (Rs)</CTableHeaderCell>
+                  {/* <CTableHeaderCell>Deposit Amount (Rs)</CTableHeaderCell>
+                  <CTableHeaderCell>Bonus Amount (Rs)</CTableHeaderCell> */}
                   <CTableHeaderCell>Withdrawable Amount (Rs)</CTableHeaderCell>
-                  <CTableHeaderCell>Total Amount (Rs)</CTableHeaderCell>
+                  {/* <CTableHeaderCell>Total Amount (Rs)</CTableHeaderCell>
 
                   <CTableHeaderCell>Available Deposit Amount (Rs)</CTableHeaderCell>
-                  <CTableHeaderCell>Available Bonus Amount (Rs)</CTableHeaderCell>
+                  <CTableHeaderCell>Available Bonus Amount (Rs)</CTableHeaderCell> */}
                   <CTableHeaderCell>Available Withdrawable Amount (Rs)</CTableHeaderCell>
-                  <CTableHeaderCell>Available Total Amount (Rs)</CTableHeaderCell>
+                  {/* <CTableHeaderCell>Available Total Amount (Rs)</CTableHeaderCell> */}
 
                   <CTableHeaderCell>Date</CTableHeaderCell>
                   <CTableHeaderCell>Type</CTableHeaderCell>
@@ -253,24 +264,18 @@ const [fromDate, setFromDate] = useState("");
                         </CTableDataCell>
                         <CTableDataCell>{item.player_name}</CTableDataCell>
                         <CTableDataCell>{item.player_display_name}</CTableDataCell>
-                        <CTableDataCell>
+                        {/* <CTableDataCell>
                           {item.wallet_trnx_deposit_amount / 100}
-                          {/* <CButton
-                            size="sm"
-                            color={item.wallet_trnx_deposit_amount / 100 >= 0 ? 'success' : 'danger'}
-                            style={{ pointerEvents: 'none' }}
-                          >
-                            {item.wallet_trnx_deposit_amount / 100}
-                          </CButton> */}
+                         
                         </CTableDataCell>
-                        <CTableDataCell>{item.wallet_trnx_bonus_amount / 100}</CTableDataCell>
+                        <CTableDataCell>{item.wallet_trnx_bonus_amount / 100}</CTableDataCell> */}
                         <CTableDataCell>{item.wallet_trnx_withdrawable_amount / 100}</CTableDataCell>
-                        <CTableDataCell>{item.total_amount / 100}</CTableDataCell>
+                        {/* <CTableDataCell>{item.total_amount / 100}</CTableDataCell>
 
                         <CTableDataCell>{item.wallet_trnx_available_deposit_balance / 100}</CTableDataCell>
-                         <CTableDataCell>{item.wallet_trnx_available_bonus_balance / 100}</CTableDataCell>
+                         <CTableDataCell>{item.wallet_trnx_available_bonus_balance / 100}</CTableDataCell> */}
                          <CTableDataCell>{item.wallet_trnx_available_withdrawable_balance / 100}</CTableDataCell>
-                         <CTableDataCell>{item.total_available_balance / 100}</CTableDataCell>
+                         {/* <CTableDataCell>{item.total_available_balance / 100}</CTableDataCell> */}
                         
 
                         <CTableDataCell>{new Date(item.wallet_trnx_date).toLocaleString()}</CTableDataCell>

@@ -22,6 +22,7 @@ import {
 } from '@coreui/icons'
 import { CNavGroup, CNavItem } from '@coreui/react'
 
+
 const _nav = [
   {
     component: CNavItem,
@@ -137,5 +138,6 @@ const _nav = [
     icon: <CIcon icon={cilChartPie} customClassName="nav-icon" />,
   },
 ]
+
 
 export default _nav

@@ -114,7 +114,7 @@ const RevenueSection = () => {
     
               {/* Search and Export */}
           <div className="row mb-4">
-                 <div className="col-md-6">
+                 <div className="col-3">
                   <label htmlFor="search" className="form-label">From Date</label>
                   <CInputGroup>
                     <CInputGroupText>
@@ -128,7 +128,7 @@ const RevenueSection = () => {
                     />
                   </CInputGroup>
                 </div>
-                 <div className="col-md-6">
+                 <div className="col-3">
                   <label htmlFor="search" className="form-label">To date</label>
                   <CInputGroup>
                     <CInputGroupText>
@@ -141,7 +141,34 @@ const RevenueSection = () => {
                       onChange={(e) => setToDate(e.target.value)}
                     />
                   </CInputGroup>
-                </div>
+            </div>
+             <div className='col-3'>
+                                    <div
+                                      style={{
+                                        height: "100%",
+                                        display: "flex",
+                                        alignItems: "flex-end",
+                                      }}>
+                <CButton color='primary' onClick={() => {
+                  playerExportDeposit();
+      playerExportWithDraw()
+                                      }}>
+                                        Submit
+                                      </CButton>
+                                    </div>
+            </div>
+             <div className='col-3'>
+                                    {/* <div
+                                      style={{
+                                        height: "100%",
+                                        display: "flex",
+                                        alignItems: "flex-end",
+                                      }}>
+                                      <CButton color='primary' onClick={() => fetchAdminCashTransaction()}>
+                                        Submit
+                                      </CButton>
+                                    </div> */}
+                                  </div>
                 {/* <div className="col-md-3">
                   <label htmlFor="search" className="form-label">Search</label>
                   <CInputGroup>

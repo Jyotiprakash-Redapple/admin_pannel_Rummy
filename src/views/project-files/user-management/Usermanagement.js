@@ -481,7 +481,7 @@ console.log(AdminRole, "ADMIN ROLE LIST++++++")
 							</div>
 
 							<CButton color='primary' type='submit' onClick={addAdminToServer}>
-								Create Admin
+								Submit
 							</CButton>
 							<CButton
 								color='secondary'

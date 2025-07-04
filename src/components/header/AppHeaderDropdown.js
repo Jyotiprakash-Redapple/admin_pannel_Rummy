@@ -49,7 +49,9 @@ const defaultData = {
 	cfg_tds_threshold_amount: 0,
 	cfg_tds_transfer_to_bonus: true,
 	cfg_min_deposit_limit: 0,
-cfg_max_deposit_limit : 0
+	cfg_max_deposit_limit: 0,
+	cfg_referal_bonus_amount: 0,
+cfg_refree_bonus_amount: 0,
 };
 
 const TaxConfigModal = ({ visible, onClose, isEdit, isView }) => {
@@ -58,7 +60,7 @@ const TaxConfigModal = ({ visible, onClose, isEdit, isView }) => {
 	const token = useSelector((state) => state.user.token);
 
 	const PlayerDetails = () => {
-		Service.apiPostCallRequest(RouteURL.tax_config, { type: "get" }, token)
+		Service.apiPostCallRequest(RouteURL.tax_config, { type: "get" , ...formData}, token)
 			.then((res) => {
 				console.log(res, "tax-confif");
 				if (res.err === Constants.API_RESPONSE_STATUS_SUCCESS) {
@@ -139,7 +141,7 @@ const TaxConfigModal = ({ visible, onClose, isEdit, isView }) => {
 		<CModal visible={visible} onClose={onClose} backdrop={'static'}>
 			<ToastContainer />
 			<CModalHeader>
-				<CModalTitle> Tax Configuration</CModalTitle>
+				<CModalTitle> Setting Configuration</CModalTitle>
 			</CModalHeader>
 			<CModalBody>
 				<CForm>
@@ -223,6 +225,31 @@ const TaxConfigModal = ({ visible, onClose, isEdit, isView }) => {
 								// disabled={type === 'get'}
 							/>
 						</CCol>
+
+							<CCol md={6}>
+							<CFormLabel htmlFor='cfg_referal_bonus_amount'>Referral Amount *</CFormLabel>
+							<CFormInput
+								readOnly={isEdit === false}
+								type='number'
+								name='cfg_referal_bonus_amount'
+								value={formData.cfg_referal_bonus_amount}
+								onChange={handleChange}
+								// disabled={type === 'get'}
+							/>
+						</CCol>
+						
+	<CCol md={6}>
+							<CFormLabel htmlFor='cfg_refree_bonus_amount'>Referee Amount *</CFormLabel>
+							<CFormInput
+								readOnly={isEdit === false}
+								type='number'
+								name='cfg_refree_bonus_amount'
+								value={formData.cfg_refree_bonus_amount}
+								onChange={handleChange}
+								// disabled={type === 'get'}
+							/>
+						</CCol>
+
 						<CCol md={6}>
 							<CFormLabel htmlFor='cfg_platform_fees_percentage'>Platform Fees %</CFormLabel>
 							<CFormInput
@@ -276,6 +303,7 @@ const AppHeaderDropdown = () => {
 	const user = useSelector((state) => state.user);
 	const menuPermission = useSelector((state) => state.menu_permission);
 	const [tax_config_key, _] = useState(14);
+
 	const [taxtConfigFeature, setTaxConfigFeature] = useState(null);
 	const dispatch = useDispatch();
 	const [show, setShow] = useState(false);
