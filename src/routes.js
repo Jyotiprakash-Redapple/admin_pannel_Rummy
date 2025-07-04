@@ -71,7 +71,10 @@ const Revenue = React.lazy(() => import('./views/project-files/Revenue/RevenueSe
 
 const Page403 = React.lazy(() => import('./views/auth/Page403'))
 const GameTamplate = React.lazy(() => import('./views/project-files/game-tamplate/Index'))
-const WithDrawReport = React.lazy(()=>import('./views/project-files/reports/WithdrawReport'))
+const WithDrawReport = React.lazy(() => import('./views/project-files/reports/WithdrawReport'))
+
+// stg routes
+
 const routes = [
   { path: '/', exact: true, name: 'Home' , permissionKey: -1},
   { path: '/revenue', name: 'Revenue', element: Revenue, permissionKey: 12 },
@@ -138,5 +141,4 @@ const routes = [
    { path: '/403', name: 'Page 403', element: Page403, exact: true },
 
 ]
-
 export default routes

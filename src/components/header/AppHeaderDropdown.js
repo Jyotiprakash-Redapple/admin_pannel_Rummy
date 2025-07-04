@@ -60,7 +60,7 @@ const TaxConfigModal = ({ visible, onClose, isEdit, isView }) => {
 	const token = useSelector((state) => state.user.token);
 
 	const PlayerDetails = () => {
-		Service.apiPostCallRequest(RouteURL.tax_config, { type: "get" }, token)
+		Service.apiPostCallRequest(RouteURL.tax_config, { type: "get" , ...formData}, token)
 			.then((res) => {
 				console.log(res, "tax-confif");
 				if (res.err === Constants.API_RESPONSE_STATUS_SUCCESS) {
@@ -303,6 +303,7 @@ const AppHeaderDropdown = () => {
 	const user = useSelector((state) => state.user);
 	const menuPermission = useSelector((state) => state.menu_permission);
 	const [tax_config_key, _] = useState(14);
+
 	const [taxtConfigFeature, setTaxConfigFeature] = useState(null);
 	const dispatch = useDispatch();
 	const [show, setShow] = useState(false);

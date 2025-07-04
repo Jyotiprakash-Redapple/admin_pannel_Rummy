@@ -30,29 +30,31 @@ import { createFeatureFlags } from "../../../Utility/helper";
 import { useSelector, useDispatch } from "react-redux";
 import { PageLoader } from "../../../components/Loder";
 import { clearLimit } from "../../../redux/slices/superAdminStateSlice";
+import Pagination from "../../../components/Pagination";
+//import { BASE_URL } from "../../../apis/API";
 const defaultForm = {
 	name: "",
-	minBuyin: "",
-	maxBuyin: "",
+	minBuyin: 0,
+	maxBuyin: 0,
 	minPlayer: 2,
 	maxPlayer: 2,
-	noOfCards: "",
-	gameStartTime: "",
+	noOfCards: 0,
+	gameStartTime: 30000,
 	variantType: "",
-	pointValue: "",
-	dealsPerGame: "",
-	noOfDeck: "",
-	cardsPerPlayer: "",
-	playerTurnTime: "",
-	serviceFee: "",
-	graceTime: "",
+	pointValue: 1,
+	dealsPerGame: 1,
+	noOfDeck: 1,
+	cardsPerPlayer: 13,
+	playerTurnTime: 5000,
+	serviceFee: 1,
+	graceTime: 1000,
 	skillBasedMM: false,
 	status: 1,
 	gid: 1,
 };
 
 const TemplateManagement = () => {
-	const dispatch = useDispatch()
+	const dispatch = useDispatch();
 	const [formData, setFormData] = useState(defaultForm);
 	const [visible, setVisible] = useState(false);
 	const [templateData, setTemplateData] = useState([]);
@@ -60,11 +62,13 @@ const TemplateManagement = () => {
 	const [errors, setErrors] = useState({});
 	const activeMenuId = useSelector((state) => state.active_menu_id);
 	const menuPermission = useSelector((state) => state.menu_permission);
-		const pageLimit = useSelector((state) => state.limit);
+	const pageLimit = useSelector((state) => state.limit);
 	const [accessMenu, setAccessMenu] = useState(null);
 
+	console.log(formData, "FORM DATA====>")
 	const handleChange = (e) => {
 		const { name, value, type, checked } = e.target;
+		console.log(name, value, "FORM CHNAGE")
 		setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
 	};
 
@@ -89,27 +93,30 @@ const TemplateManagement = () => {
 		} = formData;
 
 		if (!name) errors.name = "Name is required.";
-		if (minBuyin < 1) errors.minBuyin = "Min Buyin must be at least 2.";
-		if (maxBuyin > 5) errors.maxBuyin = "Max Buyin cannot be greater than 5.";
-		if (minPlayer < 2) errors.minPlayer = "Minimum player must be at least 2.";
+		if (Number(minBuyin) < 2) errors.minBuyin = "Min Buyin must be at least 2.";
+		if(Number(minBuyin) > 5) errors.minBuyin = "Min Buyin cannot be greater than 5."
+		if (Number(maxBuyin) > 5) errors.maxBuyin = "Max Buyin cannot be greater than 5.";
+		if (Number(minPlayer) < 2) errors.minPlayer = "Minimum player must be at least 2.";
+		if (![2, 6].includes(Number(minPlayer)))
+			errors.maxPlayer = "Min player must be 2 or 6."; 
 		if (![2, 6].includes(Number(maxPlayer)))
 			errors.maxPlayer = "Max player must be 2 or 6.";
 		if (!noOfCards) errors.noOfCards = "Number of cards is required.";
 
-		if (gameStartTime % 1000 !== 0 || gameStartTime < 1000 || gameStartTime > 30000)
+		if (Number(gameStartTime) % 1000 !== 0 || Number(gameStartTime) < 1000 || Number(gameStartTime) > 30000)
 			errors.gameStartTime = "Must be between 1000 and 30000 (steps of 1000).";
 
 		if (
-			playerTurnTime % 1000 !== 0 ||
-			playerTurnTime < 5000 ||
-			playerTurnTime > 60000
+			Number(playerTurnTime) % 1000 !== 0 ||
+			Number(playerTurnTime) < 5000 ||
+			Number(playerTurnTime) > 60000
 		)
 			errors.playerTurnTime = "Must be between 5000 and 60000 (steps of 1000).";
 
-		if (graceTime % 1000 !== 0 || graceTime < 1000 || graceTime > 30000)
+		if (Number(graceTime) % 1000 !== 0 || Number(graceTime) < 1000 || Number(graceTime) > 30000)
 			errors.graceTime = "Must be between 1000 and 30000 (steps of 1000).";
 
-		if (serviceFee < 1 || serviceFee > 99)
+		if (Number(serviceFee) < 1 || Number(serviceFee) > 99)
 			errors.serviceFee = "Service Fee must be between 1 and 99.";
 
 		if (![13, 14].includes(Number(cardsPerPlayer)))
@@ -126,7 +133,7 @@ const TemplateManagement = () => {
 
 		if (
 			variantType === "2" &&
-			(!dealsPerGame || dealsPerGame < 1 || dealsPerGame > 10)
+			(!dealsPerGame || Number(dealsPerGame) < 1 || Number(dealsPerGame) > 10)
 		)
 			errors.dealsPerGame = "Deals per game must be between 1 and 10.";
 
@@ -141,47 +148,46 @@ const TemplateManagement = () => {
 			// Submit form
 			console.log("Form submitted", formData);
 
-
 			let param = {
-				 minBuyin: formData.minBuyin,
-    maxBuyin: formData.maxBuyin,
-    status: 1,
-//     "gid": 1,
-    name: formData.name,
-    minPlayer: formData.minPlayer,
-    maxPlayer: formData.maxPlayer,
-    noOfCards: formData.noOfCards,
-    gameStartTime: formData.gameStartTime,
-    pointValue: formData.pointValue,
-    noOfDeck: formData.noOfCards,
-    cardsPerPlayer: formData.cardsPerPlayer,
-    playerTurnTime: formData.playerTurnTime,
-    serviceFee: formData.serviceFee,
-    graceTime: formData.graceTime,
-    dealsPerGame: formData.dealsPerGame,
-    variantType: formData.variantType,
-    skillBasedMM: Boolean(formData.skillBasedMM)
-
-			}
+				minBuyin: formData.minBuyin,
+				maxBuyin: formData.maxBuyin,
+				status: 1,
+				//     "gid": 1,
+				name: formData.name,
+				minPlayer: formData.minPlayer,
+				maxPlayer: formData.maxPlayer,
+				noOfCards: formData.noOfCards,
+				gameStartTime: formData.gameStartTime,
+				pointValue: formData.pointValue,
+				noOfDeck: formData.noOfCards,
+				cardsPerPlayer: formData.cardsPerPlayer,
+				playerTurnTime: formData.playerTurnTime,
+				serviceFee: formData.serviceFee,
+				graceTime: formData.graceTime,
+				dealsPerGame: formData.dealsPerGame,
+				variantType: formData.variantType,
+				skillBasedMM: Boolean(formData.skillBasedMM),
+			};
 			try {
-			await axios.post("http://3.12.20.117:8081/template", param);
-			toast.success("Template Added Successfully");
-			setVisible(false);
-			fetchTemplates();
-		} catch {
-			toast.error("Failed to submit form.");
+				let URL = 'http://18.191.105.81:8081' + '/template/create'
+				await axios.post(URL, param);
+				toast.success("Template Added Successfully");
+				setVisible(false);
+				fetchTemplates();
+			} catch {
+				toast.error("Failed to submit form.");
+			}
 		}
-		}
-		
 	};
 
 	const fetchTemplates = async () => {
 		try {
+			let URL ='http://18.191.105.81:8081' + '/template/contest?userId=3'
 			const res = await axios.get(
-				"http://3.12.20.117:8081/template/contest?userId=3"
+				URL
 			);
 			console.log(res, "RES++++++++++++");
-			setTemplateData(res?.data || []);
+			setTemplateData(res?.data?.payload?.templates || []);
 		} catch (e) {
 			console.log(e, "ERROR");
 			toast.error("Failed to fetch data, using fallback.");
@@ -193,11 +199,11 @@ const TemplateManagement = () => {
 		fetchTemplates();
 
 		return () => {
-			dispatch(clearLimit())
-		}
+			dispatch(clearLimit());
+		};
 	}, []);
 
-	const filteredData = templateData.filter((item) =>
+	const filteredData = templateData?.filter((item) =>
 		Object.values(item).some((val) =>
 			String(val).toLowerCase().includes(search.toLowerCase())
 		)
@@ -222,7 +228,7 @@ const TemplateManagement = () => {
 		"FETAURE ROLE GAME TAMP",
 		accessMenu?.menu_features
 	);
-	
+
 	return (
 		<CCard className='mt-4'>
 			<ToastContainer />
@@ -250,78 +256,76 @@ const TemplateManagement = () => {
 							/>
 						</CInputGroup>
 					</div>
-					 <div className='col-4'>
-																							<div
-																								style={{
-																									height: "100%",
-																									display: "flex",
-																									alignItems: "flex-end",
-																								}}>
-													<CButton color='primary' onClick={() => {
-													
-																								}}>
-																									Search
-																								</CButton>
-																							</div>
-											</div>
-				</div>
-<div className="table-responsive">
-			<CTable hover bordered responsive>
-  <CTableHead className='table-primary text-center'>
-    <CTableRow>
-      <CTableHeaderCell>ID</CTableHeaderCell>
-      <CTableHeaderCell>Variant Type</CTableHeaderCell>
-      <CTableHeaderCell>Name</CTableHeaderCell>
-      <CTableHeaderCell>Min Buyin</CTableHeaderCell>
-      <CTableHeaderCell>Max Buyin</CTableHeaderCell>
-      <CTableHeaderCell>Min Player</CTableHeaderCell>
-      <CTableHeaderCell>Max Player</CTableHeaderCell>
-      <CTableHeaderCell>Cards</CTableHeaderCell>
-      <CTableHeaderCell>Decks</CTableHeaderCell>
-      <CTableHeaderCell>Platform Fee (%)</CTableHeaderCell>
-      <CTableHeaderCell>Status</CTableHeaderCell>
-    </CTableRow>
-  </CTableHead>
-  <CTableBody>
-    {filteredData.map((item, idx) => (
-      <CTableRow key={idx} className='text-center'>
-        <CTableDataCell>{item.id}</CTableDataCell>
-        <CTableDataCell>
-          {{
-            1: 'Points Rummy',
-            2: 'Deals Rummy',
-            3: 'Pools Rummy',
-          }[item.variantType] || 'N/A'}
-        </CTableDataCell>
-        <CTableDataCell>{item.name}</CTableDataCell>
-        <CTableDataCell>{item.minBuyin}</CTableDataCell>
-        <CTableDataCell>{item.maxBuyin}</CTableDataCell>
-        <CTableDataCell>{item.minPlayer}</CTableDataCell>
-        <CTableDataCell>{item.maxPlayer}</CTableDataCell>
-        <CTableDataCell>{item.noOfCards}</CTableDataCell>
-        <CTableDataCell>{item.noOfDeck}</CTableDataCell>
-        <CTableDataCell>{item.serviceFee}%</CTableDataCell>
-        <CTableDataCell>
-          <CBadge color={item.status === 1 ? 'success' : 'danger'}>
-            {item.status === 1 ? 'Active' : 'Inactive'}
-          </CBadge>
-        </CTableDataCell>
-      </CTableRow>
-    ))}
-  </CTableBody>
-</CTable>
-</div>
-					{filteredData.length > 0 && (
-						<div className='d-flex justify-content-center mt-4'>
-							<Pagination
-								page={playerFilter.page}
-								totalPages={playerFilter.total}
-								onPageChange={(newPage) =>
-									setPlayerFilter((prev) => ({ ...prev, page: newPage }))
-								}
-							/>
+					<div className='col-4'>
+						<div
+							style={{
+								height: "100%",
+								display: "flex",
+								alignItems: "flex-end",
+							}}>
+							<CButton color='primary' onClick={() => {}}>
+								Search
+							</CButton>
 						</div>
-					)}
+					</div>
+				</div>
+				<div className='table-responsive'>
+					<CTable hover bordered responsive>
+						<CTableHead className='table-primary text-center'>
+							<CTableRow>
+								<CTableHeaderCell>ID</CTableHeaderCell>
+								<CTableHeaderCell>Variant Type</CTableHeaderCell>
+								<CTableHeaderCell>Name</CTableHeaderCell>
+								<CTableHeaderCell>Min Buyin</CTableHeaderCell>
+								<CTableHeaderCell>Max Buyin</CTableHeaderCell>
+								<CTableHeaderCell>Min Player</CTableHeaderCell>
+								<CTableHeaderCell>Max Player</CTableHeaderCell>
+								<CTableHeaderCell>Cards</CTableHeaderCell>
+								<CTableHeaderCell>Decks</CTableHeaderCell>
+								<CTableHeaderCell>Platform Fee (%)</CTableHeaderCell>
+								<CTableHeaderCell>Status</CTableHeaderCell>
+							</CTableRow>
+						</CTableHead>
+						<CTableBody>
+							{filteredData.map((item, idx) => (
+								<CTableRow key={idx} className='text-center'>
+									<CTableDataCell>{item.id}</CTableDataCell>
+									<CTableDataCell>
+										{{
+											1: "Points Rummy",
+											2: "Deals Rummy",
+											3: "Pools Rummy",
+										}[item.variantType] || "N/A"}
+									</CTableDataCell>
+									<CTableDataCell>{item.name}</CTableDataCell>
+									<CTableDataCell>{item.minBuyin}</CTableDataCell>
+									<CTableDataCell>{item.maxBuyin}</CTableDataCell>
+									<CTableDataCell>{item.minPlayer}</CTableDataCell>
+									<CTableDataCell>{item.maxPlayer}</CTableDataCell>
+									<CTableDataCell>{item.noOfCards}</CTableDataCell>
+									<CTableDataCell>{item.noOfDeck}</CTableDataCell>
+									<CTableDataCell>{item.serviceFee}%</CTableDataCell>
+									<CTableDataCell>
+										<CBadge color={item.status === 1 ? "success" : "danger"}>
+											{item.status === 1 ? "Active" : "Inactive"}
+										</CBadge>
+									</CTableDataCell>
+								</CTableRow>
+							))}
+						</CTableBody>
+					</CTable>
+				</div>
+				{filteredData.length > 0 && (
+					<div className='d-flex justify-content-center mt-4'>
+						 {/* <Pagination
+							page={page}
+							totalPages={total}
+							onPageChange={(newPage) =>
+								//
+							}
+						/>  */}
+					</div>
+				)}
 			</CCardBody>
 
 			<CModal visible={visible} onClose={() => setVisible(false)} backdrop='static'>
@@ -377,12 +381,20 @@ const TemplateManagement = () => {
 					<div className='row'>
 						<div className='col-6 mb-3'>
 							<label className='form-label'>Min Player</label>
-							<CFormInput name={"minPlayer"} value={formData.minPlayer} onChange={handleChange} />
+							<CFormInput
+								name={"minPlayer"}
+								value={formData.minPlayer}
+								onChange={handleChange}
+							/>
 							{errors.minPlayer && <div className='text-danger'>{errors.minPlayer}</div>}
 						</div>
 						<div className='col-6 mb-3'>
 							<label className='form-label'>Max Player</label>
-							<CFormInput name={"maxPlayer"} value={formData.maxPlayer} onChange={handleChange} />
+							<CFormInput
+								name={"maxPlayer"}
+								value={formData.maxPlayer}
+								onChange={handleChange}
+							/>
 							{errors.maxPlayer && <div className='text-danger'>{errors.maxPlayer}</div>}
 						</div>
 					</div>
@@ -396,12 +408,20 @@ const TemplateManagement = () => {
 					<div className='row'>
 						<div className='col-6 mb-3'>
 							<label className='form-label'>Min Buyin</label>
-							<CFormInput name={"minBuyin"} value={formData.maxBuyin} onChange={handleChange} />
+							<CFormInput
+								name={"minBuyin"}
+								value={formData.minBuyin}
+								onChange={handleChange}
+							/>
 							{errors.minBuyin && <div className='text-danger'>{errors.minBuyin}</div>}
 						</div>
 						<div className='col-6 mb-3'>
 							<label className='form-label'>Max Buyin</label>
-							<CFormInput name={"maxBuyin"} value={formData.maxPlayer} onChange={handleChange} />
+							<CFormInput
+								name={"maxBuyin"}
+								value={formData.maxBuyin}
+								onChange={handleChange}
+							/>
 							{errors.maxBuyin && <div className='text-danger'>{errors.maxBuyin}</div>}
 						</div>
 					</div>
@@ -409,14 +429,22 @@ const TemplateManagement = () => {
 					<div className='row'>
 						<div className='col-12 mb-3'>
 							<label className='form-label'>No Of Cards</label>
-							<CFormInput name={"noOfCards"} value={formData.noOfCards} onChange={handleChange} />
+							<CFormInput
+								name={"noOfCards"}
+								value={formData.noOfCards}
+								onChange={handleChange}
+							/>
 							{errors.noOfCards && <div className='text-danger'>{errors.noOfCards}</div>}
 						</div>
 					</div>
 					<div className='row'>
 						<div className='col-12 mb-3'>
 							<label className='form-label'>Game Start Time</label>
-							<CFormInput name={"gameStartTime"} value={formData.gameStartTime} onChange={handleChange} />
+							<CFormInput
+								name={"gameStartTime"}
+								value={formData.gameStartTime}
+								onChange={handleChange}
+							/>
 							{errors.gameStartTime && (
 								<div className='text-danger'>{errors.gameStartTime}</div>
 							)}
@@ -426,14 +454,22 @@ const TemplateManagement = () => {
 					<div className='row'>
 						<div className='col-12 mb-3'>
 							<label className='form-label'>No Of Deck</label>
-							<CFormInput name={"noOfDeck"} value={formData.noOfDeck} onChange={handleChange} />
+							<CFormInput
+								name={"noOfDeck"}
+								value={formData.noOfDeck}
+								onChange={handleChange}
+							/>
 							{errors.noOfDeck && <div className='text-danger'>{errors.noOfDeck}</div>}
 						</div>
 					</div>
 					<div className='row'>
 						<div className='col-12 mb-3'>
 							<label className='form-label'>Cards Per Player</label>
-							<CFormInput name={"cardsPerPlayer"} value={formData.cardsPerPlayer} onChange={handleChange} />
+							<CFormInput
+								name={"cardsPerPlayer"}
+								value={formData.cardsPerPlayer}
+								onChange={handleChange}
+							/>
 							{errors.cardsPerPlayer && (
 								<div className='text-danger'>{errors.cardsPerPlayer}</div>
 							)}
@@ -443,7 +479,11 @@ const TemplateManagement = () => {
 					<div className='row'>
 						<div className='col-12 mb-3'>
 							<label className='form-label'>Player Turn Time</label>
-							<CFormInput name={"playerTurnTime"} value={formData.playerTurnTime} onChange={handleChange} />
+							<CFormInput
+								name={"playerTurnTime"}
+								value={formData.playerTurnTime}
+								onChange={handleChange}
+							/>
 							{errors.playerTurnTime && (
 								<div className='text-danger'>{errors.playerTurnTime}</div>
 							)}
@@ -457,7 +497,11 @@ const TemplateManagement = () => {
 									display: "flex",
 									alignItems: "center",
 								}}>
-								<CFormInput name={"serviceFee"} value={formData.serviceFee} onChange={handleChange} />{" "}
+								<CFormInput
+									name={"serviceFee"}
+									value={formData.serviceFee}
+									onChange={handleChange}
+								/>{" "}
 								<span
 									style={{
 										height: "100%",
@@ -474,7 +518,11 @@ const TemplateManagement = () => {
 					<div className='row'>
 						<div className='col-12 mb-3'>
 							<label className='form-label'>graceTime</label>
-							<CFormInput name={"graceTime"} value={formData.graceTime} onChange={handleChange} />
+							<CFormInput
+								name={"graceTime"}
+								value={formData.graceTime}
+								onChange={handleChange}
+							/>
 							{errors.graceTime && <div className='text-danger'>{errors.graceTime}</div>}
 						</div>
 					</div>

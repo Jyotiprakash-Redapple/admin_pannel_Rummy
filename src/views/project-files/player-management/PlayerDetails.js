@@ -1017,6 +1017,19 @@ const TransactionList = ({
 	function balanceRefactor(b) {
 		return b / 100;
 	}
+	console.log(data, 'TRANSACTION LIST+++++>>>')
+
+	const renderRow = (label, value) => {
+	if (value === null || value === undefined) return null;
+	return (
+		<tr>
+			<th scope="row">{label}</th>
+			<td>
+				{typeof value === 'number' ? `₹${balanceRefactor(value)}` : value}
+			</td>
+		</tr>
+	);
+};
 	if (tab == 1) {
 		return (
 			<>
@@ -1196,10 +1209,10 @@ total_available_balance
 								<CTableHeaderCell>Transaction ID</CTableHeaderCell>
 								{/* <CTableHeaderCell>Reference ID</CTableHeaderCell> */}
 								<CTableHeaderCell>Deposit Amount</CTableHeaderCell>
-								<CTableHeaderCell>Bonus Amount</CTableHeaderCell>
+								{/* <CTableHeaderCell>Bonus Amount</CTableHeaderCell> */}
 								{/* <CTableHeaderCell>Withdrawable</CTableHeaderCell> */}
-								<CTableHeaderCell>Total</CTableHeaderCell>
-
+								{/* <CTableHeaderCell>Total</CTableHeaderCell> */}
+	<CTableHeaderCell scope='col'>Available Deposit Balance</CTableHeaderCell>
 								{/* <CTableHeaderCell scope='col'>Available Bonus Balance</CTableHeaderCell>
 							<CTableHeaderCell scope='col'>Available Deposit Balance</CTableHeaderCell>
 							<CTableHeaderCell scope='col'>Available Withdrawable Balance</CTableHeaderCell> */}
@@ -1207,7 +1220,7 @@ total_available_balance
 								{/* <CTableHeaderCell>Action</CTableHeaderCell> */}
 								{/* <CTableHeaderCell>Type</CTableHeaderCell> */}
 								{/* <CTableHeaderCell scope='col'>Type</CTableHeaderCell> */}
-								{/* <CTableHeaderCell>Status</CTableHeaderCell> */}
+								<CTableHeaderCell>Status</CTableHeaderCell>
 								<CTableHeaderCell>Date</CTableHeaderCell>
 								{/* <CTableHeaderCell>Description</CTableHeaderCell> */}
 							</CTableRow>
@@ -1222,13 +1235,13 @@ total_available_balance
 											<CTableDataCell>
 												₹{balanceRefactor(txn.wallet_trnx_deposit_amount)}
 											</CTableDataCell>
-											<CTableDataCell>
+											{/* <CTableDataCell>
 												₹{balanceRefactor(txn.wallet_trnx_bonus_amount)}
-											</CTableDataCell>
+											</CTableDataCell> */}
 											{/* <CTableDataCell>
 											₹{balanceRefactor(txn.wallet_trnx_withdrawable_amount)}
 										</CTableDataCell> */}
-											<CTableDataCell>₹{balanceRefactor(txn.total_amount)}</CTableDataCell>
+											<CTableDataCell>₹{balanceRefactor(txn.wallet_trnx_available_deposit_balance)}</CTableDataCell>
 											{/* <CTableDataCell>
 											₹{balanceRefactor(txn.wallet_trnx_available_bonus_balance)}
 										</CTableDataCell>
@@ -1242,7 +1255,7 @@ total_available_balance
 											{/* <CTableDataCell>{txn.transaction_type}</CTableDataCell> */}
 											{/* <CTableDataCell>{txn.wallet_trnx_type
 }</CTableDataCell> */}
-											{/* <CTableDataCell>{txn.wallet_trnx_status}</CTableDataCell> */}
+										 <CTableDataCell>{txn.wallet_trnx_status}</CTableDataCell> 
 											<CTableDataCell>
 												{new Date(txn.wallet_trnx_date).toLocaleString()}
 											</CTableDataCell>
@@ -1291,52 +1304,17 @@ total_available_balance
             <th scope="row">Reference ID</th>
             <td>{selectedTxn.reference_id}</td>
           </tr> */}
-										<tr>
-											<th scope='row'>Deposit Amount</th>
-											<td>₹{balanceRefactor(selectedTxn.wallet_trnx_deposit_amount)}</td>
-										</tr>
-										<tr>
-											<th scope='row'>Bonus Amount</th>
-											<td>₹{balanceRefactor(selectedTxn.wallet_trnx_bonus_amount)}</td>
-										</tr>
-										<tr>
-											<th scope='row'>Withdrawable Amount</th>
-											<td>₹{balanceRefactor(selectedTxn.wallet_trnx_withdrawable_amount)}</td>
-										</tr>
-										<tr>
-											<th scope='row'>Total Amount</th>
-											<td>₹{balanceRefactor(selectedTxn.total_amount)}</td>
-										</tr>
-										<tr>
-											<th scope='row'>Available Bonus Balance</th>
-											<td>₹{balanceRefactor(selectedTxn.wallet_trnx_available_bonus_balance)}</td>
-										</tr>
-										<tr>
-											<th scope='row'>Available Deposit Balance</th>
-											<td>₹{balanceRefactor(selectedTxn.wallet_trnx_available_deposit_balance)}</td>
-										</tr>
-										<tr>
-											<th scope='row'>Available Withdrawable Balance</th>
-											<td>
-												₹{balanceRefactor(selectedTxn.wallet_trnx_available_withdrawable_balance)}
-											</td>
-										</tr>
-										<tr>
-											<th scope='row'>Type</th>
-											<td>{selectedTxn.wallet_trnx_type}</td>
-										</tr>
-										<tr>
-											<th scope='row'>Status</th>
-											<td>{selectedTxn.wallet_trnx_status}</td>
-										</tr>
-										<tr>
-											<th scope='row'>Date</th>
-											<td>{new Date(selectedTxn.wallet_trnx_date).toLocaleString()}</td>
-										</tr>
-										<tr>
-											<th scope='row'>Description</th>
-											<td>{selectedTxn.wallet_trnx_description}</td>
-										</tr>
+										{renderRow('Deposit Amount', selectedTxn?.wallet_trnx_deposit_amount)}
+	{renderRow('Bonus Amount', selectedTxn?.wallet_trnx_bonus_amount)}
+	{renderRow('Withdrawable Amount', selectedTxn?.wallet_trnx_withdrawable_amount)}
+	{renderRow('Total Amount', selectedTxn?.total_amount)}
+	{renderRow('Available Bonus Balance', selectedTxn?.wallet_trnx_available_bonus_balance)}
+	{renderRow('Available Deposit Balance', selectedTxn?.wallet_trnx_available_deposit_balance)}
+	{renderRow('Available Withdrawable Balance', selectedTxn?.wallet_trnx_available_withdrawable_balance)}
+	{renderRow('Type', selectedTxn?.wallet_trnx_type)}
+	{renderRow('Status', selectedTxn?.wallet_trnx_status)}
+	{renderRow('Date', selectedTxn?.wallet_trnx_date ? new Date(selectedTxn.wallet_trnx_date).toLocaleString() : null)}
+	{renderRow('Description', selectedTxn?.wallet_trnx_description)}
 									</tbody>
 								</table>
 							</div>
